@@ -1,0 +1,85 @@
+{
+  "ports": {
+    "speed": "BF_SPEED_10G",
+    "fec": "BF_FEC_TYP_NONE",
+    "autoneg": "PM_AN_FORCE_DISABLE",
+    "enable": true,
+    "dev_ports": [156,157,158,159,160,161,162,163,164,165,166,167,168,169,
+                  170,171,172,173,174,175,176,177,178,179,180,181,182,183,
+                  184,185,186,187,188, 189,190,191,184]
+  },
+  "recirc_port": {
+    "speed": "BF_SPEED_10G",
+    "fec": "BF_FEC_TYP_NONE",
+    "autoneg": "PM_AN_FORCE_DISABLE",
+    "enable": true,
+    "dev_ports": [32,36]
+  },
+
+  "ports_config": [
+    { "ingress_port": 188, "agent_id": 9, "status": 1, "egress_port": 189, "rate": 1000, "agent_addr": "0x0a0a0a18", "input_if" : 25},
+    { "ingress_port": 189, "agent_id": 5, "status": 1, "egress_port": 188, "rate": 1000, "agent_addr": "0x0a0a0a14", "input_if" : 25},
+    { "ingress_port": 190, "agent_id": 9, "status": 1, "egress_port": 191, "rate": 1000, "agent_addr": "0x0a0a0a18", "input_if" : 26},
+    { "ingress_port": 191, "agent_id": 6, "status": 1, "egress_port": 190, "rate": 1000, "agent_addr": "0x0a0a0a15", "input_if" : 25},
+
+    { "ingress_port": 184, "agent_id": 9, "status": 1, "egress_port": 185, "rate": 1000, "agent_addr": "0x0a0a0a18", "input_if" : 27},
+    { "ingress_port": 185, "agent_id": 7, "status": 1, "egress_port": 184, "rate": 1000, "agent_addr": "0x0a0a0a16", "input_if" : 25},
+    { "ingress_port": 186, "agent_id": 9, "status": 1, "egress_port": 187, "rate": 1000, "agent_addr": "0x0a0a0a18", "input_if" : 28},
+    { "ingress_port": 187, "agent_id": 8, "status": 1, "egress_port": 186, "rate": 1000, "agent_addr": "0x0a0a0a17", "input_if" : 25},
+
+    { "ingress_port": 180, "agent_id": 10, "status": 1, "egress_port": 181, "rate": 1000, "agent_addr": "0x0a0a0a19", "input_if" : 25},
+    { "ingress_port": 181, "agent_id": 5,  "status": 1, "egress_port": 180, "rate": 1000, "agent_addr": "0x0a0a0a14", "input_if" : 26},
+    { "ingress_port": 182, "agent_id": 10, "status": 1, "egress_port": 183, "rate": 1000, "agent_addr": "0x0a0a0a19", "input_if" : 26},
+    { "ingress_port": 183, "agent_id": 6,  "status": 1, "egress_port": 182, "rate": 1000, "agent_addr": "0x0a0a0a15", "input_if" : 26},
+
+    { "ingress_port": 176, "agent_id": 10, "status": 1, "egress_port": 177, "rate": 1000, "agent_addr": "0x0a0a0a19", "input_if" : 27},
+    { "ingress_port": 177, "agent_id": 7,  "status": 1, "egress_port": 176, "rate": 1000, "agent_addr": "0x0a0a0a16", "input_if" : 26},
+    { "ingress_port": 178, "agent_id": 10, "status": 1, "egress_port": 179, "rate": 1000, "agent_addr": "0x0a0a0a19", "input_if" : 28},
+    { "ingress_port": 179, "agent_id": 8,  "status": 1, "egress_port": 178, "rate": 1000, "agent_addr": "0x0a0a0a17", "input_if" : 26},
+
+    { "ingress_port": 172, "agent_id": 5, "status": 1, "egress_port": 173, "rate": 1000, "agent_addr": "0x0a0a0a14", "input_if" : 27},
+    { "ingress_port": 173, "agent_id": 1, "status": 1, "egress_port": 172, "rate": 1000, "agent_addr": "0x0a0a0a10", "input_if" : 25},
+    { "ingress_port": 174, "agent_id": 5, "status": 1, "egress_port": 175, "rate": 1000, "agent_addr": "0x0a0a0a14", "input_if" : 28},
+    { "ingress_port": 175, "agent_id": 2, "status": 1, "egress_port": 174, "rate": 1000, "agent_addr": "0x0a0a0a11", "input_if" : 25},
+
+    { "ingress_port": 168, "agent_id": 6, "status": 1, "egress_port": 169, "rate": 1000, "agent_addr": "0x0a0a0a15", "input_if" : 27},
+    { "ingress_port": 169, "agent_id": 1, "status": 1, "egress_port": 168, "rate": 1000, "agent_addr": "0x0a0a0a10", "input_if" : 26},
+    { "ingress_port": 170, "agent_id": 6, "status": 1, "egress_port": 171, "rate": 1000, "agent_addr": "0x0a0a0a15", "input_if" : 28},
+    { "ingress_port": 171, "agent_id": 2, "status": 1, "egress_port": 170, "rate": 1000, "agent_addr": "0x0a0a0a11", "input_if" : 26},
+
+    { "ingress_port": 164, "agent_id": 7, "status": 1, "egress_port": 165, "rate": 1000, "agent_addr": "0x0a0a0a16", "input_if" : 27},
+    { "ingress_port": 165, "agent_id": 3, "status": 1, "egress_port": 164, "rate": 1000, "agent_addr": "0x0a0a0a12", "input_if" : 25},
+    { "ingress_port": 166, "agent_id": 7, "status": 1, "egress_port": 167, "rate": 1000, "agent_addr": "0x0a0a0a16", "input_if" : 28},
+    { "ingress_port": 167, "agent_id": 4, "status": 1, "egress_port": 166, "rate": 1000, "agent_addr": "0x0a0a0a13", "input_if" : 25},
+
+    { "ingress_port": 160, "agent_id": 8, "status": 1, "egress_port": 161, "rate": 1000, "agent_addr": "0x0a0a0a17", "input_if" : 27},
+    { "ingress_port": 161, "agent_id": 3, "status": 1, "egress_port": 160, "rate": 1000, "agent_addr": "0x0a0a0a12", "input_if" : 26},
+    { "ingress_port": 162, "agent_id": 8, "status": 1, "egress_port": 163, "rate": 1000, "agent_addr": "0x0a0a0a17", "input_if" : 28},
+    { "ingress_port": 163, "agent_id": 4, "status": 1, "egress_port": 162, "rate": 1000, "agent_addr": "0x0a0a0a13", "input_if" : 26}
+  ],
+
+
+
+  "mirror_cfg": [
+    {
+      "sid": 26,
+      "direction": "INGRESS",
+      "session_enable": true,
+      "ucast_egress_port": 32,
+      "ucast_egress_port_valid": true,
+      "max_pkt_len": 300
+    }
+  ],
+
+  "pre": {
+    "node_id": 1,
+    "rid": 1,
+    "mgid": 1,
+    "dev_ports": [32]
+  },
+
+  "timestamp": {
+    "enable": true,
+    "init": 0
+  }
+}

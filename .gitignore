@@ -1,0 +1,23 @@
+# Python 快取與虛擬環境
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# P4 編譯產物
+*.p4i
+*.p4rt.pb
+*.bin
+logs/
+
+# 作業系統與編輯器設定
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# 其他雜物
+*.log
+.env
