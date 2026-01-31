@@ -530,7 +530,7 @@ control MyIngressDeparser(packet_out pkt,
                 (bit<32>)meta.sample_ing_port,
                 (bit<32>)meta.frame_length,
                 (bit<32>)meta.sampling_rate,
-                0x00000000,
+                // 0x00000000,
                 (bit<32>)meta.pkt_count,
                 (bit<32>)meta.sampled_count
                 

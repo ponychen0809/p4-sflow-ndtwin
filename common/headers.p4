@@ -310,7 +310,7 @@ header sample_t {
     bit<32>  ingress_port;
     bit<32> frame_length;
     bit<32>  sampling_rate;
-    bit<32> fake_type;
+    // bit<32> fake_type;
     bit<32>  pkt_count;
     bit<32>  sampled_count;
     
