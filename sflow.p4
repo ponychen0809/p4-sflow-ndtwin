@@ -18,7 +18,7 @@ enum bit<3> MIRROR_TYPE_t {
 
 
 const bit<32> SAMPLING_RATE = 128;
-const bit<9> RECIRC_PORT = 36;
+const bit<9> RECIRC_PORT = 68;
 const bit<9> CPU_PORT = 320;
 parser MyIngressParser(packet_in pkt,
                 out my_header_t hdr,
@@ -367,7 +367,7 @@ control MyIngress(
         // meta.fake_src =  (bit<48>)0x000000000002;
         // meta.fake_type=        (bit<32>)0x00000000;
         // set_frame_length();
-        if(ig_intr_md.ingress_port == 36){  //從recirc port進來，表示要做成flow sample packet
+        if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
             meta.sample_type = 1;
             hdr.tcp.setInvalid();
             hdr.sflow_counter.setInvalid();
