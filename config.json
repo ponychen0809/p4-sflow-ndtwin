@@ -65,7 +65,7 @@
       "sid": 26,
       "direction": "INGRESS",
       "session_enable": true,
-      "ucast_egress_port": 32,
+      "ucast_egress_port": 68,
       "ucast_egress_port_valid": true,
       "max_pkt_len": 300
     }
@@ -75,7 +75,7 @@
     "node_id": 1,
     "rid": 1,
     "mgid": 1,
-    "dev_ports": [32]
+    "dev_ports": [68]
   },
 
   "timestamp": {
