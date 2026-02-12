@@ -185,7 +185,7 @@ control MyIngress(
             }
     };
     
-    Register<bit<1>, bit<9>>(512, 0) reg_pending_state;
+    Register<bit<2>, bit<9>>(512, 0) reg_pending_state;
     
 
     action send_multicast(bit<16> grp_id, bit<16> rid) {
@@ -522,10 +522,8 @@ control MyIngressDeparser(packet_out pkt,
                 (bit<32>)meta.sample_ing_port,
                 (bit<32>)meta.frame_length,
                 (bit<32>)meta.sampling_rate,
-                // 0x00000000,
                 (bit<32>)meta.pkt_count,
                 (bit<32>)meta.sampled_count
-                
             });
         }
         pkt.emit(hdr.ethernet);
@@ -542,9 +540,7 @@ control MyIngressDeparser(packet_out pkt,
         pkt.emit(hdr.sflow_counter);
         pkt.emit(hdr.eth_record);
         pkt.emit(hdr.if_record);
-        // if (ig_dprsr_md.mirror_type == MIRROR_TYPE_t.I2E) {
-        //     mirror.emit<sample_t>(meta.mirror_session,{(bit<32>)hdr.sample.sampling_rate, (bit<32>)hdr.sample.ingress_port });
-        // }
+   
     }
 }
 
