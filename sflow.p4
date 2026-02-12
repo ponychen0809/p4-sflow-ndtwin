@@ -185,7 +185,7 @@ control MyIngress(
             }
     };
     
-    Register<bit<8>, bit<9>>(512, 0) reg_pending_state;
+    Register<bit<512>, bit<9>>(512, 0) reg_pending_state;
     
 
     action send_multicast(bit<16> grp_id, bit<16> rid) {
