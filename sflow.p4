@@ -184,13 +184,8 @@ control MyIngress(
                 read_val = v; 
             }
     };
-    RegisterAction<bit<32>, bit<9>, bit<32>>(port_rx_count) 
-        read_pkt = {
-            void apply(inout bit<32> v, out bit<32> read_val) {
-                read_val = v; 
-            }
-    };
-
+    
+    Register<bit<1>, bit<9>>(512, 0) reg_pending_state;
     
 
     action send_multicast(bit<16> grp_id, bit<16> rid) {
@@ -363,10 +358,7 @@ control MyIngress(
         meta.agent_status = 0;
         agent_status.apply();
         ingress_port_forward.apply();  //根據 ingress port 決定往哪個 egress port 送
-        // meta.fake_dst = (bit<48>)0x000000000001;
-        // meta.fake_src =  (bit<48>)0x000000000002;
-        // meta.fake_type=        (bit<32>)0x00000000;
-        // set_frame_length();
+        
         if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
             meta.sample_type = 1;
             hdr.tcp.setInvalid();
@@ -376,7 +368,7 @@ control MyIngress(
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
             ig_tm_md.ucast_egress_port = 156;
-            
+            reg_pending_state.write(1, 1);
             hdr.sflow_flow.setValid();
             hdr.sflow_flow.sample_type = (bit<32>)1;
             hdr.sflow_flow.sample_length = (bit<32>)meta.sample_length;
