@@ -380,7 +380,7 @@ control MyIngress(
         // meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
         bit<16> index;
         index = (bit<16>)meta.sample_ing_port*4 + (bit<16>)meta.saved_count;
-        set_sample_input_port.execute(index);
+        set_sample_input_port.execute((bit<16>)meta.sample_ing_port);
     }
 
     // 2. Table 用來確保走 Hit Pathway
