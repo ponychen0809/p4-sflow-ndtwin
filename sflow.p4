@@ -136,8 +136,8 @@ parser MyIngressParser(packet_in pkt,
 
     state parse_udp {
         pkt.extract(hdr.udp);
-        meta.src_port = (bit<32>)hdr.udp.src_port;
-        meta.dst_port = (bit<32>)hdr.udp.dst_port;
+        meta.src_port = (bit<16>)hdr.udp.src_port;
+        meta.dst_port = (bit<16>)hdr.udp.dst_port;
         meta.tcp_flag = 0;
         transition accept;
     }
