@@ -452,6 +452,7 @@ control MyIngress(
             t_update_saved_count.apply();
             meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
             t_update_saved_sample_input.apply();
+            t_update_saved_sample_output.apply();
             // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
             
             
