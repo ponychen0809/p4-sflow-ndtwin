@@ -184,7 +184,7 @@ struct my_metadata_t {
     bit<32> cpu_ingress_port;
     bit<8>  saved_count;
     bit<16> sample_idx;
-    bit<8> offset;
+    bit<16> offset;
     bit<16> input_port;
     bit<16> output_port;
     bit<64> in_byte_count;
@@ -315,7 +315,7 @@ header raw_32_t {
 
 header sample_t {
     bit<16>  sample_idx;
-    bit<8>  offset;
+    bit<16>  offset;
     bit<16>  input_port;
     bit<16>  output_port;
     bit<16>  frame_length;
