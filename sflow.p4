@@ -384,10 +384,10 @@ control MyIngress(
         }
         actions = {
             do_update_count;
-            NoAction;
+            // NoAction;
         }
         size = 512;
-        default_action = NoAction; 
+        // default_action = NoAction; 
     }
     apply {
         t_set_ts.apply();  //更新timestamp
