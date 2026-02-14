@@ -190,8 +190,8 @@ control MyIngress(
         inc_saved_count = {
             void apply(inout bit<8> v, out bit<8> read_val) {
                 
-                if(v == 3){
-                    v = 0;
+                if(v == 4){
+                    v = 1;
                 }else{
                     v = v + 1;
                 }
@@ -203,6 +203,14 @@ control MyIngress(
         set_sample_input_port = {
             void apply(inout bit<16> v, out bit<16> read_val) {
                 v       = meta.sample_ing_port;
+                read_val = v; 
+            }
+    };
+    Register<bit<16>, bit<16>>(512, 0) sample_output_port;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port) 
+        set_sample_output_port = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = 0;
                 read_val = v; 
             }
     };
@@ -382,6 +390,7 @@ control MyIngress(
         // bit<16> index;
         // index = (bit<16>)meta.sample_ing_port*4 + (bit<16>)meta.saved_count;
         set_sample_input_port.execute(meta.sample_idx);
+        set_sample_output_port.execute(meta.sample_idx);
     }
 
     // 2. Table 用來確保走 Hit Pathway
@@ -424,20 +433,9 @@ control MyIngress(
             
             t_update_saved_count.apply();
             meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
+            t_update_saved_sample.apply();
             // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
-            if(meta.saved_count == 1){
-                // meta.sample_idx = meta.sample_idx;
-                t_update_saved_sample.apply();
-            }else if(meta.saved_count == 2){
-                // meta.sampl。e_idx = meta.sample_idx + 1;
-                t_update_saved_sample.apply();
-            }else if(meta.saved_count == 3){
-                // meta.sample_idx = meta.sample_idx+2;
-                t_update_saved_sample.apply();
-            }else if(meta.saved_count == 0){
-                // meta.sample_idx = meta.sample_idx + 3;
-                t_update_saved_sample.apply();
-            }
+            
             
             
             
