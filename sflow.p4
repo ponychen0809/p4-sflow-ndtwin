@@ -184,6 +184,18 @@ control MyIngress(
                 read_val = v; 
             }
     };
+
+    Register<bit<8>, bit<9>>(512, 0) saved_count;
+    RegisterAction<bit<8>, bit<9>,bit<8>>(saved_count) 
+        inc_port_rx = {
+            void apply(inout bit<8> v, out bit<8> read_val) {
+                v       = v + 1;
+                if(v == 4){
+                    v = 0;
+                }
+                read_val = v; 
+            }
+    };
     Register<bit<32>, bit<9>>(512, 0) sample_input_port;
     RegisterAction<bit<32>, bit<9>,bit<32>>(sample_input_port) 
         set_sample_input_port = {
