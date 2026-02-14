@@ -475,6 +475,29 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_source_ip; 
     }
+
+    Register<bit<32>, bit<16>>(512, 0) sample_destination_ip;
+    RegisterAction<bit<32>, bit<16>,bit<32>>(sample_destination_ip) 
+        set_sample_destination_ip = {
+            void apply(inout bit<32> v, out bit<32> read_val) {
+                v       = (bit<32>)hdr.ipv4.dst_addr;
+                read_val = v; 
+            }
+    };
+    action do_update_sample_destination_ip() {
+        set_sample_destination_ip.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_destination_ip {
+        key = {
+            
+        }
+        actions = {
+             do_update_sample_destination_ip;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_source_ip; 
+    }
     apply {
         t_set_ts.apply();  //更新timestamp
         bit<9> idx = (bit<9>)ig_intr_md.ingress_port;
@@ -496,6 +519,7 @@ control MyIngress(
             t_update_saved_sample_output.apply();
             t_update_saved_sample_frame_len.apply();
             t_update_saved_sample_source_ip.apply();
+            t_update_saved_sample_destination_ip.apply();
             // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
             
             
