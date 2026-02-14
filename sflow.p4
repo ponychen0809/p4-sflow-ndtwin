@@ -573,7 +573,7 @@ control MyIngress(
         meta.agent_status = 0;
         agent_status.apply();
         ingress_port_forward.apply();  //根據 ingress port 決定往哪個 egress port 送
-        meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
+        
         if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
             hdr.tcp.setInvalid();
             hdr.sflow_counter.setInvalid();
@@ -673,7 +673,7 @@ control MyIngress(
             
             set_pkt_count(idx);
             if(pkt_count==0){   //送往recirc port
-                
+                meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
                 t_update_saved_count.apply();
                 
                 t_update_saved_sample_input.apply();
