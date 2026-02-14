@@ -28,7 +28,7 @@ parser MyIngressParser(packet_in pkt,
     TofinoIngressParser() tofino_parser;
     state start {
         tofino_parser.apply(pkt, ig_intr_md);
-        meta.sample_idx = ((bit<16>)ig_intr_md.ingress_port << 2)
+        meta.sample_idx = ((bit<16>)ig_intr_md.ingress_port << 2);
         transition select(ig_intr_md.ingress_port) {
             RECIRC_PORT :  parse_sample;   // 從 recirc port 進來
             CPU_PORT    :  parse_cpu_packet;
