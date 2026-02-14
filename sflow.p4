@@ -374,7 +374,7 @@ control MyIngress(
   
     table t_update_saved_count {
         key = {
-            
+            ig_intr_md.ingress_port : ternary;
         }
         actions = {
             do_update_count;
