@@ -747,7 +747,7 @@ control MyIngressDeparser(packet_out pkt,
                 (bit<16>)meta.frame_length,
                 (bit<32>)meta.src_ip,
                 (bit<32>)meta.dst_ip,
-                (bit<16>)meta.protocol;
+                (bit<16>)meta.protocol,
                 (bit<16>)meta.src_port,
                 (bit<16>)meta.dst_port
             });
