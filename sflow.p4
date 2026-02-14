@@ -375,6 +375,7 @@ control MyIngress(
     }
     action do_update_count() {
         meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
+        meta.sample_idx = meta.sample_idx + meta.saved_count -1;
     }
     action do_update_sample() {
         // meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
@@ -428,7 +429,7 @@ control MyIngress(
                 // meta.sample_idx = meta.sample_idx;
                 t_update_saved_sample.apply();
             }else if(meta.saved_count == 2){
-                // meta.sample_idx = meta.sample_idx + 1;
+                meta.sample_idx = meta.sample_idx + 1;
                 t_update_saved_sample.apply();
             }else if(meta.saved_count == 3){
                 // meta.sample_idx = meta.sample_idx+2;
