@@ -184,16 +184,16 @@ control MyIngress(
                 read_val = v; 
             }
     };
-    // Register<bit<32>, bit<9>>(512, 0) sample_input_port;
-    // RegisterAction<bit<32>, bit<9>,bit<32>>(sample_input_port) 
-    //     set_sample_input_port = {
-    //         void apply(inout bit<32> v, out bit<32> read_val) {
-    //             v       = meta.sample_ing_port;
-    //             read_val = v; 
-    //         }
-    // };
+    Register<bit<32>, bit<9>>(512, 0) sample_input_port;
+    RegisterAction<bit<32>, bit<9>,bit<32>>(sample_input_port) 
+        set_sample_input_port = {
+            void apply(inout bit<32> v, out bit<32> read_val) {
+                v       = meta.sample_ing_port;
+                read_val = v; 
+            }
+    };
     
-    Register<bit<512>, bit<9>>(512, 0) reg_pending_state;
+    // Register<bit<512>, bit<9>>(512, 0) reg_pending_state;
     
 
     action send_multicast(bit<16> grp_id, bit<16> rid) {
@@ -375,7 +375,7 @@ control MyIngress(
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
             ig_tm_md.ucast_egress_port = 156;
-            reg_pending_state.write(1, 1);
+            // reg_pending_state.write(1, 1);
             hdr.sflow_flow.setValid();
             hdr.sflow_flow.sample_type = (bit<32>)1;
             hdr.sflow_flow.sample_length = (bit<32>)meta.sample_length;
