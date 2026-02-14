@@ -198,8 +198,8 @@ control MyIngress(
                 read_val = v; 
             }
     };
-    Register<bit<16>, bit<9>>(512, 0) sample_input_port;
-    RegisterAction<bit<16>, bit<9>,bit<16>>(sample_input_port) 
+    Register<bit<16>, bit<16>>(512, 0) sample_input_port;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port) 
         set_sample_input_port = {
             void apply(inout bit<16> v, out bit<16> read_val) {
                 v       = meta.sample_ing_port;
