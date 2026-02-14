@@ -51,7 +51,7 @@ parser MyIngressParser(packet_in pkt,
     }
     state parse_sample {
         pkt.extract(hdr.sample);
-        meta.sample_ing_port = (bit<32>)hdr.sample.ingress_port;
+        meta.sample_ing_port = (bit<16>)hdr.sample.ingress_port;
         meta.tmp_frame_len = (bit<32>)hdr.sample.frame_length;
         meta.sampling_rate = (bit<32>)hdr.sample.sampling_rate ;
         meta.pkt_count = (bit<32>)hdr.sample.pkt_count;
@@ -196,10 +196,10 @@ control MyIngress(
                 read_val = v; 
             }
     };
-    Register<bit<32>, bit<9>>(512, 0) sample_input_port;
-    RegisterAction<bit<32>, bit<9>,bit<32>>(sample_input_port) 
+    Register<bit<16>, bit<9>>(512, 0) sample_input_port;
+    RegisterAction<bit<16>, bit<9>,bit<16>>(sample_input_port) 
         set_sample_input_port = {
-            void apply(inout bit<32> v, out bit<32> read_val) {
+            void apply(inout bit<16> v, out bit<16> read_val) {
                 v       = meta.sample_ing_port;
                 read_val = v; 
             }
@@ -492,7 +492,7 @@ control MyIngress(
                 set_sampled_count(idx);
                 ig_dprsr_md.mirror_type = MIRROR_TYPE_t.I2E;
                 meta.mirror_session = (bit<10>)26;
-                meta.sample_ing_port = (bit<32>)ig_intr_md.ingress_port;
+                meta.sample_ing_port = (bit<16>)ig_intr_md.ingress_port;
                 meta.frame_length = (bit<32>)hdr.ipv4.total_len;
             }
 
@@ -536,7 +536,7 @@ control MyIngressDeparser(packet_out pkt,
 
         if (ig_dprsr_md.mirror_type == MIRROR_TYPE_t.I2E) {
             mirror.emit<sample_t>(meta.mirror_session, {
-                (bit<32>)meta.sample_ing_port,
+                (bit<16>)meta.sample_ing_port,
                 (bit<32>)meta.frame_length,
                 (bit<32>)meta.sampling_rate,
                 (bit<32>)meta.pkt_count,
