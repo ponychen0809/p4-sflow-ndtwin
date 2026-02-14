@@ -385,11 +385,18 @@ control MyIngress(
         meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
         meta.sample_idx = meta.sample_idx + (bit<16>)meta.saved_count -1;
     }
-    action do_update_sample() {
+    action do_update_sample_input() {
         // meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
         // bit<16> index;
         // index = (bit<16>)meta.sample_ing_port*4 + (bit<16>)meta.saved_count;
         set_sample_input_port.execute(meta.sample_idx);
+        // set_sample_output_port.execute(meta.sample_idx);
+    }
+    action do_update_sample_output() {
+        // meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
+        // bit<16> index;
+        // index = (bit<16>)meta.sample_ing_port*4 + (bit<16>)meta.saved_count;
+        // set_sample_input_port.execute(meta.sample_idx);
         set_sample_output_port.execute(meta.sample_idx);
     }
 
@@ -405,16 +412,27 @@ control MyIngress(
         size = 512;
         default_action = do_update_count; 
     }
-    table t_update_saved_sample {
+    table t_update_saved_sample_input {
         key = {
             
         }
         actions = {
-             do_update_sample;
+             do_update_sample_input;
             // NoAction;
         }
         size = 512;
-        default_action =  do_update_sample; 
+        default_action =  do_update_sample_input; 
+    }
+    table t_update_saved_sample_output {
+        key = {
+            
+        }
+        actions = {
+             do_update_sample_output;
+            // NoAction;
+        }
+        size = 512;
+        default_action =  do_update_sample_output; 
     }
     apply {
         t_set_ts.apply();  //更新timestamp
@@ -433,7 +451,7 @@ control MyIngress(
             
             t_update_saved_count.apply();
             meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
-            t_update_saved_sample.apply();
+            t_update_saved_sample_input.apply();
             // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
             
             
