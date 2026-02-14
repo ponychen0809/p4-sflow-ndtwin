@@ -521,6 +521,29 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_protocol; 
     }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_source_port;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_source_port) 
+        set_sample_source_port = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = (bit<16>)hdr.udp.src_port;
+                read_val = v; 
+            }
+    };
+    action do_update_sample_source_port() {
+        set_sample_source_port.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_source_port {
+        key = {
+            
+        }
+        actions = {
+             do_update_sample_source_port;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_source_port; 
+    }
     apply {
         t_set_ts.apply();  //更新timestamp
         bit<9> idx = (bit<9>)ig_intr_md.ingress_port;
