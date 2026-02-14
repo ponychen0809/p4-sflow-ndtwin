@@ -378,9 +378,9 @@ control MyIngress(
     }
     action do_update_sample() {
         // meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
-        bit<16> index;
-        index = (bit<16>)meta.sample_ing_port*4 + (bit<16>)meta.saved_count;
-        set_sample_input_port.execute((bit<16>)meta.sample_ing_port);
+        // bit<16> index;
+        // index = (bit<16>)meta.sample_ing_port*4 + (bit<16>)meta.saved_count;
+        set_sample_input_port.execute(meta.sample_idx);
     }
 
     // 2. Table 用來確保走 Hit Pathway
@@ -422,6 +422,7 @@ control MyIngress(
             ig_dprsr_md.mirror_type  = 0;
             
             t_update_saved_count.apply();
+            meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
             if(meta.saved_count == 1){
                 t_update_saved_sample.apply();
             }
