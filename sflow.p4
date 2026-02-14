@@ -378,6 +378,8 @@ control MyIngress(
     }
     action do_update_sample() {
         // meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
+        bit<16> index;
+        index = meta.sample_ing_port*4 + meta.saved_count;
         set_sample_input_port.execute((bit<16>)meta.sample_ing_port);
     }
 
