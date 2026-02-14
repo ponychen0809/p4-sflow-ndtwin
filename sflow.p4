@@ -347,7 +347,7 @@ control MyIngress(
     }
     table set_port_agent {
         key = {
-            hdr.sample.ingress_port : exact;
+            hdr.sample.input_port : exact;
         }
         actions = {
             set_sample_hd;
