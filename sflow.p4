@@ -390,7 +390,7 @@ control MyIngress(
             ig_dprsr_md.mirror_type  = 0;
             
             bit<8> count;
-            count = inc_saved_count.execute(meta.sample_ing_port);
+            // count = inc_saved_count.execute(meta.sample_ing_port);
             
             
         }
