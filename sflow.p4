@@ -425,6 +425,7 @@ control MyIngress(
             meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
             // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
             if(meta.saved_count == 1){
+                meta.sample_idx = meta.sample_idx + 0;
                 t_update_saved_sample.apply();
             }
             
