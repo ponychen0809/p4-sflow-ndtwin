@@ -616,7 +616,7 @@ control MyIngress(
             // t_update_saved_count.apply();
             if(meta.offset == 8){
                 
-                t_read_sample1.apply();
+                // t_read_sample1.apply();
 
                 // meta.sample_idx = meta.sample_idx + 1;
                 // hdr.sample2.input_port = sample_input_port.read(meta.sample_idx);
