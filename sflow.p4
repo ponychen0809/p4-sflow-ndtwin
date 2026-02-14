@@ -65,7 +65,7 @@ parser MyIngressParser(packet_in pkt,
         meta.dst_port = (bit<16>)hdr.sample.dst_port;
 
 
-        meta.sampled_count = (bit<32>)hdr.sample.sampled_count;
+        // meta.sampled_count = (bit<32>)hdr.sample.sampled_count;
         
         transition select(hdr.sample.frame_length) {
             // 使用範圍或掩碼（具體取決於編譯器版本，Tofino 支援 range 匹配）
