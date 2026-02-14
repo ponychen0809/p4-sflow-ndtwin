@@ -422,7 +422,7 @@ control MyIngress(
             ig_dprsr_md.mirror_type  = 0;
             
             t_update_saved_count.apply();
-            meta.sample_idx = ((bit<16>)meta.sample_ing_port * 4) + (bit<16>)meta.saved_count;
+            meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
             // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
             if(meta.saved_count == 1){
                 t_update_saved_sample.apply();
