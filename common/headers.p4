@@ -180,7 +180,7 @@ struct my_metadata_t {
     bit<32> sampled_count;
     bit<16> frame_length;
     bit<32> sample_type;
-    bit<32> tmp_frame_len;
+    bit<16> tmp_frame_len;
     bit<32> cpu_ingress_port;
     bit<8>  saved_count;
     bit<16> sample_idx;
