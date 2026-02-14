@@ -498,6 +498,29 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_destination_ip; 
     }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_protocol;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_protocol) 
+        set_sample_protocol = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = (bit<16>)hdr.ipv4.protocol;
+                read_val = v; 
+            }
+    };
+    action do_update_sample_protocol() {
+        set_sample_protocol.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_protocol {
+        key = {
+            
+        }
+        actions = {
+             do_update_sample_protocol;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_protocol; 
+    }
     apply {
         t_set_ts.apply();  //更新timestamp
         bit<9> idx = (bit<9>)ig_intr_md.ingress_port;
@@ -520,6 +543,7 @@ control MyIngress(
             t_update_saved_sample_frame_len.apply();
             t_update_saved_sample_source_ip.apply();
             t_update_saved_sample_destination_ip.apply();
+            t_update_saved_sample_protocol.apply();
             // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
             
             
