@@ -429,6 +429,29 @@ control MyIngress(
         size = 512;
         default_action =  do_update_sample_output; 
     }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_frame_len;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len) 
+        set_sample_frame_len = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = 0;
+                read_val = v; 
+            }
+    };
+    action do_update_sample_frame_len() {
+        set_sample_frame_len.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_frame_len {
+        key = {
+            
+        }
+        actions = {
+             do_update_sample_frame_len;
+            // NoAction;
+        }
+        size = 512;
+        default_action =  do_update_sample_frame_len; 
+    }
     apply {
         t_set_ts.apply();  //更新timestamp
         bit<9> idx = (bit<9>)ig_intr_md.ingress_port;
@@ -448,6 +471,7 @@ control MyIngress(
             meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
             t_update_saved_sample_input.apply();
             t_update_saved_sample_output.apply();
+            t_update_saved_sample_frame_len.apply();
             // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
             
             
