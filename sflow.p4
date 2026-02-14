@@ -386,32 +386,10 @@ control MyIngress(
             hdr.ipv4.setValid();
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
-            ig_tm_md.ucast_egress_port = 156;
-            // reg_pending_state.write(1, 1);
-            hdr.sflow_flow.setValid();
-            hdr.sflow_flow.sample_type = (bit<32>)1;
-            hdr.sflow_flow.sample_length = (bit<32>)meta.sample_length;
-            hdr.sflow_flow.sample_seq_num = (bit<32>)1;
-            hdr.sflow_flow.source_id = (bit<32>)25;
-            hdr.sflow_flow.sampling_rate = (bit<32>)meta.sampling_rate+1;
-            hdr.sflow_flow.sample_pool = (bit<32>)meta.pkt_count;
-            hdr.sflow_flow.drops = (bit<32>)0;
-            hdr.sflow_flow.input_if = (bit<32>)26;
-            hdr.sflow_flow.output_if = (bit<32>)0;
-            hdr.sflow_flow.record_count = (bit<32>)1;
             
-            hdr.raw_record.setValid();
-            hdr.raw_record.record_type = (bit<32>)1;
-            hdr.raw_record.record_length = (bit<32>)meta.record_length;
-            hdr.raw_record.header_protocol = (bit<32>)1;
-            hdr.raw_record.frame_length = meta.tmp_frame_len + 18;
-            hdr.raw_record.payload_removed = (bit<32>)4;
-           
-            hdr.raw_record.header_length = (bit<32>)meta.header_length;
+            bit<8> count;
+            saved_count.read(meta.sample_ing_port);
             
-            hdr.sample.setInvalid();
-            set_port_agent.apply();
-            hdr.udp.checksum = 16w0;
             
         }
         else if(ig_intr_md.ingress_port == 320){ //從CPU port進來，表示要做成counter sample packet
