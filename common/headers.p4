@@ -174,7 +174,7 @@ struct my_metadata_t {
     bit<32> tos;
     bit<32> ctrl_ts;
     MirrorId_t mirror_session;
-    bit<32>  sample_ing_port;
+    bit<16>  sample_ing_port;
     bit<32>  sampling_rate;
     bit<32>  pkt_count;
     bit<32> sampled_count;
@@ -182,6 +182,7 @@ struct my_metadata_t {
     bit<32> sample_type;
     bit<32> tmp_frame_len;
     bit<32> cpu_ingress_port;
+    
     bit<64> in_byte_count;
     bit<64> out_byte_count;
     bit<32> in_ucast_count;
@@ -202,9 +203,6 @@ struct my_metadata_t {
     
     bit<16> ip_len;
     bit<16> udp_len;
-    bit<48> fake_dst;
-    bit<48> fake_src;
-    bit<32> fake_type;
     bit<1> agent_status;
     bit<1>  recirc;
 }
@@ -290,7 +288,6 @@ header sflow_raw_record { //152byte
     bit<32> frame_length;
     bit<32> payload_removed;
     bit<32> header_length;
-    // bit<1024> header_bytes;
 }
 header raw_128_t {
     bit<1024> data;   // 128 bytes = 1024 bits
@@ -302,19 +299,14 @@ header raw_32_t {
     bit<256> data;   
 }
 header sample_t {
-
-    // bit<48> fake_dst;
-    // bit<48> fake_src;
-    // bit<32> fake_type;
-
-    bit<32>  ingress_port;
-    bit<32> frame_length;
+    bit<16>  ingress_port;
+    bit<32>  frame_length;
     bit<32>  sampling_rate;
-    // bit<32> fake_type;
     bit<32>  pkt_count;
     bit<32>  sampled_count;
     
 }
+
 header bridge_h {
     bit<32> ingress_port;
     bit<64> in_byte_count;
@@ -329,11 +321,13 @@ header bridge_h {
     bit<32> input_if;
 
 }
+
 header fake_eth_t {
     bit<48> fake_dst;
     bit<48> fake_src;
     bit<16> fake_type;
 }
+
 struct my_header_t {
     mirror_h        mirror;
     bridge_h        bridge;
