@@ -394,7 +394,7 @@ control MyIngress(
             }
     };
     action do_update_sample_input() {
-        set_sample_input_port.execute(meta.sample_idx+ (bit<16>)meta.saved_count);
+        set_sample_input_port.execute(meta.sample_idx);
     }
     table t_update_saved_sample_input {
         key = {       }
