@@ -326,6 +326,20 @@ header sample_t {
     bit<16>  dst_port;
 }
 
+header sflow_sample_t {
+    bit<32>  sample_type;
+    bit<32>  sample_len;
+    bit<16>  input_port;
+    bit<16>  output_port;
+    bit<16>  frame_length;
+    bit<32>  src_ip;
+    bit<32>  dst_ip;
+    bit<16>  protocol;
+    bit<16>  src_port;
+    bit<16>  dst_port;
+}
+
+
 header bridge_h {
     bit<32> ingress_port;
     bit<64> in_byte_count;
@@ -339,12 +353,6 @@ header bridge_h {
     bit<32> agent_ip;
     bit<32> input_if;
 
-}
-
-header fake_eth_t {
-    bit<48> fake_dst;
-    bit<48> fake_src;
-    bit<16> fake_type;
 }
 
 struct my_header_t {
@@ -364,9 +372,10 @@ struct my_header_t {
     raw_64_t        raw_64;
     raw_32_t        raw_32;
     sample_t        sample;
-    fake_eth_t      fake_eth;
-
-    
+    sflow_sample_t  sample1;
+    sflow_sample_t  sample2;
+    sflow_sample_t  sample3;
+    sflow_sample_t  sample4;
 }
 struct empty_header_t {}
 
