@@ -184,6 +184,14 @@ control MyIngress(
                 read_val = v; 
             }
     };
+    Register<bit<32>, bit<9>>(512, 0) sample_input_port;
+    RegisterAction<bit<32>, bit<9>,bit<32>>(sample_input_port) 
+        set_sample_input_port = {
+            void apply(inout bit<32> v, out bit<32> read_val) {
+                v       = meta.sample_ing_port;
+                read_val = v; 
+            }
+    };
     
     Register<bit<512>, bit<9>>(512, 0) reg_pending_state;
     
@@ -360,7 +368,6 @@ control MyIngress(
         ingress_port_forward.apply();  //根據 ingress port 決定往哪個 egress port 送
         
         if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
-            meta.sample_type = 1;
             hdr.tcp.setInvalid();
             hdr.sflow_counter.setInvalid();
             hdr.ethernet.setValid();
@@ -436,7 +443,6 @@ control MyIngress(
             hdr.if_record.ifOutErrors = (bit<32>)0;
             hdr.if_record.ifPromiscuousMode = (bit<32>)1;
             ig_tm_md.ucast_egress_port = 156;
-            meta.sample_type = 2;
         }        
         else if(meta.agent_status == 1){
             port_sampling_rate.apply();   //根據 ingress port 設定 sampling rate
@@ -467,7 +473,6 @@ control MyIngress(
             
             
             bit<32> pkt_count;
-            meta.sample_type = 0;
             pkt_count = inc_pkt.execute(idx);
             
             set_pkt_count(idx);
@@ -500,7 +505,7 @@ control MyIngressDeparser(packet_out pkt,
     Mirror() mirror;
     Resubmit() resubmit;
     apply {
-        bit<32> sample_type;
+        
         if(hdr.ipv4.isValid()){
             hdr.ipv4.hdr_checksum = ipv4_checksum.update({
                 hdr.ipv4.version,
