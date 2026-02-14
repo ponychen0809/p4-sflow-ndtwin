@@ -380,7 +380,7 @@ control MyIngress(
     // 2. Table 用來確保走 Hit Pathway
     table t_update_saved_count {
         key = {
-            meta.sample_ing_port : exact;
+            
         }
         actions = {
             do_update_count;
@@ -388,7 +388,7 @@ control MyIngress(
         }
         size = 512;
         // 關鍵：將預設動作設為執行，這樣即使沒下 Entry 也會跑，但它是以 Table 形式存在
-        default_action = do_update_count; 
+        default_action = NoAction; 
     }
     apply {
         t_set_ts.apply();  //更新timestamp
@@ -405,8 +405,9 @@ control MyIngress(
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
             
-            bit<8> count;
             t_update_saved_count.apply();
+
+            
             
             
         }
