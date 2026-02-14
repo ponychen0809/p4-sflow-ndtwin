@@ -576,6 +576,17 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_destination_port; 
     }
+
+    action do_read_sample1() {
+        hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
+        hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
+    }
+
+    // Action 2: 讀取第二個樣本
+    action do_read_sample2() {
+        hdr.sample2.input_port = sample_input_port.read(meta.sample_idx);
+        hdr.sample2.output_port = sample_output_port.read(meta.sample_idx);
+    }
     apply {
         t_set_ts.apply();  //更新timestamp
         bit<9> idx = (bit<9>)ig_intr_md.ingress_port;
@@ -594,8 +605,7 @@ control MyIngress(
             // t_update_saved_count.apply();
             if(meta.offset == 8){
                 
-                hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
-                hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
+                do_read_sample1();
 
                 meta.sample_idx = meta.sample_idx + 1;
                 // hdr.sample2.input_port = sample_input_port.read(meta.sample_idx);
