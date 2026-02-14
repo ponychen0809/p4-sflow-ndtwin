@@ -582,9 +582,7 @@ control MyIngress(
         hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
     }
     table t_read_sample1 {
-        key = {
-            
-        }
+        key = {  }
         actions = {
              do_read_sample1;
             // NoAction;
@@ -616,9 +614,9 @@ control MyIngress(
             // t_update_saved_count.apply();
             if(meta.offset == 8){
                 
-                // t_read_sample1.apply();
-                hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
-                hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
+                t_read_sample1.apply();
+                // hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
+                // hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
                 // meta.sample_idx = meta.sample_idx + 1;
                 // hdr.sample2.input_port = sample_input_port.read(meta.sample_idx);
                 // hdr.sample2.output_port = sample_output_port.read(meta.sample_idx);
