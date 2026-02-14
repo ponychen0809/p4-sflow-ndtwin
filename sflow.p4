@@ -493,7 +493,7 @@ control MyIngress(
                 ig_dprsr_md.mirror_type = MIRROR_TYPE_t.I2E;
                 meta.mirror_session = (bit<10>)26;
                 meta.sample_ing_port = (bit<16>)ig_intr_md.ingress_port;
-                meta.frame_length = (bit<32>)hdr.ipv4.total_len;
+                meta.frame_length = (bit<16>)hdr.ipv4.total_len;
             }
 
         }
@@ -537,7 +537,7 @@ control MyIngressDeparser(packet_out pkt,
         if (ig_dprsr_md.mirror_type == MIRROR_TYPE_t.I2E) {
             mirror.emit<sample_t>(meta.mirror_session, {
                 (bit<16>)meta.sample_ing_port,
-                (bit<32>)meta.frame_length,
+                (bit<16>)meta.frame_length,
                 (bit<32>)meta.sampling_rate,
                 (bit<32>)meta.pkt_count,
                 (bit<32>)meta.sampled_count
