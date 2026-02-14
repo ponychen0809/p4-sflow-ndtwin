@@ -449,7 +449,7 @@ control MyIngress(
              do_update_sample_frame_len;
             // NoAction;
         }
-        size = 512;
+        size = 1;
         default_action =  do_update_sample_frame_len; 
     }
     apply {
