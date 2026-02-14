@@ -581,18 +581,16 @@ control MyIngress(
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
             meta.sample_idx = meta.sample_idx + meta.offset;
-            // meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
             // t_update_saved_count.apply();
             
-            // t_update_saved_sample_input.apply();
-            // t_update_saved_sample_output.apply();
-            // t_update_saved_sample_frame_len.apply();
-            // t_update_saved_sample_source_ip.apply();
-            // t_update_saved_sample_destination_ip.apply();
-            // t_update_saved_sample_protocol.apply();
-            // t_update_saved_sample_source_port.apply();
-            // t_update_saved_sample_destination_port.apply();
-            // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
+            t_update_saved_sample_input.apply();
+            t_update_saved_sample_output.apply();
+            t_update_saved_sample_frame_len.apply();
+            t_update_saved_sample_source_ip.apply();
+            t_update_saved_sample_destination_ip.apply();
+            t_update_saved_sample_protocol.apply();
+            t_update_saved_sample_source_port.apply();
+            t_update_saved_sample_destination_port.apply();
             
             
             
@@ -677,14 +675,14 @@ control MyIngress(
                 t_update_saved_count.apply();
                 // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count - 1;
                 meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
-                t_update_saved_sample_input.apply();
-                t_update_saved_sample_output.apply();
-                t_update_saved_sample_frame_len.apply();
-                t_update_saved_sample_source_ip.apply();
-                t_update_saved_sample_destination_ip.apply();
-                t_update_saved_sample_protocol.apply();
-                t_update_saved_sample_source_port.apply();
-                t_update_saved_sample_destination_port.apply();
+                // t_update_saved_sample_input.apply();
+                // t_update_saved_sample_output.apply();
+                // t_update_saved_sample_frame_len.apply();
+                // t_update_saved_sample_source_ip.apply();
+                // t_update_saved_sample_destination_ip.apply();
+                // t_update_saved_sample_protocol.apply();
+                // t_update_saved_sample_source_port.apply();
+                // t_update_saved_sample_destination_port.apply();
                 set_sampled_count(idx);
                 ig_dprsr_md.mirror_type = MIRROR_TYPE_t.I2E;
                 meta.mirror_session = (bit<10>)26;
