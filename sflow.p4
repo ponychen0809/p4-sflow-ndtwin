@@ -496,7 +496,7 @@ control MyIngress(
             // NoAction;
         }
         size = 1;
-        default_action =  do_update_sample_source_ip; 
+        default_action =  do_update_sample_destination_ip; 
     }
     apply {
         t_set_ts.apply();  //更新timestamp
