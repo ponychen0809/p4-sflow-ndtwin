@@ -185,6 +185,8 @@ struct my_metadata_t {
     bit<8>  saved_count;
     bit<16> sample_idx;
     bit<16> offset;
+    bit<16> input_port;
+    bit<16> output_port;
     bit<64> in_byte_count;
     bit<64> out_byte_count;
     bit<32> in_ucast_count;

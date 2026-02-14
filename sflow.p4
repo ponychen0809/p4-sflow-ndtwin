@@ -52,10 +52,19 @@ parser MyIngressParser(packet_in pkt,
     }
     state parse_sample {
         pkt.extract(hdr.sample);
-        meta.sample_ing_port = (bit<16>)hdr.sample.ingress_port;
-        meta.tmp_frame_len = (bit<16>)hdr.sample.frame_length;
-        meta.sampling_rate = (bit<32>)hdr.sample.sampling_rate ;
-        meta.pkt_count = (bit<32>)hdr.sample.pkt_count;
+        meta.sample_idx = (bit<16>)hdr.sample.sample_idx;
+        meta.offset = (bit<16>)hdr.sample.offset;
+        meta.input_port = (bit<16>)hdr.sample.input_port;
+        meta.output_port = (bit<16>)hdr.sample.output_port;
+        meta.frame_length = (bit<16>)hdr.sample.frame_length;
+
+        meta.src_ip = (bit<32>)hdr.sample.src_ip ;
+        meta.dst_ip = (bit<32>)hdr.sample.dst_ip;
+        meta.protocol = (bit<16>)hdr.sample.protocol;
+        meta.src_port = (bit<16>)hdr.sample.src_port;
+        meta.dst_port = (bit<16>)hdr.sample.dst_port;
+
+
         meta.sampled_count = (bit<32>)hdr.sample.sampled_count;
         
         transition select(hdr.sample.frame_length) {
