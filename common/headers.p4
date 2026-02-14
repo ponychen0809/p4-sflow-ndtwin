@@ -182,7 +182,7 @@ struct my_metadata_t {
     bit<32> sample_type;
     bit<32> tmp_frame_len;
     bit<32> cpu_ingress_port;
-
+    bit<8>  saved_count;
     bit<64> in_byte_count;
     bit<64> out_byte_count;
     bit<32> in_ucast_count;
@@ -205,6 +205,8 @@ struct my_metadata_t {
     bit<16> udp_len;
     bit<1> agent_status;
     bit<1>  recirc;
+
+    
 }
 
 
