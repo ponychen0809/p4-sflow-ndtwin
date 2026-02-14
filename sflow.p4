@@ -53,7 +53,7 @@ parser MyIngressParser(packet_in pkt,
     state parse_sample {
         pkt.extract(hdr.sample);
         meta.sample_idx = (bit<16>)hdr.sample.sample_idx;
-        meta.offset = (bit<16>)hdr.sample.offset;
+        meta.offset = (bit<8>)hdr.sample.offset;
         meta.input_port = (bit<16>)hdr.sample.input_port;
         meta.output_port = (bit<16>)hdr.sample.output_port;
         meta.frame_length = (bit<16>)hdr.sample.frame_length;
