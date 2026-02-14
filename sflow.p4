@@ -373,7 +373,23 @@ control MyIngress(
         size = 512;
         default_action = NoAction;
     }
+    action do_update_count() {
+        meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
+    }
 
+    // 2. Table 用來確保走 Hit Pathway
+    table t_update_saved_count {
+        key = {
+            meta.sample_ing_port : exact;
+        }
+        actions = {
+            do_update_count;
+            NoAction;
+        }
+        size = 512;
+        // 關鍵：將預設動作設為執行，這樣即使沒下 Entry 也會跑，但它是以 Table 形式存在
+        default_action = do_update_count; 
+    }
     apply {
         t_set_ts.apply();  //更新timestamp
         bit<9> idx = (bit<9>)ig_intr_md.ingress_port;
@@ -390,9 +406,7 @@ control MyIngress(
             ig_dprsr_md.mirror_type  = 0;
             
             bit<8> count;
-            bit<16> id;
-            id = meta.sample_ing_port;
-            count = inc_saved_count.execute(id);
+            t_update_saved_count.apply();
             
             
         }
