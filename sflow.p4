@@ -187,7 +187,7 @@ control MyIngress(
 
     Register<bit<8>, bit<9>>(512, 0) saved_count;
     RegisterAction<bit<8>, bit<9>,bit<8>>(saved_count) 
-        inc_port_rx = {
+        inc_saved_count = {
             void apply(inout bit<8> v, out bit<8> read_val) {
                 v       = v + 1;
                 if(v == 4){
