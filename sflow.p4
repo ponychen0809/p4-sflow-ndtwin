@@ -393,15 +393,16 @@ control MyIngress(
         size = 512;
         default_action = do_update_count; 
     }
-
+//*********** input port ***********//
     Register<bit<16>, bit<16>>(512, 0) sample_input_port;
     RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port) 
         set_sample_input_port = {
             void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.sample_ing_port;
+                v       = meta.input_port;
                 read_val = v; 
             }
     };
+
     action do_update_sample_input() {
         set_sample_input_port.execute(meta.sample_idx);
     }
@@ -414,7 +415,7 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_input; 
     }
-
+//*********** output port ***********//
     Register<bit<16>, bit<16>>(512, 0) sample_output_port;
     RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port) 
         set_sample_output_port = {
@@ -437,7 +438,7 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_output; 
     }
-
+//*********** frame_len ***********//
     Register<bit<16>, bit<16>>(512, 0) sample_frame_len;
     RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len) 
         set_sample_frame_len = {
@@ -460,7 +461,7 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_frame_len; 
     }
-
+//*********** source_ip ***********//
     Register<bit<32>, bit<16>>(512, 0) sample_source_ip;
     RegisterAction<bit<32>, bit<16>,bit<32>>(sample_source_ip) 
         set_sample_source_ip = {
@@ -483,7 +484,7 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_source_ip; 
     }
-
+//*********** destination_ip ***********//
     Register<bit<32>, bit<16>>(512, 0) sample_destination_ip;
     RegisterAction<bit<32>, bit<16>,bit<32>>(sample_destination_ip) 
         set_sample_destination_ip = {
@@ -589,17 +590,23 @@ control MyIngress(
             hdr.ipv4.setValid();
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
-            meta.sample_idx = meta.sample_idx + meta.offset;
-            // t_update_saved_count.apply();
             
-            t_update_saved_sample_input.apply();
-            t_update_saved_sample_output.apply();
-            t_update_saved_sample_frame_len.apply();
-            t_update_saved_sample_source_ip.apply();
-            t_update_saved_sample_destination_ip.apply();
-            t_update_saved_sample_protocol.apply();
-            t_update_saved_sample_source_port.apply();
-            t_update_saved_sample_destination_port.apply();
+            // t_update_saved_count.apply();
+            if(meta.offset == 8){
+                
+                sample_input_port.read(meta.sample_idx);
+            }else{
+                meta.sample_idx = meta.sample_idx + meta.offset;
+                t_update_saved_sample_input.apply();
+                t_update_saved_sample_output.apply();
+                t_update_saved_sample_frame_len.apply();
+                t_update_saved_sample_source_ip.apply();
+                t_update_saved_sample_destination_ip.apply();
+                t_update_saved_sample_protocol.apply();
+                t_update_saved_sample_source_port.apply();
+                t_update_saved_sample_destination_port.apply();
+            }
+            
             
             
             
