@@ -594,7 +594,7 @@ control MyIngress(
             // t_update_saved_count.apply();
             if(meta.offset == 8){
                 
-                sample_input_port.read(meta.sample_idx);
+                sample_input_port.read(meta.sample_idx+1);
             }else{
                 meta.sample_idx = meta.sample_idx + meta.offset;
                 t_update_saved_sample_input.apply();
