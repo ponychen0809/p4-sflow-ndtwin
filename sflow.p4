@@ -567,6 +567,7 @@ control MyIngress(
             t_update_saved_sample_source_ip.apply();
             t_update_saved_sample_destination_ip.apply();
             t_update_saved_sample_protocol.apply();
+            t_update_saved_sample_source_port.apply();
             // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count;
             
             
