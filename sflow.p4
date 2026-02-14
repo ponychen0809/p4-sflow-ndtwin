@@ -589,7 +589,7 @@ control MyIngress(
             hdr.ipv4.setValid();
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
-            meta.sample_idx = meta.sample_idx + meta.offset;
+            meta.sample_idx = meta.sample_idx + (bit<16>)meta.offset;
             // t_update_saved_count.apply();
             
             t_update_saved_sample_input.apply();
