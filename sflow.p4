@@ -369,7 +369,7 @@ control MyIngress(
     }
     action do_update_count() {
         meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
-        meta.sample_idx = meta.sample_idx + (bit<16>)meta.saved_count -1;
+        // meta.sample_idx = meta.sample_idx + (bit<16>)meta.saved_count -1;
     }
   
     table t_update_saved_count {
@@ -396,9 +396,7 @@ control MyIngress(
         set_sample_input_port.execute(meta.sample_idx);
     }
     table t_update_saved_sample_input {
-        key = {
-            
-        }
+        key = {       }
         actions = {
              do_update_sample_input;
             // NoAction;
@@ -675,7 +673,8 @@ control MyIngress(
             if(pkt_count==0){   //送往recirc port
                 
                 t_update_saved_count.apply();
-                meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
+                meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count - 1;
+                // meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
                 t_update_saved_sample_input.apply();
                 t_update_saved_sample_output.apply();
                 t_update_saved_sample_frame_len.apply();
