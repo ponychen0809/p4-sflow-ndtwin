@@ -178,11 +178,11 @@ struct my_metadata_t {
     bit<32>  sampling_rate;
     bit<32>  pkt_count;
     bit<32> sampled_count;
-    bit<32> frame_length;
+    bit<16> frame_length;
     bit<32> sample_type;
     bit<32> tmp_frame_len;
     bit<32> cpu_ingress_port;
-    
+
     bit<64> in_byte_count;
     bit<64> out_byte_count;
     bit<32> in_ucast_count;
@@ -300,7 +300,7 @@ header raw_32_t {
 }
 header sample_t {
     bit<16>  ingress_port;
-    bit<32>  frame_length;
+    bit<16>  frame_length;
     bit<32>  sampling_rate;
     bit<32>  pkt_count;
     bit<32>  sampled_count;
