@@ -118,8 +118,8 @@ parser MyIngressParser(packet_in pkt,
 
     state parse_tcp {
         pkt.extract(hdr.tcp);
-        meta.src_port = (bit<32>)hdr.tcp.src_port;
-        meta.dst_port = (bit<32>)hdr.tcp.dst_port;
+        meta.src_port = (bit<16>)hdr.tcp.src_port;
+        meta.dst_port = (bit<16>)hdr.tcp.dst_port;
         meta.tcp_flag = 0;
 
         transition accept;
@@ -673,6 +673,7 @@ control MyIngress(
             if(pkt_count==0){   //送往recirc port
                 
                 t_update_saved_count.apply();
+                meta.offset = meta.saved_count - 1;
                 // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count - 1;
                 meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
                 // t_update_saved_sample_input.apply();
@@ -730,11 +731,15 @@ control MyIngressDeparser(packet_out pkt,
 
         if (ig_dprsr_md.mirror_type == MIRROR_TYPE_t.I2E) {
             mirror.emit<sample_t>(meta.mirror_session, {
-                (bit<16>)meta.sample_ing_port,
+                (bit<16>)meta.sample_idx,
+                (bit<16>)meta.offset,
+                (bit<16>)meta.input_port,
+                (bit<16>)meta.output_port,
                 (bit<16>)meta.frame_length,
-                (bit<32>)meta.sampling_rate,
-                (bit<32>)meta.pkt_count,
-                (bit<32>)meta.sampled_count
+                (bit<32>)meta.src_ip,
+                (bit<32>)meta.dst_ip,
+                (bit<16>)meta.src_port,
+                (bit<16>)meta.dst_port
             });
         }
         pkt.emit(hdr.ethernet);
