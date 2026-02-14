@@ -198,22 +198,8 @@ control MyIngress(
                 read_val = v; 
             }
     };
-    Register<bit<16>, bit<16>>(512, 0) sample_input_port;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port) 
-        set_sample_input_port = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.sample_ing_port;
-                read_val = v; 
-            }
-    };
-    Register<bit<16>, bit<16>>(512, 0) sample_output_port;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port) 
-        set_sample_output_port = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = 0;
-                read_val = v; 
-            }
-    };
+    
+    
     
     // Register<bit<512>, bit<9>>(512, 0) reg_pending_state;
     
@@ -386,9 +372,6 @@ control MyIngress(
         meta.sample_idx = meta.sample_idx + (bit<16>)meta.saved_count -1;
     }
   
-
-
-    // 2. Table 用來確保走 Hit Pathway
     table t_update_saved_count {
         key = {
             
@@ -400,6 +383,15 @@ control MyIngress(
         size = 512;
         default_action = do_update_count; 
     }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_input_port;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port) 
+        set_sample_input_port = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = meta.sample_ing_port;
+                read_val = v; 
+            }
+    };
     action do_update_sample_input() {
         set_sample_input_port.execute(meta.sample_idx);
     }
@@ -414,6 +406,15 @@ control MyIngress(
         size = 512;
         default_action =  do_update_sample_input; 
     }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_output_port;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port) 
+        set_sample_output_port = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = 0;
+                read_val = v; 
+            }
+    };
     action do_update_sample_output() {
         set_sample_output_port.execute(meta.sample_idx);
     }
