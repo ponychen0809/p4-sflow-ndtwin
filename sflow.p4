@@ -387,7 +387,6 @@ control MyIngress(
             NoAction;
         }
         size = 512;
-        // 關鍵：將預設動作設為執行，這樣即使沒下 Entry 也會跑，但它是以 Table 形式存在
         default_action = NoAction; 
     }
     apply {
