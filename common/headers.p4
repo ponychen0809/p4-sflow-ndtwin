@@ -165,11 +165,11 @@ struct my_metadata_t {
     bit<32> ingress_port;
     bit<32> egress_port;
     bit<32> pkt_len;
-    bit<32> protocol;
+    bit<16> protocol;
     bit<32> src_ip;
     bit<32> dst_ip;
-    bit<32> src_port;
-    bit<32> dst_port;
+    bit<16> src_port;
+    bit<16> dst_port;
     bit<32> tcp_flag;
     bit<32> tos;
     bit<32> ctrl_ts;
@@ -302,13 +302,26 @@ header raw_64_t {
 header raw_32_t {
     bit<256> data;   
 }
-header sample_t {
-    bit<16>  ingress_port;
-    bit<16>  frame_length;
-    bit<32>  sampling_rate;
-    bit<32>  pkt_count;
-    bit<32>  sampled_count;
+// header sample_t {
+//     bit<16>  ingress_port;
+//     bit<16>  frame_length;
+//     bit<32>  sampling_rate;
+//     bit<32>  pkt_count;
+//     bit<32>  sampled_count;
     
+// }
+
+header sample_t {
+    bit<16>  sample_idx;
+    bit<16>  offset;
+    bit<16>  input_port;
+    bit<16>  output_port;
+    bit<16>  frame_length;
+    bit<32>  src_ip;
+    bit<32>  dst_ip;
+    bit<16>  protocol;
+    bit<16>  src_port;
+    bit<16>  dst_port;
 }
 
 header bridge_h {
