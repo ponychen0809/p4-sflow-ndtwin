@@ -189,9 +189,11 @@ control MyIngress(
     RegisterAction<bit<8>, bit<16>,bit<8>>(saved_count) 
         inc_saved_count = {
             void apply(inout bit<8> v, out bit<8> read_val) {
-                v       = v + 1;
-                if(v == 4){
+                
+                if(v == 3){
                     v = 0;
+                }else{
+                    v = v + 1;
                 }
                 read_val = v; 
             }
