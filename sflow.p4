@@ -995,10 +995,10 @@ control MyIngress(
                 hdr.sample_1.output_port = set_sample_output_port_1.execute(meta.sample_idx);
                 hdr.sample_1.frame_length = set_sample_frame_len_1.execute(meta.sample_idx);
                 hdr.sample_1.src_ip = set_sample_source_ip_1.execute(meta.sample_idx);
-                // hdr.sample_1.dst_ip = sample_destination_ip_1.execute(meta.sample_idx);
-                // hdr.sample_1.protocol = sample_protocol_1.execute(meta.sample_idx);
-                // hdr.sample_1.src_port = sample_source_port_1.execute(meta.sample_idx);
-                // hdr.sample_1.dst_port = sample_destination_port_1.execute(meta.sample_idx);
+                hdr.sample_1.dst_ip = set_sample_destination_ip_1.execute(meta.sample_idx);
+                hdr.sample_1.protocol = set_sample_protocol_1.execute(meta.sample_idx);
+                hdr.sample_1.src_port = set_sample_source_port_1.execute(meta.sample_idx);
+                hdr.sample_1.dst_port = set_sample_destination_port_1.execute(meta.sample_idx);
 
 
             }
