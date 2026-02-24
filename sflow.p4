@@ -1076,7 +1076,7 @@ control MyIngress(
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
                 t_update_saved_sample_ports_2.apply();
                 meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
-                t_update_saved_frame_len_and_protocol_1.apply();
+                t_update_saved_frame_len_and_protocol_2.apply();
                 t_update_saved_sample_source_ip_2.apply();
                 t_update_saved_sample_destination_ip_2.apply();
 
@@ -1089,7 +1089,7 @@ control MyIngress(
                 t_update_saved_sample_ports_3.apply();
                 
                 meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
-                t_update_saved_frame_len_and_protocol_1.apply();
+                t_update_saved_frame_len_and_protocol_3.apply();
 
                 t_update_saved_sample_source_ip_3.apply();
                 t_update_saved_sample_destination_ip_3.apply();
