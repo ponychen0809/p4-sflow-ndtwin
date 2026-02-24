@@ -530,7 +530,7 @@ control MyIngress(
     RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len_1) 
         set_sample_frame_len_1 = {
             void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.frame_len;
+                v       = meta.frame_lenth;
                 read_val = v; 
             }
     };
@@ -552,7 +552,7 @@ control MyIngress(
     RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len_2) 
         set_sample_frame_len_2 = {
             void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.frame_len;
+                v       = meta.frame_length;
                 read_val = v; 
             }
     };
@@ -574,7 +574,7 @@ control MyIngress(
     RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len_3) 
         set_sample_frame_len_3 = {
             void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.frame_len;
+                v       = meta.frame_length;
                 read_val = v; 
             }
     };
