@@ -938,7 +938,7 @@ RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports) set_sample_ports = {
 
 action do_update_sample_ports() {
     // 現在你只需要執行 1 次，就存好了 4 個欄位！
-    meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
+    
     set_sample_ports.execute(meta.sample_idx);
 }
 table t_update_saved_sample_port {
@@ -982,6 +982,7 @@ table t_update_saved_sample_port {
             ig_dprsr_md.mirror_type  = 0;
             
             if(meta.offset == 1){
+                meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
                 t_update_saved_sample_port.apply();
                 t_update_saved_sample_input_1.apply();
                 t_update_saved_sample_output_1.apply();
