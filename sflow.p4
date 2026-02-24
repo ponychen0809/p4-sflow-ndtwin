@@ -592,10 +592,10 @@ control MyIngress(
         default_action =  do_update_sample_frame_len_3; 
     }
 //*********** source_ip ***********//
-    Register<bit<16>, bit<16>>(512, 0) sample_source_ip_1;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_source_ip_1) 
+    Register<bit<32>, bit<16>>(512, 0) sample_source_ip_1;
+    RegisterAction<bit<32>, bit<16>,bit<32>>(sample_source_ip_1) 
         set_sample_source_ip_1 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
+            void apply(inout bit<32> v, out bit<32> read_val) {
                 v       = meta.src_ip;
                 read_val = v; 
             }
@@ -614,10 +614,10 @@ control MyIngress(
         default_action =  do_update_sample_source_ip_1; 
     }
 
-    Register<bit<16>, bit<16>>(512, 0) sample_source_ip_2;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_source_ip_2) 
+    Register<bit<32>, bit<16>>(512, 0) sample_source_ip_2;
+    RegisterAction<bit<32>, bit<16>,bit<32>>(sample_source_ip_2) 
         set_sample_source_ip_2 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
+            void apply(inout bit<32> v, out bit<32> read_val) {
                 v       = meta.src_ip;
                 read_val = v; 
             }
@@ -636,10 +636,10 @@ control MyIngress(
         default_action =  do_update_sample_source_ip_2; 
     }
 
-    Register<bit<16>, bit<16>>(512, 0) sample_source_ip_3;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_source_ip_3) 
+    Register<bit<32>, bit<16>>(512, 0) sample_source_ip_3;
+    RegisterAction<bit<32>, bit<16>,bit<32>>(sample_source_ip_3) 
         set_sample_source_ip_3 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
+            void apply(inout bit<32> v, out bit<32> read_val) {
                 v       = meta.src_ip;
                 read_val = v; 
             }
