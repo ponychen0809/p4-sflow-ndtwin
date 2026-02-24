@@ -312,7 +312,7 @@ control MyIngress(
         hdr.sflow_hd.address_type = (bit<32>)1;
         hdr.sflow_hd.agent_addr = (bit<32>)agent_addr;
         hdr.sflow_hd.sub_agent_id = (bit<32>)agent_id;
-        hdr.sflow_hd.sequence_number = (bit<32>)meta.sampled_count;
+        hdr.sflow_hd.sequence_number = (bit<32>)0;
         hdr.sflow_hd.uptime = (bit<32>)meta.ctrl_ts;
         hdr.sflow_hd.samples = (bit<32>)4; 
 

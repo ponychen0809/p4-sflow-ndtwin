@@ -452,9 +452,15 @@ class SimpleSwitchTest(BfRuntimeTest):
         for r in rules:
             in_p = int(r["ingress_port"])
             out_p = int(r["egress_port"])
+            agent_id = int(r["agent_id"])
             port_map[in_p] = out_p
             keys.append(self.ing_tbl.make_key([gc.KeyTuple("ig_intr_md.ingress_port", in_p)]))
-            datas.append(self.ing_tbl.make_data([gc.DataTuple("port", out_p)], "MyIngress.set_out_port"))
+            datas.append(self.ing_tbl.make_data(
+                [
+                    gc.DataTuple("port", out_p),
+                    gc.DataTuple("agent_id", agent_id)
+                 ],
+             "MyIngress.set_out_port"))
 
         try:
             self.ing_tbl.entry_add(self.dev_tgt, keys, datas)
@@ -549,7 +555,7 @@ class SimpleSwitchTest(BfRuntimeTest):
                 "id" : agent_id,
                 "input_if" : input_if
             }
-            keys.append(self.port_agent_tbl.make_key([gc.KeyTuple("hdr.sample.ingress_port", in_p)]))
+            keys.append(self.port_agent_tbl.make_key([gc.KeyTuple("meta.input_port", in_p)]))
             datas.append(self.port_agent_tbl.make_data(
                 [
                     gc.DataTuple("agent_addr", addr),
