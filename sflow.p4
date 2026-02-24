@@ -220,8 +220,9 @@ control MyIngress(
         ig_tm_md.mcast_grp_a = grp_id;
         ig_tm_md.rid = rid;
     }
-    action set_out_port(PortId_t port) {
+    action set_out_port(PortId_t port,bit<16> agent_id) {
         ig_tm_md.ucast_egress_port = port;
+        meta.sample_idx =  agent_id;
     }
     action set_sampling_rate(bit<32> sampling_rate) {
         meta.sampling_rate=sampling_rate;
@@ -349,7 +350,7 @@ control MyIngress(
     }
     table set_port_agent {
         key = {
-            hdr.sample.input_port : exact;
+            meta.input_port : exact;
         }
         actions = {
             set_sample_hd;
@@ -395,206 +396,7 @@ control MyIngress(
         size = 512;
         default_action = do_update_count; 
     }
-//*********** input port ***********//
 
-    Register<bit<16>, bit<16>>(512, 0) sample_input_port_1;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port_1) 
-        set_sample_input_port_1 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.input_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_input_1() {
-        set_sample_input_port_1.execute(meta.sample_idx);
-        // set_sample_output_port_1.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_input_1 {
-        key = {       }
-        actions = {
-             do_update_sample_input_1;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_input_1; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_input_port_2;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port_2) 
-        set_sample_input_port_2 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.input_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_input_2() {
-        set_sample_input_port_2.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_input_2 {
-        key = {       }
-        actions = {
-             do_update_sample_input_2;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_input_2; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_input_port_3;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port_3) 
-        set_sample_input_port_3 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.input_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_input_3() {
-        set_sample_input_port_3.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_input_3 {
-        key = {       }
-        actions = {
-             do_update_sample_input_3;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_input_3; 
-    }
-//*********** output port ***********//
-    
-    Register<bit<16>, bit<16>>(512, 0) sample_output_port_1;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port_1) 
-        set_sample_output_port_1 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.output_port;
-                read_val = v; 
-            }
-    };
-    action do_update_sample_output_1() {
-        set_sample_output_port_1.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_output_1 {
-        key = {       }
-        actions = {
-             do_update_sample_output_1;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_output_1; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_output_port_2;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port_2) 
-        set_sample_output_port_2 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.output_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_output_2() {
-        set_sample_output_port_2.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_output_2 {
-        key = {       }
-        actions = {
-             do_update_sample_output_2;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_output_2; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_output_port_3;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port_3) 
-        set_sample_output_port_3 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.output_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_output_3() {
-        set_sample_output_port_3.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_output_3 {
-        key = {       }
-        actions = {
-             do_update_sample_output_3;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_output_3; 
-    }
-//*********** frame_len ***********//
-    Register<bit<16>, bit<16>>(512, 0) sample_frame_len_1;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len_1) 
-        set_sample_frame_len_1 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.frame_length;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_frame_len_1() {
-        set_sample_frame_len_1.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_frame_len_1 {
-        key = {       }
-        actions = {
-             do_update_sample_frame_len_1;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_frame_len_1; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_frame_len_2;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len_2) 
-        set_sample_frame_len_2 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.frame_length;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_frame_len_2() {
-        set_sample_frame_len_2.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_frame_len_2 {
-        key = {       }
-        actions = {
-             do_update_sample_frame_len_2;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_frame_len_2; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_frame_len_3;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len_3) 
-        set_sample_frame_len_3 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.frame_length;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_frame_len_3() {
-        set_sample_frame_len_3.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_frame_len_3 {
-        key = {       }
-        actions = {
-             do_update_sample_frame_len_3;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_frame_len_3; 
-    }
 //*********** source_ip ***********//
     Register<bit<32>, bit<16>>(512, 0) sample_source_ip_1;
     RegisterAction<bit<32>, bit<16>,bit<32>>(sample_source_ip_1) 
@@ -1238,11 +1040,6 @@ control MyIngress(
                 hdr.sample_3.dst_port = (bit<16>)(packed_l4_3 & 32w0xFFFF);
                 ig_tm_md.ucast_egress_port = 156;
             }
-            
-            
-            
-            
-            
         }
         else if(ig_intr_md.ingress_port == 320){ //從CPU port進來，表示要做成counter sample packet
             set_counter_sample_hdr();
@@ -1326,7 +1123,7 @@ control MyIngress(
                 set_sampled_count(idx);
                 ig_dprsr_md.mirror_type = MIRROR_TYPE_t.I2E;
                 meta.mirror_session = (bit<10>)26;
-                meta.sample_ing_port = (bit<16>)ig_intr_md.ingress_port;
+                meta.input_port = (bit<16>)ig_intr_md.ingress_port;
                 meta.frame_length = (bit<16>)hdr.ipv4.total_len;
             }
 
