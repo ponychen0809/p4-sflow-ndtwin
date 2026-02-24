@@ -1163,22 +1163,34 @@ control MyIngress(
                 t_update_saved_l4_ports_3.apply();
                 drop();
             }
-            // else{
-            //     set_port_agent.apply();
+            else{
+                set_port_agent.apply();
                 
-            //     hdr.sample_1.sample_type = (bit<32>)5;
-            //     hdr.sample_1.sample_len = (bit<32>)20;
-            //     hdr.sample_1.input_port = sample_input_port_1.read(meta.sample_idx);
-            //     hdr.sample_1.output_port = sample_output_port_1.read(meta.sample_idx);
-            //     hdr.sample_1.frame_length = sample_frame_len_1.read(meta.sample_idx);
-            //     hdr.sample_1.src_ip = sample_source_ip_1.read(meta.sample_idx);
-            //     hdr.sample_1.dst_ip = sample_destination_ip_1.read(meta.sample_idx);
-            //     hdr.sample_1.protocol = sample_protocol_1.read(meta.sample_idx);
-            //     hdr.sample_1.src_port = sample_source_port_1.read(meta.sample_idx);
-            //     hdr.sample_1.dst_port = sample_destination_port_1.read(meta.sample_idx);
+                // hdr.sample_1.setValid(); // 確保標頭是 Valid 的 (若你的 P4 定義需要)
+                hdr.sample_1.sample_type = (bit<32>)5;
+                hdr.sample_1.sample_len = (bit<32>)20;
+
+                // 1. 讀取並解開 Ports (高 16位是 input, 低 16位是 output)
+                bit<32> packed_ports_1 = reg_sample_ports_1.read(meta.sample_idx);
+                hdr.sample_1.input_port  = (bit<16>)(packed_ports_1 >> 16);
+                hdr.sample_1.output_port = (bit<16>)(packed_ports_1 & 32w0xFFFF);
+
+                // 2. 讀取並解開 Frame Length & Protocol
+                bit<32> packed_flen_proto_1 = reg_frame_len_and_protocol_1.read(meta.sample_idx);
+                hdr.sample_1.frame_length = (bit<16>)(packed_flen_proto_1 >> 16);
+                hdr.sample_1.protocol     = (bit<16>)(packed_flen_proto_1 & 32w0xFFFF);
+
+                // 3. 讀取 IP (當初沒有打包，直接讀即可)
+                hdr.sample_1.src_ip = sample_source_ip_1.read(meta.sample_idx);
+                hdr.sample_1.dst_ip = sample_destination_ip_1.read(meta.sample_idx);
+
+                // 4. 讀取並解開 L4 Ports
+                bit<32> packed_l4_1 = reg_l4_ports_1.read(meta.sample_idx);
+                hdr.sample_1.src_port = (bit<16>)(packed_l4_1 >> 16);
+                hdr.sample_1.dst_port = (bit<16>)(packed_l4_1 & 32w0xFFFF);
 
 
-            // }
+            }
             
             
             
