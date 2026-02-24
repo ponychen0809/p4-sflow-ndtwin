@@ -943,6 +943,15 @@ action do_update_sample_ports() {
     // 現在你只需要執行 1 次，就存好了 4 個欄位！
     set_sample_ports.execute(meta.sample_idx);
 }
+table t_update_saved_sample_port {
+        key = {       }
+        actions = {
+             do_update_sample_ports;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_ports; 
+    }
 //****************************************//
     // action do_read_sample1() {
     //     hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
@@ -975,6 +984,7 @@ action do_update_sample_ports() {
             ig_dprsr_md.mirror_type  = 0;
             
             if(meta.offset == 1){
+                t_update_saved_sample_port.apply();
                 t_update_saved_sample_input_1.apply();
                 t_update_saved_sample_output_1.apply();
                 t_update_saved_sample_frame_len_1.apply();
