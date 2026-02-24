@@ -956,8 +956,9 @@ Register<bit<16>, bit<16>>(512, 0) sample_output_port_1;
             hdr.ipv4.setValid();
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
+            set_sample_input_port_1.execute(meta.sample_idx);
             if(meta.offset == 1){
-                t_update_saved_sample_input_1.apply();
+                // t_update_saved_sample_input_1.apply();
                 t_update_saved_sample_output_1.apply();
                 t_update_saved_sample_frame_len_1.apply();
                 t_update_saved_sample_source_ip_1.apply();
