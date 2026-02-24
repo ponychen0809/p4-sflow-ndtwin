@@ -931,16 +931,17 @@ Register<bit<64>, bit<16>>(512, 0) reg_sample_ports;
 RegisterAction<bit<64>, bit<16>, bit<64>>(reg_sample_ports) set_sample_ports = {
     void apply(inout bit<64> v, out bit<64> read_val) {
         // 利用位元左移 (Shift) 與 OR 運算，將 4 個值拼成 64 bits
-        v = ((bit<64>)meta.input_port << 48) | 
-            ((bit<64>)meta.output_port << 32) | 
-            ((bit<64>)meta.src_port << 16)   | 
-            ((bit<64>)meta.dst_port);
-        read_val = v; 
+        v = meta.packed_ports; 
+        read_val = v;
     }
 };
 
 action do_update_sample_ports() {
     // 現在你只需要執行 1 次，就存好了 4 個欄位！
+    meta.packed_ports = ((bit<64>)meta.input_port << 48) | 
+                        ((bit<64>)meta.output_port << 32) | 
+                        ((bit<64>)meta.src_port << 16)   | 
+                        ((bit<64>)meta.dst_port);
     set_sample_ports.execute(meta.sample_idx);
 }
 table t_update_saved_sample_port {
