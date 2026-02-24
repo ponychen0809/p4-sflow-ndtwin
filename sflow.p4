@@ -212,7 +212,9 @@ control MyIngress(
     
     
     // Register<bit<512>, bit<9>>(512, 0) reg_pending_state;
-    
+    action drop() {
+        ig_dprsr_md.drop_ctl = 0x1;
+    }
 
     action send_multicast(bit<16> grp_id, bit<16> rid) {
         ig_tm_md.mcast_grp_a = grp_id;
@@ -961,6 +963,7 @@ control MyIngress(
                 t_update_saved_sample_protocol_1.apply();
                 t_update_saved_sample_source_port_1.apply();
                 t_update_saved_sample_destination_port_1.apply();
+                drop();
             }else if(meta.offset == 2){
                 t_update_saved_sample_input_2.apply();
                 t_update_saved_sample_output_2.apply();
@@ -970,6 +973,7 @@ control MyIngress(
                 t_update_saved_sample_protocol_2.apply();
                 t_update_saved_sample_source_port_2.apply();
                 t_update_saved_sample_destination_port_2.apply();
+                drop();
             }else if(meta.offset == 3){
                 t_update_saved_sample_input_3.apply();
                 t_update_saved_sample_output_3.apply();
@@ -979,7 +983,7 @@ control MyIngress(
                 t_update_saved_sample_protocol_3.apply();
                 t_update_saved_sample_source_port_3.apply();
                 t_update_saved_sample_destination_port_3.apply();
-                mark_to_drop();
+                drop();
             }
             
             
