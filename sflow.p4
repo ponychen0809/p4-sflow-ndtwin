@@ -1211,6 +1211,28 @@ control MyIngress(
                 hdr.sample_2.src_port = (bit<16>)(packed_l4_2 >> 16);
                 hdr.sample_2.dst_port = (bit<16>)(packed_l4_2 & 32w0xFFFF);
 
+                hdr.sample_3.sample_type = (bit<32>)5;
+                hdr.sample_3.sample_len = (bit<32>)20;
+
+                // 1. 讀取並解開 Ports (高 16位是 input, 低 16位是 output)
+                bit<32> packed_ports_3 = reg_sample_ports_3.read(meta.sample_idx);
+                hdr.sample_3.input_port  = (bit<16>)(packed_ports_3 >> 16);
+                hdr.sample_3.output_port = (bit<16>)(packed_ports_3 & 32w0xFFFF);
+
+                // 2. 讀取並解開 Frame Length & Protocol
+                bit<32> packed_flen_proto_3 = reg_frame_len_and_protocol_3.read(meta.sample_idx);
+                hdr.sample_3.frame_length = (bit<16>)(packed_flen_proto_3 >> 16);
+                hdr.sample_3.protocol     = (bit<16>)(packed_flen_proto_3 & 32w0xFFFF);
+
+                // 3. 讀取 IP (當初沒有打包，直接讀即可)
+                hdr.sample_3.src_ip = sample_source_ip_3.read(meta.sample_idx);
+                hdr.sample_3.dst_ip = sample_destination_ip_3.read(meta.sample_idx);
+
+                // 4. 讀取並解開 L4 Ports
+                bit<32> packed_l4_3 = reg_l4_ports_3.read(meta.sample_idx);
+                hdr.sample_3.src_port = (bit<16>)(packed_l4_3 >> 16);
+                hdr.sample_3.dst_port = (bit<16>)(packed_l4_3 & 32w0xFFFF);
+
                 
 
 
