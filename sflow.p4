@@ -1115,12 +1115,7 @@ control MyIngress(
         ingress_port_forward.apply();  //根據 ingress port 決定往哪個 egress port 送
         
         if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
-            hdr.tcp.setInvalid();
-            hdr.sflow_counter.setInvalid();
-            hdr.ethernet.setValid();
-            hdr.ipv4.setValid();
-            hdr.udp.setValid();
-            ig_dprsr_md.mirror_type  = 0;
+            
             
             if(meta.offset == 1){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
@@ -1164,9 +1159,16 @@ control MyIngress(
                 drop();
             }
             else{
+                hdr.tcp.setInvalid();
+                hdr.sflow_counter.setInvalid();
+                hdr.ethernet.setValid();
+                hdr.ipv4.setValid();
+                hdr.udp.setValid();
+                ig_dprsr_md.mirror_type  = 0;
                 set_port_agent.apply();
+
                 
-                // hdr.sample_1.setValid(); // 確保標頭是 Valid 的 (若你的 P4 定義需要)
+                hdr.sample_1.setValid(); // 確保標頭是 Valid 的 (若你的 P4 定義需要)
                 hdr.sample_1.sample_type = (bit<32>)5;
                 hdr.sample_1.sample_len = (bit<32>)20;
 
@@ -1189,6 +1191,7 @@ control MyIngress(
                 hdr.sample_1.src_port = (bit<16>)(packed_l4_1 >> 16);
                 hdr.sample_1.dst_port = (bit<16>)(packed_l4_1 & 32w0xFFFF);
 
+                hdr.sample_2.setValid();
                 hdr.sample_2.sample_type = (bit<32>)5;
                 hdr.sample_2.sample_len = (bit<32>)20;
 
@@ -1211,6 +1214,7 @@ control MyIngress(
                 hdr.sample_2.src_port = (bit<16>)(packed_l4_2 >> 16);
                 hdr.sample_2.dst_port = (bit<16>)(packed_l4_2 & 32w0xFFFF);
 
+                hdr.sample_3.setValid();
                 hdr.sample_3.sample_type = (bit<32>)5;
                 hdr.sample_3.sample_len = (bit<32>)20;
 
@@ -1232,10 +1236,7 @@ control MyIngress(
                 bit<32> packed_l4_3 = reg_l4_ports_3.read(meta.sample_idx);
                 hdr.sample_3.src_port = (bit<16>)(packed_l4_3 >> 16);
                 hdr.sample_3.dst_port = (bit<16>)(packed_l4_3 & 32w0xFFFF);
-
-                
-
-
+                ig_tm_md.ucast_egress_port = 156;
             }
             
             
