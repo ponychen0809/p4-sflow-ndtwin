@@ -200,6 +200,7 @@ struct my_metadata_t {
     bit<32> input_if;
     bit<32> packed_ports;
     bit<32> frame_len_and_protocol;
+    bit<32> l4_ports;
     bit<1024> raw_128_data;
     bit<512> raw_64_data;
     bit<256> raw_32_data;

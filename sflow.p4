@@ -1045,6 +1045,67 @@ control MyIngress(
             size = 1;
             default_action =  do_update_frame_len_and_protocol_3; 
     }
+    
+// *********** l4_ports ***********
+    Register<bit<32>, bit<16>>(512, 0) reg_l4_ports_1;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_l4_ports_1) set_l4_ports_1 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.l4_ports; 
+            read_val = v;
+        }
+    };
+    action do_update_l4_ports_1() {
+        set_l4_ports_1.execute(meta.sample_idx);
+    }
+    table t_update_saved_l4_ports_1 {
+            key = {       }
+            actions = {
+                do_update_l4_ports_1;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_l4_ports_1; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_l4_ports_2;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_l4_ports_2) set_l4_ports_2 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.l4_ports; 
+            read_val = v;
+        }
+    };
+    action do_update_l4_ports_2() {
+        set_l4_ports_2.execute(meta.sample_idx);
+    }
+    table t_update_saved_l4_ports_2 {
+            key = {       }
+            actions = {
+                do_update_l4_ports_2;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_l4_ports_2; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_l4_ports_3;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_l4_ports_3) set_l4_ports_3 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.l4_ports; 
+            read_val = v;
+        }
+    };
+    action do_update_l4_ports_3() {
+        set_l4_ports_3.execute(meta.sample_idx);
+    }
+    table t_update_saved_l4_ports_3 {
+            key = {       }
+            actions = {
+                do_update_l4_ports_3;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_l4_ports_3; 
+    }
 //****************************************//
     apply {
         t_set_ts.apply();  //更新timestamp
@@ -1067,21 +1128,25 @@ control MyIngress(
 
                 meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
                 t_update_saved_frame_len_and_protocol_1.apply();
+
                 t_update_saved_sample_source_ip_1.apply();
                 t_update_saved_sample_destination_ip_1.apply();
-                t_update_saved_sample_source_port_1.apply();
-                t_update_saved_sample_destination_port_1.apply();
+                meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
+                t_update_saved_le_ports_1.apply();
+
                 drop();
             }else if(meta.offset == 2){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
                 t_update_saved_sample_ports_2.apply();
+
                 meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
                 t_update_saved_frame_len_and_protocol_2.apply();
+
                 t_update_saved_sample_source_ip_2.apply();
                 t_update_saved_sample_destination_ip_2.apply();
 
-                t_update_saved_sample_source_port_2.apply();
-                t_update_saved_sample_destination_port_2.apply();
+                meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
+                t_update_saved_le_ports_2.apply();
                 drop();
             }
             else if(meta.offset == 3){
@@ -1093,8 +1158,9 @@ control MyIngress(
 
                 t_update_saved_sample_source_ip_3.apply();
                 t_update_saved_sample_destination_ip_3.apply();
-                t_update_saved_sample_source_port_3.apply();
-                t_update_saved_sample_destination_port_3.apply();
+                
+                meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
+                t_update_saved_le_ports_3.apply();
                 drop();
             }
             // else{
