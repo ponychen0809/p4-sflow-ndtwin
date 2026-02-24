@@ -922,6 +922,7 @@ control MyIngress(
         default_action =  do_update_sample_destination_port_3; 
     }
 
+//****************************************//
     // action do_read_sample1() {
     //     hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
     //     hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
@@ -951,27 +952,6 @@ control MyIngress(
             hdr.ipv4.setValid();
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
-            
-            // // t_update_saved_count.apply();
-            // if(meta.offset == 8){
-                
-            //     // t_read_sample1.apply();
-            //     hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
-            //     hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
-            //     meta.sample_idx = meta.sample_idx + 1;
-            //     hdr.sample2.input_port = sample_input_port.read(meta.sample_idx);
-            //     hdr.sample2.output_port = sample_output_port.read(meta.sample_idx);
-            // }else{
-            //     meta.sample_idx = meta.sample_idx + meta.offset;
-            //     t_update_saved_sample_input.apply();
-            //     t_update_saved_sample_output.apply();
-            //     t_update_saved_sample_frame_len.apply();
-            //     t_update_saved_sample_source_ip.apply();
-            //     t_update_saved_sample_destination_ip.apply();
-            //     t_update_saved_sample_protocol.apply();
-            //     t_update_saved_sample_source_port.apply();
-            //     t_update_saved_sample_destination_port.apply();
-            // }
             if(meta.offset == 1){
                 t_update_saved_sample_input_1.apply();
                 t_update_saved_sample_output_1.apply();
@@ -999,6 +979,7 @@ control MyIngress(
                 t_update_saved_sample_protocol_3.apply();
                 t_update_saved_sample_source_port_3.apply();
                 t_update_saved_sample_destination_port_3.apply();
+                mark_to_drop();
             }
             
             
@@ -1083,17 +1064,8 @@ control MyIngress(
             if(pkt_count==0){   //送往recirc port
                 
                 t_update_saved_count.apply();
-                meta.offset = (bit<16>)meta.saved_count - 1;
-                // meta.sample_idx = ((bit<16>)meta.sample_ing_port << 2) + (bit<16>)meta.saved_count - 1;
-                meta.sample_idx = ((bit<16>)meta.sample_ing_port<<2);
-                // t_update_saved_sample_input.apply();
-                // t_update_saved_sample_output.apply();
-                // t_update_saved_sample_frame_len.apply();
-                // t_update_saved_sample_source_ip.apply();
-                // t_update_saved_sample_destination_ip.apply();
-                // t_update_saved_sample_protocol.apply();
-                // t_update_saved_sample_source_port.apply();
-                // t_update_saved_sample_destination_port.apply();
+                meta.offset = (bit<16>)meta.saved_count;
+                
                 set_sampled_count(idx);
                 ig_dprsr_md.mirror_type = MIRROR_TYPE_t.I2E;
                 meta.mirror_session = (bit<10>)26;
