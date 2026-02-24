@@ -925,47 +925,127 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_destination_port_3; 
     }
-// 宣告一個 64-bit 的暫存器，用來同時存放 4 個 16-bit 的 Port
-Register<bit<32>, bit<16>>(512, 0) reg_sample_ports;
-
-RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports) set_sample_ports = {
-    void apply(inout bit<32> v, out bit<32> read_val) {
-        // 利用位元左移 (Shift) 與 OR 運算，將 4 個值拼成 64 bits
-        v = meta.packed_ports; 
-        read_val = v;
-    }
-};
-
-action do_update_sample_ports() {
-    // 現在你只需要執行 1 次，就存好了 4 個欄位！
-    
-    set_sample_ports.execute(meta.sample_idx);
-}
-table t_update_saved_sample_port {
-        key = {       }
-        actions = {
-             do_update_sample_ports;
-            // NoAction;
+// *********** sample_ports ***********
+    Register<bit<32>, bit<16>>(512, 0) reg_sample_ports_1;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports) set_sample_ports_1 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.packed_ports; 
+            read_val = v;
         }
-        size = 1;
-        default_action =  do_update_sample_ports; 
+    };
+    action do_update_sample_ports_1() {
+        set_sample_ports_1.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_ports_1 {
+            key = {       }
+            actions = {
+                do_update_sample_ports_1;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_sample_ports_1; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_sample_ports_2;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports) set_sample_ports_2 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.packed_ports; 
+            read_val = v;
+        }
+    };
+    action do_update_sample_ports_2() {
+        set_sample_ports_2.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_ports_2 {
+            key = {       }
+            actions = {
+                do_update_sample_ports_2;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_sample_ports_2; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_sample_ports_3;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports) set_sample_ports_3 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.packed_ports; 
+            read_val = v;
+        }
+    };
+    action do_update_sample_ports_3() {
+        set_sample_ports_3.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_ports_3 {
+            key = {       }
+            actions = {
+                do_update_sample_ports_3;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_sample_ports_3; 
+    }
+// *********** frame_len_and_protocol ***********
+    Register<bit<32>, bit<16>>(512, 0) reg_frame_len_and_protocol_1;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol) set_frame_len_and_protocol_1 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.frame_len_and_protocol; 
+            read_val = v;
+        }
+    };
+    action do_update_frame_len_and_protocol_1() {
+        set_frame_len_and_protocol_1.execute(meta.sample_idx);
+    }
+    table t_update_saved_frame_len_and_protocol_1 {
+            key = {       }
+            actions = {
+                do_update_frame_len_and_protocol_1;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_frame_len_and_protocol_1; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_frame_len_and_protocol_2;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol) set_frame_len_and_protocol_2 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.frame_len_and_protocol; 
+            read_val = v;
+        }
+    };
+    action do_update_frame_len_and_protocol_2() {
+        set_frame_len_and_protocol_2.execute(meta.sample_idx);
+    }
+    table t_update_saved_frame_len_and_protocol_2 {
+            key = {       }
+            actions = {
+                do_update_frame_len_and_protocol_2;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_frame_len_and_protocol_2; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_frame_len_and_protocol_3;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol) set_frame_len_and_protocol_3 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.frame_len_and_protocol; 
+            read_val = v;
+        }
+    };
+    action do_update_frame_len_and_protocol_3() {
+        set_frame_len_and_protocol_3.execute(meta.sample_idx);
+    }
+    table t_update_saved_frame_len_and_protocol_3 {
+            key = {       }
+            actions = {
+                do_update_frame_len_and_protocol_3;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_frame_len_and_protocol_3; 
     }
 //****************************************//
-    // action do_read_sample1() {
-    //     hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
-    //     hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
-    // }
-    // table t_read_sample1 {
-    //     key = {  }
-    //     actions = {
-    //          do_read_sample1;
-    //         // NoAction;
-    //     }
-    //     size = 1;
-    //     default_action =  do_read_sample1; 
-    // }
-
- //
     apply {
         t_set_ts.apply();  //更新timestamp
         bit<9> idx = (bit<9>)ig_intr_md.ingress_port;
@@ -983,54 +1063,56 @@ table t_update_saved_sample_port {
             
             if(meta.offset == 1){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
-                t_update_saved_sample_port.apply();
-                t_update_saved_sample_input_1.apply();
-                t_update_saved_sample_output_1.apply();
-                t_update_saved_sample_frame_len_1.apply();
+                t_update_saved_sample_port_1.apply();
+
+                meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
+                t_update_saved_frame_len_and_protocol_1.apply();
                 t_update_saved_sample_source_ip_1.apply();
                 t_update_saved_sample_destination_ip_1.apply();
-                t_update_saved_sample_protocol_1.apply();
                 t_update_saved_sample_source_port_1.apply();
                 t_update_saved_sample_destination_port_1.apply();
                 drop();
             }else if(meta.offset == 2){
-                t_update_saved_sample_input_2.apply();
-                t_update_saved_sample_output_2.apply();
-                t_update_saved_sample_frame_len_2.apply();
+                meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
+                t_update_saved_sample_port_2.apply();
+                meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
+                t_update_saved_frame_len_and_protocol_1.apply();
                 t_update_saved_sample_source_ip_2.apply();
                 t_update_saved_sample_destination_ip_2.apply();
-                t_update_saved_sample_protocol_2.apply();
+
                 t_update_saved_sample_source_port_2.apply();
                 t_update_saved_sample_destination_port_2.apply();
                 drop();
             }
-            // else if(meta.offset == 3){
-            //     t_update_saved_sample_input_3.apply();
-            //     t_update_saved_sample_output_3.apply();
-            //     t_update_saved_sample_frame_len_3.apply();
-            //     t_update_saved_sample_source_ip_3.apply();
-            //     t_update_saved_sample_destination_ip_3.apply();
-            //     t_update_saved_sample_protocol_3.apply();
-            //     t_update_saved_sample_source_port_3.apply();
-            //     t_update_saved_sample_destination_port_3.apply();
-            //     drop();
-            // }
-            else{
-                set_port_agent.apply();
+            else if(meta.offset == 3){
+                meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
+                t_update_saved_sample_port_3.apply();
                 
-                hdr.sample_1.sample_type = (bit<32>)5;
-                hdr.sample_1.sample_len = (bit<32>)20;
-                hdr.sample_1.input_port = sample_input_port_1.read(meta.sample_idx);
-                hdr.sample_1.output_port = sample_output_port_1.read(meta.sample_idx);
-                hdr.sample_1.frame_length = sample_frame_len_1.read(meta.sample_idx);
-                hdr.sample_1.src_ip = sample_source_ip_1.read(meta.sample_idx);
-                hdr.sample_1.dst_ip = sample_destination_ip_1.read(meta.sample_idx);
-                hdr.sample_1.protocol = sample_protocol_1.read(meta.sample_idx);
-                hdr.sample_1.src_port = sample_source_port_1.read(meta.sample_idx);
-                hdr.sample_1.dst_port = sample_destination_port_1.read(meta.sample_idx);
+                meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
+                t_update_saved_frame_len_and_protocol_1.apply();
 
-
+                t_update_saved_sample_source_ip_3.apply();
+                t_update_saved_sample_destination_ip_3.apply();
+                t_update_saved_sample_source_port_3.apply();
+                t_update_saved_sample_destination_port_3.apply();
+                drop();
             }
+            // else{
+            //     set_port_agent.apply();
+                
+            //     hdr.sample_1.sample_type = (bit<32>)5;
+            //     hdr.sample_1.sample_len = (bit<32>)20;
+            //     hdr.sample_1.input_port = sample_input_port_1.read(meta.sample_idx);
+            //     hdr.sample_1.output_port = sample_output_port_1.read(meta.sample_idx);
+            //     hdr.sample_1.frame_length = sample_frame_len_1.read(meta.sample_idx);
+            //     hdr.sample_1.src_ip = sample_source_ip_1.read(meta.sample_idx);
+            //     hdr.sample_1.dst_ip = sample_destination_ip_1.read(meta.sample_idx);
+            //     hdr.sample_1.protocol = sample_protocol_1.read(meta.sample_idx);
+            //     hdr.sample_1.src_port = sample_source_port_1.read(meta.sample_idx);
+            //     hdr.sample_1.dst_port = sample_destination_port_1.read(meta.sample_idx);
+
+
+            // }
             
             
             
