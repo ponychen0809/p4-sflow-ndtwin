@@ -460,27 +460,70 @@ control MyIngress(
         default_action =  do_update_sample_input_3; 
     }
 //*********** output port ***********//
-    Register<bit<16>, bit<16>>(512, 0) sample_output_port;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port) 
-        set_sample_output_port = {
+    Register<bit<16>, bit<16>>(512, 0) sample_output_port_1;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port_1) 
+        set_sample_output_port_1 = {
             void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = 0;
+                v       = meta.output_port;
                 read_val = v; 
             }
     };
-    action do_update_sample_output() {
-        set_sample_output_port.execute(meta.sample_idx);
+
+    action do_update_sample_output_1() {
+        set_sample_output_port_1.execute(meta.sample_idx);
     }
-    table t_update_saved_sample_output {
-        key = {
-            
-        }
+    table t_update_saved_sample_output_1 {
+        key = {       }
         actions = {
-             do_update_sample_output;
+             do_update_sample_output_1;
             // NoAction;
         }
         size = 1;
-        default_action =  do_update_sample_output; 
+        default_action =  do_update_sample_output_1; 
+    }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_output_port_2;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port_2) 
+        set_sample_output_port_2 = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = meta.output_port;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_output_2() {
+        set_sample_output_port_2.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_output_2 {
+        key = {       }
+        actions = {
+             do_update_sample_output_2;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_output_2; 
+    }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_output_port_3;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port_3) 
+        set_sample_output_port_3 = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = meta.output_port;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_output_3() {
+        set_sample_output_port_3.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_output_3 {
+        key = {       }
+        actions = {
+             do_update_sample_output_3;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_output_3; 
     }
 //*********** frame_len ***********//
     Register<bit<16>, bit<16>>(512, 0) sample_frame_len;
@@ -673,8 +716,13 @@ control MyIngress(
             // }
             if(meta.offset == 1){
                 t_update_saved_sample_input_1.apply();
+                t_update_saved_sample_output_1.apply();
             }else if(meta.offset == 2){
                 t_update_saved_sample_input_2.apply();
+                t_update_saved_sample_output_2.apply();
+            }else if(meta.offset == 3){
+                t_update_saved_sample_input_3.apply();
+                t_update_saved_sample_output_3.apply();
             }
             
             
