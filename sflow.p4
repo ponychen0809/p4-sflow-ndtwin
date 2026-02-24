@@ -313,9 +313,9 @@ control MyIngress(
         hdr.sflow_hd.sub_agent_id = (bit<32>)agent_id;
         hdr.sflow_hd.sequence_number = (bit<32>)meta.sampled_count;
         hdr.sflow_hd.uptime = (bit<32>)meta.ctrl_ts;
-        hdr.sflow_hd.samples = (bit<32>)1; 
+        hdr.sflow_hd.samples = (bit<32>)4; 
 
-        hdr.sflow_flow.input_if = (bit<32>)25; 
+        // hdr.sflow_flow.input_if = (bit<32>)25; 
     }
 
 
@@ -985,34 +985,35 @@ control MyIngress(
                 t_update_saved_sample_destination_port_3.apply();
                 drop();
             }else{
-                hdr.ethernet.src_addr = 0x001122334455;
-                hdr.ethernet.dst_addr = 0x000acd3b1842;
-                hdr.ethernet.ether_type = 0x0800;
-                hdr.ipv4.version=4;
-                hdr.ipv4.ihl=0x45;
-                hdr.ipv4.diffserv     = 0;
-                hdr.ipv4.total_len = meta.ip_len;
-                hdr.ipv4.identification = 0; 
-                hdr.ipv4.flags        = 2;
-                hdr.ipv4.frag_offset  = 0; 
-                hdr.ipv4.ttl          = 64;
-                hdr.ipv4.protocol     = 17; 
-                hdr.ipv4.src_addr = (bit<32>)agent_addr;
-                hdr.ipv4.dst_addr = 0x0a0a0af8;
+                set_port_agent.apply();
+                // hdr.ethernet.src_addr = 0x001122334455;
+                // hdr.ethernet.dst_addr = 0x000acd3b1842;
+                // hdr.ethernet.ether_type = 0x0800;
+                // hdr.ipv4.version=4;
+                // hdr.ipv4.ihl=0x45;
+                // hdr.ipv4.diffserv     = 0;
+                // hdr.ipv4.total_len = meta.ip_len;
+                // hdr.ipv4.identification = 0; 
+                // hdr.ipv4.flags        = 2;
+                // hdr.ipv4.frag_offset  = 0; 
+                // hdr.ipv4.ttl          = 64;
+                // hdr.ipv4.protocol     = 17; 
+                // hdr.ipv4.src_addr = (bit<32>)agent_addr;
+                // hdr.ipv4.dst_addr = 0x0a0a0af8;
                 
-                hdr.udp.src_port = (bit<16>)8888;
-                hdr.udp.dst_port = (bit<16>)6343;
-                hdr.udp.hdr_length = (bit<16>) meta.udp_len;
-                hdr.udp.checksum = 16w0;
+                // hdr.udp.src_port = (bit<16>)8888;
+                // hdr.udp.dst_port = (bit<16>)6343;
+                // hdr.udp.hdr_length = (bit<16>) meta.udp_len;
+                // hdr.udp.checksum = 16w0;
                 
-                hdr.sflow_hd.setValid();
-                hdr.sflow_hd.version = (bit<32>)5;
-                hdr.sflow_hd.address_type = (bit<32>)1;
-                hdr.sflow_hd.agent_addr = (bit<32>)agent_addr;
-                hdr.sflow_hd.sub_agent_id = (bit<32>)agent_id;
-                hdr.sflow_hd.sequence_number = (bit<32>)meta.sampled_count;
-                hdr.sflow_hd.uptime = (bit<32>)meta.ctrl_ts;
-                hdr.sflow_hd.samples = (bit<32>)4; 
+                // hdr.sflow_hd.setValid();
+                // hdr.sflow_hd.version = (bit<32>)5;
+                // hdr.sflow_hd.address_type = (bit<32>)1;
+                // hdr.sflow_hd.agent_addr = (bit<32>)agent_addr;
+                // hdr.sflow_hd.sub_agent_id = (bit<32>)agent_id;
+                // hdr.sflow_hd.sequence_number = (bit<32>)meta.sampled_count;
+                // hdr.sflow_hd.uptime = (bit<32>)meta.ctrl_ts;
+                // hdr.sflow_hd.samples = (bit<32>)4; 
 
                 hdr.sample_1.sample_type = (bit<32>)5;
                 hdr.sample_1.sample_len = (bit<32>)20;
