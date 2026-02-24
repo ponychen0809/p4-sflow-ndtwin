@@ -415,7 +415,7 @@ Register<bit<16>, bit<16>>(512, 0) sample_output_port_1;
 
     action do_update_sample_input_1() {
         set_sample_input_port_1.execute(meta.sample_idx);
-        set_sample_output_port_1.execute(meta.sample_idx);
+        // set_sample_output_port_1.execute(meta.sample_idx);
     }
     table t_update_saved_sample_input_1 {
         key = {       }
