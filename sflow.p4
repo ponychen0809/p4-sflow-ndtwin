@@ -1132,7 +1132,7 @@ control MyIngress(
                 t_update_saved_sample_source_ip_1.apply();
                 t_update_saved_sample_destination_ip_1.apply();
                 meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
-                t_update_saved_le_ports_1.apply();
+                t_update_saved_l4_ports_1.apply();
 
                 drop();
             }else if(meta.offset == 2){
@@ -1146,7 +1146,7 @@ control MyIngress(
                 t_update_saved_sample_destination_ip_2.apply();
 
                 meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
-                t_update_saved_le_ports_2.apply();
+                t_update_saved_l4_ports_2.apply();
                 drop();
             }
             else if(meta.offset == 3){
@@ -1158,9 +1158,9 @@ control MyIngress(
 
                 t_update_saved_sample_source_ip_3.apply();
                 t_update_saved_sample_destination_ip_3.apply();
-                
+
                 meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
-                t_update_saved_le_ports_3.apply();
+                t_update_saved_l4_ports_3.apply();
                 drop();
             }
             // else{
