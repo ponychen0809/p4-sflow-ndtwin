@@ -372,10 +372,10 @@ struct my_header_t {
     raw_64_t        raw_64;
     raw_32_t        raw_32;
     sample_t        sample;
-    sflow_sample_t  sample1;
-    sflow_sample_t  sample2;
-    sflow_sample_t  sample3;
-    sflow_sample_t  sample4;
+    sflow_sample_t  sample_1;
+    sflow_sample_t  sample_2;
+    sflow_sample_t  sample_3;
+    sflow_sample_t  sample_4;
 }
 struct empty_header_t {}
 
