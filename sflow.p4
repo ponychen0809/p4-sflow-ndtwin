@@ -956,14 +956,7 @@ control MyIngress(
             hdr.ipv4.setValid();
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
-            hdr.sample_1.input_port = sample_input_port_1.read(meta.sample_idx);
-            hdr.sample_1.output_port = sample_output_port_1.read(meta.sample_idx);
-            hdr.sample_1.frame_length = sample_frame_len_1.read(meta.sample_idx);
-            hdr.sample_1.src_ip = sample_source_ip_1.read(meta.sample_idx);
-            hdr.sample_1.dst_ip = sample_destination_ip_1.read(meta.sample_idx);
-            hdr.sample_1.protocol = sample_protocol_1.read(meta.sample_idx);
-            hdr.sample_1.src_port = sample_source_port_1.read(meta.sample_idx);
-            hdr.sample_1.dst_port = sample_destination_port_1.read(meta.sample_idx);
+            
             if(meta.offset == 1){
                 t_update_saved_sample_input_1.apply();
                 t_update_saved_sample_output_1.apply();
@@ -984,22 +977,31 @@ control MyIngress(
                 t_update_saved_sample_source_port_2.apply();
                 t_update_saved_sample_destination_port_2.apply();
                 drop();
-            }else if(meta.offset == 3){
-                t_update_saved_sample_input_3.apply();
-                t_update_saved_sample_output_3.apply();
-                t_update_saved_sample_frame_len_3.apply();
-                t_update_saved_sample_source_ip_3.apply();
-                t_update_saved_sample_destination_ip_3.apply();
-                t_update_saved_sample_protocol_3.apply();
-                t_update_saved_sample_source_port_3.apply();
-                t_update_saved_sample_destination_port_3.apply();
-                drop();
-            }else{
+            }
+            // else if(meta.offset == 3){
+            //     t_update_saved_sample_input_3.apply();
+            //     t_update_saved_sample_output_3.apply();
+            //     t_update_saved_sample_frame_len_3.apply();
+            //     t_update_saved_sample_source_ip_3.apply();
+            //     t_update_saved_sample_destination_ip_3.apply();
+            //     t_update_saved_sample_protocol_3.apply();
+            //     t_update_saved_sample_source_port_3.apply();
+            //     t_update_saved_sample_destination_port_3.apply();
+            //     drop();
+            // }
+            else{
                 set_port_agent.apply();
                 
                 hdr.sample_1.sample_type = (bit<32>)5;
                 hdr.sample_1.sample_len = (bit<32>)20;
-                
+                hdr.sample_1.input_port = sample_input_port_1.read(meta.sample_idx);
+                hdr.sample_1.output_port = sample_output_port_1.read(meta.sample_idx);
+                hdr.sample_1.frame_length = sample_frame_len_1.read(meta.sample_idx);
+                hdr.sample_1.src_ip = sample_source_ip_1.read(meta.sample_idx);
+                hdr.sample_1.dst_ip = sample_destination_ip_1.read(meta.sample_idx);
+                hdr.sample_1.protocol = sample_protocol_1.read(meta.sample_idx);
+                hdr.sample_1.src_port = sample_source_port_1.read(meta.sample_idx);
+                hdr.sample_1.dst_port = sample_destination_port_1.read(meta.sample_idx);
 
 
             }
