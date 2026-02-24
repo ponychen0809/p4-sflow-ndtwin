@@ -724,29 +724,72 @@ control MyIngress(
         default_action =  do_update_sample_destination_ip_3; 
     }
 //*********** protocol ***********//
-    Register<bit<16>, bit<16>>(512, 0) sample_protocol;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_protocol) 
-        set_sample_protocol = {
+    Register<bit<16>, bit<16>>(512, 0) sample_protocol_1;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_protocol_1) 
+        set_sample_protocol_1 = {
             void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = (bit<16>)hdr.ipv4.protocol;
+                v       = meta.protocol;
                 read_val = v; 
             }
     };
-    action do_update_sample_protocol() {
-        set_sample_protocol.execute(meta.sample_idx);
+
+    action do_update_sample_protocol_1() {
+        set_sample_protocol_1.execute(meta.sample_idx);
     }
-    table t_update_saved_sample_protocol {
-        key = {
-            
-        }
+    table t_update_saved_sample_protocol_1 {
+        key = {       }
         actions = {
-             do_update_sample_protocol;
+             do_update_sample_protocol_1;
             // NoAction;
         }
         size = 1;
-        default_action =  do_update_sample_protocol; 
+        default_action =  do_update_sample_protocol_1; 
     }
 
+    Register<bit<16>, bit<16>>(512, 0) sample_protocol_2;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_protocol_2) 
+        set_sample_protocol_2 = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = meta.protocol;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_protocol_2() {
+        set_sample_protocol_2.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_protocol_2 {
+        key = {       }
+        actions = {
+             do_update_sample_protocol_2;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_protocol_2; 
+    }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_protocol_3;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_protocol_3) 
+        set_sample_protocol_3 = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = meta.protocol;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_protocol_3() {
+        set_sample_protocol_3.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_protocol_3 {
+        key = {       }
+        actions = {
+             do_update_sample_protocol_3;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_protocol_3; 
+    }
+//*********** source_port ***********//
     Register<bit<16>, bit<16>>(512, 0) sample_source_port;
     RegisterAction<bit<16>, bit<16>,bit<16>>(sample_source_port) 
         set_sample_source_port = {
