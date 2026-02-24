@@ -1063,7 +1063,7 @@ control MyIngress(
             
             if(meta.offset == 1){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
-                t_update_saved_sample_port_1.apply();
+                t_update_saved_sample_ports_1.apply();
 
                 meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
                 t_update_saved_frame_len_and_protocol_1.apply();
@@ -1074,7 +1074,7 @@ control MyIngress(
                 drop();
             }else if(meta.offset == 2){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
-                t_update_saved_sample_port_2.apply();
+                t_update_saved_sample_ports_2.apply();
                 meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
                 t_update_saved_frame_len_and_protocol_1.apply();
                 t_update_saved_sample_source_ip_2.apply();
@@ -1086,7 +1086,7 @@ control MyIngress(
             }
             else if(meta.offset == 3){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
-                t_update_saved_sample_port_3.apply();
+                t_update_saved_sample_ports_3.apply();
                 
                 meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
                 t_update_saved_frame_len_and_protocol_1.apply();
