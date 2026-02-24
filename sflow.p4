@@ -926,10 +926,10 @@ control MyIngress(
         default_action =  do_update_sample_destination_port_3; 
     }
 // 宣告一個 64-bit 的暫存器，用來同時存放 4 個 16-bit 的 Port
-Register<bit<64>, bit<16>>(512, 0) reg_sample_ports;
+Register<bit<32>, bit<16>>(512, 0) reg_sample_ports;
 
-RegisterAction<bit<64>, bit<16>, bit<64>>(reg_sample_ports) set_sample_ports = {
-    void apply(inout bit<64> v, out bit<64> read_val) {
+RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports) set_sample_ports = {
+    void apply(inout bit<32> v, out bit<32> read_val) {
         // 利用位元左移 (Shift) 與 OR 運算，將 4 個值拼成 64 bits
         v = meta.packed_ports; 
         read_val = v;
@@ -938,10 +938,7 @@ RegisterAction<bit<64>, bit<16>, bit<64>>(reg_sample_ports) set_sample_ports = {
 
 action do_update_sample_ports() {
     // 現在你只需要執行 1 次，就存好了 4 個欄位！
-    meta.packed_ports = ((bit<64>)meta.input_port << 48) | 
-                        ((bit<64>)meta.output_port << 32) | 
-                        ((bit<64>)meta.src_port << 16)   | 
-                        ((bit<64>)meta.dst_port);
+    meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
     set_sample_ports.execute(meta.sample_idx);
 }
 table t_update_saved_sample_port {
