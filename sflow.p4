@@ -526,27 +526,70 @@ control MyIngress(
         default_action =  do_update_sample_output_3; 
     }
 //*********** frame_len ***********//
-    Register<bit<16>, bit<16>>(512, 0) sample_frame_len;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len) 
-        set_sample_frame_len = {
+    Register<bit<16>, bit<16>>(512, 0) sample_frame_len_1;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len_1) 
+        set_sample_frame_len_1 = {
             void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = 0;
+                v       = meta.frame_len;
                 read_val = v; 
             }
     };
-    action do_update_sample_frame_len() {
-        set_sample_frame_len.execute(meta.sample_idx);
+
+    action do_update_sample_frame_len_1() {
+        set_sample_frame_len_1.execute(meta.sample_idx);
     }
-    table t_update_saved_sample_frame_len {
-        key = {
-            
-        }
+    table t_update_saved_sample_frame_len_1 {
+        key = {       }
         actions = {
-             do_update_sample_frame_len;
+             do_update_sample_frame_len_1;
             // NoAction;
         }
         size = 1;
-        default_action =  do_update_sample_frame_len; 
+        default_action =  do_update_sample_frame_len_1; 
+    }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_frame_len_2;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len_2) 
+        set_sample_frame_len_2 = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = meta.frame_len;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_frame_len_2() {
+        set_sample_frame_len_2.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_frame_len_2 {
+        key = {       }
+        actions = {
+             do_update_sample_frame_len_2;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_frame_len_2; 
+    }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_frame_len_3;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_frame_len_3) 
+        set_sample_frame_len_3 = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = meta.frame_len;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_frame_len_3() {
+        set_sample_frame_len_3.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_frame_len_3 {
+        key = {       }
+        actions = {
+             do_update_sample_frame_len_3;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_frame_len_3; 
     }
 //*********** source_ip ***********//
     Register<bit<32>, bit<16>>(512, 0) sample_source_ip;
@@ -717,12 +760,15 @@ control MyIngress(
             if(meta.offset == 1){
                 t_update_saved_sample_input_1.apply();
                 t_update_saved_sample_output_1.apply();
+                t_update_saved_sample_frame_len_1.apply();
             }else if(meta.offset == 2){
                 t_update_saved_sample_input_2.apply();
                 t_update_saved_sample_output_2.apply();
+                t_update_saved_sample_frame_len_2.apply();
             }else if(meta.offset == 3){
                 t_update_saved_sample_input_3.apply();
                 t_update_saved_sample_output_3.apply();
+                t_update_saved_sample_frame_len_3.apply();
             }
             
             
