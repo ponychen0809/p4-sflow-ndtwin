@@ -658,29 +658,72 @@ control MyIngress(
         default_action =  do_update_sample_source_ip_3; 
     }
 //*********** destination_ip ***********//
-    Register<bit<32>, bit<16>>(512, 0) sample_destination_ip;
-    RegisterAction<bit<32>, bit<16>,bit<32>>(sample_destination_ip) 
-        set_sample_destination_ip = {
+    Register<bit<32>, bit<16>>(512, 0) sample_destination_ip_1;
+    RegisterAction<bit<32>, bit<16>,bit<32>>(sample_destination_ip_1) 
+        set_sample_destination_ip_1 = {
             void apply(inout bit<32> v, out bit<32> read_val) {
-                v       = (bit<32>)hdr.ipv4.dst_addr;
+                v       = meta.dst_ip;
                 read_val = v; 
             }
     };
-    action do_update_sample_destination_ip() {
-        set_sample_destination_ip.execute(meta.sample_idx);
+
+    action do_update_sample_destination_ip_1() {
+        set_sample_destination_ip_1.execute(meta.sample_idx);
     }
-    table t_update_saved_sample_destination_ip {
-        key = {
-            
-        }
+    table t_update_saved_sample_destination_ip_1 {
+        key = {       }
         actions = {
-             do_update_sample_destination_ip;
+             do_update_sample_destination_ip_1;
             // NoAction;
         }
         size = 1;
-        default_action =  do_update_sample_destination_ip; 
+        default_action =  do_update_sample_destination_ip_1; 
     }
 
+    Register<bit<32>, bit<16>>(512, 0) sample_destination_ip_2;
+    RegisterAction<bit<32>, bit<16>,bit<32>>(sample_destination_ip_2) 
+        set_sample_destination_ip_2 = {
+            void apply(inout bit<32> v, out bit<32> read_val) {
+                v       = meta.dst_ip;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_destination_ip_2() {
+        set_sample_destination_ip_2.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_destination_ip_2 {
+        key = {       }
+        actions = {
+             do_update_sample_destination_ip_2;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_destination_ip_2; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) sample_destination_ip_3;
+    RegisterAction<bit<32>, bit<16>,bit<32>>(sample_destination_ip_3) 
+        set_sample_destination_ip_3 = {
+            void apply(inout bit<32> v, out bit<32> read_val) {
+                v       = meta.dst_ip;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_destination_ip_3() {
+        set_sample_destination_ip_3.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_destination_ip_3 {
+        key = {       }
+        actions = {
+             do_update_sample_destination_ip_3;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_destination_ip_3; 
+    }
+//*********** protocol ***********//
     Register<bit<16>, bit<16>>(512, 0) sample_protocol;
     RegisterAction<bit<16>, bit<16>,bit<16>>(sample_protocol) 
         set_sample_protocol = {
@@ -805,16 +848,19 @@ control MyIngress(
                 t_update_saved_sample_output_1.apply();
                 t_update_saved_sample_frame_len_1.apply();
                 t_update_saved_sample_source_ip_1.apply();
+                t_update_saved_sample_destination_ip_1.apply();
             }else if(meta.offset == 2){
                 t_update_saved_sample_input_2.apply();
                 t_update_saved_sample_output_2.apply();
                 t_update_saved_sample_frame_len_2.apply();
                 t_update_saved_sample_source_ip_2.apply();
+                t_update_saved_sample_destination_ip_2.apply();
             }else if(meta.offset == 3){
                 t_update_saved_sample_input_3.apply();
                 t_update_saved_sample_output_3.apply();
                 t_update_saved_sample_frame_len_3.apply();
                 t_update_saved_sample_source_ip_3.apply();
+                t_update_saved_sample_destination_ip_3.apply();
             }
             
             
