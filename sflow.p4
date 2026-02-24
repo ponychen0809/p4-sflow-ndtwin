@@ -892,18 +892,21 @@ control MyIngress(
                 t_update_saved_sample_frame_len_1.apply();
                 t_update_saved_sample_source_ip_1.apply();
                 t_update_saved_sample_destination_ip_1.apply();
+                t_update_saved_sample_protocol_1.apply();
             }else if(meta.offset == 2){
                 t_update_saved_sample_input_2.apply();
                 t_update_saved_sample_output_2.apply();
                 t_update_saved_sample_frame_len_2.apply();
                 t_update_saved_sample_source_ip_2.apply();
                 t_update_saved_sample_destination_ip_2.apply();
+                t_update_saved_sample_protocol_2.apply();
             }else if(meta.offset == 3){
                 t_update_saved_sample_input_3.apply();
                 t_update_saved_sample_output_3.apply();
                 t_update_saved_sample_frame_len_3.apply();
                 t_update_saved_sample_source_ip_3.apply();
                 t_update_saved_sample_destination_ip_3.apply();
+                t_update_saved_sample_protocol_3.apply();
             }
             
             
