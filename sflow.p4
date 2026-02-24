@@ -621,10 +621,10 @@ control MyIngress(
         default_action =  do_update_sample_destination_port; 
     }
 
-    action do_read_sample1() {
-        hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
-        hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
-    }
+    // action do_read_sample1() {
+    //     hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
+    //     hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
+    // }
     table t_read_sample1 {
         key = {  }
         actions = {
