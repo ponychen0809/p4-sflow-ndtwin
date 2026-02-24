@@ -927,7 +927,7 @@ control MyIngress(
     }
 // *********** sample_ports ***********
     Register<bit<32>, bit<16>>(512, 0) reg_sample_ports_1;
-    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports) set_sample_ports_1 = {
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports_1) set_sample_ports_1 = {
         void apply(inout bit<32> v, out bit<32> read_val) {
             v = meta.packed_ports; 
             read_val = v;
@@ -947,7 +947,7 @@ control MyIngress(
     }
 
     Register<bit<32>, bit<16>>(512, 0) reg_sample_ports_2;
-    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports) set_sample_ports_2 = {
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports_2) set_sample_ports_2 = {
         void apply(inout bit<32> v, out bit<32> read_val) {
             v = meta.packed_ports; 
             read_val = v;
@@ -967,7 +967,7 @@ control MyIngress(
     }
 
     Register<bit<32>, bit<16>>(512, 0) reg_sample_ports_3;
-    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports) set_sample_ports_3 = {
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports_3) set_sample_ports_3 = {
         void apply(inout bit<32> v, out bit<32> read_val) {
             v = meta.packed_ports; 
             read_val = v;
@@ -987,7 +987,7 @@ control MyIngress(
     }
 // *********** frame_len_and_protocol ***********
     Register<bit<32>, bit<16>>(512, 0) reg_frame_len_and_protocol_1;
-    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol) set_frame_len_and_protocol_1 = {
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol_1) set_frame_len_and_protocol_1 = {
         void apply(inout bit<32> v, out bit<32> read_val) {
             v = meta.frame_len_and_protocol; 
             read_val = v;
@@ -1007,7 +1007,7 @@ control MyIngress(
     }
 
     Register<bit<32>, bit<16>>(512, 0) reg_frame_len_and_protocol_2;
-    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol) set_frame_len_and_protocol_2 = {
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol_2) set_frame_len_and_protocol_2 = {
         void apply(inout bit<32> v, out bit<32> read_val) {
             v = meta.frame_len_and_protocol; 
             read_val = v;
@@ -1027,7 +1027,7 @@ control MyIngress(
     }
 
     Register<bit<32>, bit<16>>(512, 0) reg_frame_len_and_protocol_3;
-    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol) set_frame_len_and_protocol_3 = {
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol_3) set_frame_len_and_protocol_3 = {
         void apply(inout bit<32> v, out bit<32> read_val) {
             v = meta.frame_len_and_protocol; 
             read_val = v;
