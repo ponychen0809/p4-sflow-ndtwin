@@ -396,6 +396,14 @@ control MyIngress(
         default_action = do_update_count; 
     }
 //*********** input port ***********//
+Register<bit<16>, bit<16>>(512, 0) sample_output_port_1;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port_1) 
+        set_sample_output_port_1 = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = meta.output_port;
+                read_val = v; 
+            }
+    };
     Register<bit<16>, bit<16>>(512, 0) sample_input_port_1;
     RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port_1) 
         set_sample_input_port_1 = {
@@ -463,14 +471,7 @@ control MyIngress(
         default_action =  do_update_sample_input_3; 
     }
 //*********** output port ***********//
-    Register<bit<16>, bit<16>>(512, 0) sample_output_port_1;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_output_port_1) 
-        set_sample_output_port_1 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.output_port;
-                read_val = v; 
-            }
-    };
+    
 
     action do_update_sample_output_1() {
         set_sample_output_port_1.execute(meta.sample_idx);
