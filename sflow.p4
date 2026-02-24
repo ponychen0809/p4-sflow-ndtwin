@@ -992,13 +992,13 @@ control MyIngress(
                 hdr.sample_1.sample_type = (bit<32>)5;
                 hdr.sample_1.sample_len = (bit<32>)20;
                 hdr.sample_1.input_port = set_sample_input_port_1.execute(meta.sample_idx);
-                // hdr.sample_1.output_port = sample_output_port_1.read(meta.sample_idx);
-                // hdr.sample_1.frame_length = sample_frame_len_1.read(meta.sample_idx);
-                // hdr.sample_1.src_ip = sample_source_ip_1.read(meta.sample_idx);
-                // hdr.sample_1.dst_ip = sample_destination_ip_1.read(meta.sample_idx);
-                // hdr.sample_1.protocol = sample_protocol_1.read(meta.sample_idx);
-                // hdr.sample_1.src_port = sample_source_port_1.read(meta.sample_idx);
-                // hdr.sample_1.dst_port = sample_destination_port_1.read(meta.sample_idx);
+                hdr.sample_1.output_port = sample_output_port_1.execute(meta.sample_idx);
+                hdr.sample_1.frame_length = sample_frame_len_1.execute(meta.sample_idx);
+                hdr.sample_1.src_ip = sample_source_ip_1.execute(meta.sample_idx);
+                hdr.sample_1.dst_ip = sample_destination_ip_1.execute(meta.sample_idx);
+                hdr.sample_1.protocol = sample_protocol_1.execute(meta.sample_idx);
+                hdr.sample_1.src_port = sample_source_port_1.execute(meta.sample_idx);
+                hdr.sample_1.dst_port = sample_destination_port_1.execute(meta.sample_idx);
 
 
             }
