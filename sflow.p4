@@ -394,26 +394,70 @@ control MyIngress(
         default_action = do_update_count; 
     }
 //*********** input port ***********//
-    Register<bit<16>, bit<16>>(512, 0) sample_input_port;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port) 
-        set_sample_input_port = {
+    Register<bit<16>, bit<16>>(512, 0) sample_input_port_1;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port_1) 
+        set_sample_input_port_1 = {
             void apply(inout bit<16> v, out bit<16> read_val) {
                 v       = meta.input_port;
                 read_val = v; 
             }
     };
 
-    action do_update_sample_input() {
-        set_sample_input_port.execute(meta.sample_idx);
+    action do_update_sample_input_1() {
+        set_sample_input_port_1.execute(meta.sample_idx);
     }
-    table t_update_saved_sample_input {
+    table t_update_saved_sample_input_1 {
         key = {       }
         actions = {
-             do_update_sample_input;
+             do_update_sample_input_1;
             // NoAction;
         }
         size = 1;
-        default_action =  do_update_sample_input; 
+        default_action =  do_update_sample_input_1; 
+    }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_input_port_2;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port_2) 
+        set_sample_input_port_2 = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = meta.input_port;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_input_2() {
+        set_sample_input_port_2.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_input_2 {
+        key = {       }
+        actions = {
+             do_update_sample_input_2;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_input_2; 
+    }
+
+    Register<bit<16>, bit<16>>(512, 0) sample_input_port_3;
+    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_input_port_3) 
+        set_sample_input_port_3 = {
+            void apply(inout bit<16> v, out bit<16> read_val) {
+                v       = meta.input_port;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_input_3() {
+        set_sample_input_port_3.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_input_3 {
+        key = {       }
+        actions = {
+             do_update_sample_input_3;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_input_3; 
     }
 //*********** output port ***********//
     Register<bit<16>, bit<16>>(512, 0) sample_output_port;
@@ -553,7 +597,7 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_source_port; 
     }
-
+//*********** destination_port ***********//
     Register<bit<16>, bit<16>>(512, 0) sample_destination_port;
     RegisterAction<bit<16>, bit<16>,bit<16>>(sample_destination_port) 
         set_sample_destination_port = {
@@ -591,11 +635,7 @@ control MyIngress(
         default_action =  do_read_sample1; 
     }
 
-    // // Action 2: 讀取第二個樣本
-    // action do_read_sample2() {
-    //     hdr.sample2.input_port = sample_input_port.read(meta.sample_idx);
-    //     hdr.sample2.output_port = sample_output_port.read(meta.sample_idx);
-    // }
+ //
     apply {
         t_set_ts.apply();  //更新timestamp
         bit<9> idx = (bit<9>)ig_intr_md.ingress_port;
@@ -611,25 +651,30 @@ control MyIngress(
             hdr.udp.setValid();
             ig_dprsr_md.mirror_type  = 0;
             
-            // t_update_saved_count.apply();
-            if(meta.offset == 8){
+            // // t_update_saved_count.apply();
+            // if(meta.offset == 8){
                 
-                t_read_sample1.apply();
-                // hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
-                // hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
-                // meta.sample_idx = meta.sample_idx + 1;
-                // hdr.sample2.input_port = sample_input_port.read(meta.sample_idx);
-                // hdr.sample2.output_port = sample_output_port.read(meta.sample_idx);
-            }else{
-                meta.sample_idx = meta.sample_idx + meta.offset;
-                t_update_saved_sample_input.apply();
-                t_update_saved_sample_output.apply();
-                t_update_saved_sample_frame_len.apply();
-                t_update_saved_sample_source_ip.apply();
-                t_update_saved_sample_destination_ip.apply();
-                t_update_saved_sample_protocol.apply();
-                t_update_saved_sample_source_port.apply();
-                t_update_saved_sample_destination_port.apply();
+            //     // t_read_sample1.apply();
+            //     hdr.sample1.input_port = sample_input_port.read(meta.sample_idx);
+            //     hdr.sample1.output_port = sample_output_port.read(meta.sample_idx);
+            //     meta.sample_idx = meta.sample_idx + 1;
+            //     hdr.sample2.input_port = sample_input_port.read(meta.sample_idx);
+            //     hdr.sample2.output_port = sample_output_port.read(meta.sample_idx);
+            // }else{
+            //     meta.sample_idx = meta.sample_idx + meta.offset;
+            //     t_update_saved_sample_input.apply();
+            //     t_update_saved_sample_output.apply();
+            //     t_update_saved_sample_frame_len.apply();
+            //     t_update_saved_sample_source_ip.apply();
+            //     t_update_saved_sample_destination_ip.apply();
+            //     t_update_saved_sample_protocol.apply();
+            //     t_update_saved_sample_source_port.apply();
+            //     t_update_saved_sample_destination_port.apply();
+            // }
+            if(meta.offset == 1){
+                t_update_saved_sample_input_1.apply();
+            }else if(meta.offset == 2){
+                t_update_saved_sample_input_2.apply();
             }
             
             
