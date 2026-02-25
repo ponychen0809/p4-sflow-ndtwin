@@ -379,6 +379,7 @@ struct my_header_t {
     sflow_sample_t  sample_2;
     sflow_sample_t  sample_3;
     sflow_sample_t  sample_4;
+    sflow_sample_t  sample_5;
 }
 struct empty_header_t {}
 
