@@ -207,7 +207,7 @@ struct my_metadata_t {
     bit<32> header_length;
     bit<32> record_length;
     bit<32> sample_length;
-    
+    bit<16> ip_flags_offset;
     bit<16> ip_len;
     bit<16> udp_len;
     bit<1> agent_status;

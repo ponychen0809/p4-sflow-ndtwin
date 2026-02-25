@@ -1060,7 +1060,11 @@ control MyIngress(
                 
                 t_update_saved_count.apply();
                 meta.offset = (bit<16>)meta.saved_count;
-                
+                if (hdr.ipv4.isValid()) {
+                    meta.ip_flags_offset = ((bit<16>)hdr.ipv4.flags << 13) | (bit<16>)hdr.ipv4.frag_offset;
+                }else{
+                    meta.ip_flags_offset = 0;
+                }
                 set_sampled_count(idx);
                 ig_dprsr_md.mirror_type = MIRROR_TYPE_t.I2E;
                 meta.mirror_session = (bit<10>)26;
