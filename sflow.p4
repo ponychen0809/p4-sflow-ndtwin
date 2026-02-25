@@ -463,6 +463,28 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_source_ip_3; 
     }
+
+    Register<bit<32>, bit<16>>(512, 0) sample_source_ip_4;
+    RegisterAction<bit<32>, bit<16>,bit<32>>(sample_source_ip_4) 
+        set_sample_source_ip_4 = {
+            void apply(inout bit<32> v, out bit<32> read_val) {
+                v       = meta.src_ip;
+                read_val = v; 
+            }
+    };
+
+    action do_update_sample_source_ip_4() {
+        set_sample_source_ip_4.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_source_ip_4 {
+        key = {       }
+        actions = {
+             do_update_sample_source_ip_4;
+            // NoAction;
+        }
+        size = 1;
+        default_action =  do_update_sample_source_ip_4; 
+    }
 //*********** destination_ip ***********//
     Register<bit<32>, bit<16>>(512, 0) sample_destination_ip_1;
     RegisterAction<bit<32>, bit<16>,bit<32>>(sample_destination_ip_1) 
@@ -529,204 +551,29 @@ control MyIngress(
         size = 1;
         default_action =  do_update_sample_destination_ip_3; 
     }
-//*********** protocol ***********//
-    Register<bit<16>, bit<16>>(512, 0) sample_protocol_1;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_protocol_1) 
-        set_sample_protocol_1 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.protocol;
+
+    Register<bit<32>, bit<16>>(512, 0) sample_destination_ip_4;
+    RegisterAction<bit<32>, bit<16>,bit<32>>(sample_destination_ip_4) 
+        set_sample_destination_ip_4 = {
+            void apply(inout bit<32> v, out bit<32> read_val) {
+                v       = meta.dst_ip;
                 read_val = v; 
             }
     };
 
-    action do_update_sample_protocol_1() {
-        set_sample_protocol_1.execute(meta.sample_idx);
+    action do_update_sample_destination_ip_4() {
+        set_sample_destination_ip_4.execute(meta.sample_idx);
     }
-    table t_update_saved_sample_protocol_1 {
+    table t_update_saved_sample_destination_ip_4 {
         key = {       }
         actions = {
-             do_update_sample_protocol_1;
+             do_update_sample_destination_ip_4;
             // NoAction;
         }
         size = 1;
-        default_action =  do_update_sample_protocol_1; 
+        default_action =  do_update_sample_destination_ip_4; 
     }
 
-    Register<bit<16>, bit<16>>(512, 0) sample_protocol_2;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_protocol_2) 
-        set_sample_protocol_2 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.protocol;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_protocol_2() {
-        set_sample_protocol_2.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_protocol_2 {
-        key = {       }
-        actions = {
-             do_update_sample_protocol_2;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_protocol_2; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_protocol_3;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_protocol_3) 
-        set_sample_protocol_3 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.protocol;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_protocol_3() {
-        set_sample_protocol_3.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_protocol_3 {
-        key = {       }
-        actions = {
-             do_update_sample_protocol_3;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_protocol_3; 
-    }
-//*********** source_port ***********//
-    Register<bit<16>, bit<16>>(512, 0) sample_source_port_1;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_source_port_1) 
-        set_sample_source_port_1 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.src_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_source_port_1() {
-        set_sample_source_port_1.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_source_port_1 {
-        key = {       }
-        actions = {
-             do_update_sample_source_port_1;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_source_port_1; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_source_port_2;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_source_port_2) 
-        set_sample_source_port_2 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.src_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_source_port_2() {
-        set_sample_source_port_2.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_source_port_2 {
-        key = {       }
-        actions = {
-             do_update_sample_source_port_2;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_source_port_2; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_source_port_3;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_source_port_3) 
-        set_sample_source_port_3 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.src_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_source_port_3() {
-        set_sample_source_port_3.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_source_port_3 {
-        key = {       }
-        actions = {
-             do_update_sample_source_port_3;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_source_port_3; 
-    }
-//*********** destination_port ***********//
-    Register<bit<16>, bit<16>>(512, 0) sample_destination_port_1;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_destination_port_1) 
-        set_sample_destination_port_1 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.dst_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_destination_port_1() {
-        set_sample_destination_port_1.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_destination_port_1 {
-        key = {       }
-        actions = {
-             do_update_sample_destination_port_1;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_destination_port_1; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_destination_port_2;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_destination_port_2) 
-        set_sample_destination_port_2 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.dst_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_destination_port_2() {
-        set_sample_destination_port_2.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_destination_port_2 {
-        key = {       }
-        actions = {
-             do_update_sample_destination_port_2;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_destination_port_2; 
-    }
-
-    Register<bit<16>, bit<16>>(512, 0) sample_destination_port_3;
-    RegisterAction<bit<16>, bit<16>,bit<16>>(sample_destination_port_3) 
-        set_sample_destination_port_3 = {
-            void apply(inout bit<16> v, out bit<16> read_val) {
-                v       = meta.dst_port;
-                read_val = v; 
-            }
-    };
-
-    action do_update_sample_destination_port_3() {
-        set_sample_destination_port_3.execute(meta.sample_idx);
-    }
-    table t_update_saved_sample_destination_port_3 {
-        key = {       }
-        actions = {
-             do_update_sample_destination_port_3;
-            // NoAction;
-        }
-        size = 1;
-        default_action =  do_update_sample_destination_port_3; 
-    }
 // *********** sample_ports ***********
     Register<bit<32>, bit<16>>(512, 0) reg_sample_ports_1;
     RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports_1) set_sample_ports_1 = {
@@ -787,6 +634,26 @@ control MyIngress(
             size = 1;
             default_action =  do_update_sample_ports_3; 
     }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_sample_ports_4;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_sample_ports_4) set_sample_ports_4 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.packed_ports; 
+            read_val = v;
+        }
+    };
+    action do_update_sample_ports_4() {
+        set_sample_ports_4.execute(meta.sample_idx);
+    }
+    table t_update_saved_sample_ports_4 {
+            key = {       }
+            actions = {
+                do_update_sample_ports_4;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_sample_ports_4; 
+    }
 // *********** frame_len_and_protocol ***********
     Register<bit<32>, bit<16>>(512, 0) reg_frame_len_and_protocol_1;
     RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol_1) set_frame_len_and_protocol_1 = {
@@ -846,6 +713,26 @@ control MyIngress(
             }
             size = 1;
             default_action =  do_update_frame_len_and_protocol_3; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_frame_len_and_protocol_4;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_frame_len_and_protocol_4) set_frame_len_and_protocol_4 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.frame_len_and_protocol; 
+            read_val = v;
+        }
+    };
+    action do_update_frame_len_and_protocol_4() {
+        set_frame_len_and_protocol_4.execute(meta.sample_idx);
+    }
+    table t_update_saved_frame_len_and_protocol_4 {
+            key = {       }
+            actions = {
+                do_update_frame_len_and_protocol_4;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_frame_len_and_protocol_4; 
     }
     
 // *********** l4_ports ***********
@@ -908,6 +795,25 @@ control MyIngress(
             size = 1;
             default_action =  do_update_l4_ports_3; 
     }
+    Register<bit<32>, bit<16>>(512, 0) reg_l4_ports_4;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_l4_ports_4) set_l4_ports_4 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.l4_ports; 
+            read_val = v;
+        }
+    };
+    action do_update_l4_ports_4() {
+        set_l4_ports_4.execute(meta.sample_idx);
+    }
+    table t_update_saved_l4_ports_4 {
+            key = {       }
+            actions = {
+                do_update_l4_ports_4;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_l4_ports_4; 
+    }
 //****************************************//
     apply {
         t_set_ts.apply();  //更新timestamp
@@ -958,6 +864,19 @@ control MyIngress(
 
                 meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 t_update_saved_l4_ports_3.apply();
+                drop();
+            }else if(meta.offset == 4){
+                meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
+                t_update_saved_sample_ports_4.apply();
+                
+                meta.frame_len_and_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
+                t_update_saved_frame_len_and_protocol_4.apply();
+
+                t_update_saved_sample_source_ip_4.apply();
+                t_update_saved_sample_destination_ip_4.apply();
+
+                meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
+                t_update_saved_l4_ports_4.apply();
                 drop();
             }
             else{
@@ -1038,6 +957,30 @@ control MyIngress(
                 bit<32> packed_l4_3 = reg_l4_ports_3.read(meta.sample_idx);
                 hdr.sample_3.src_port = (bit<16>)(packed_l4_3 >> 16);
                 hdr.sample_3.dst_port = (bit<16>)(packed_l4_3 & 32w0xFFFF);
+                ig_tm_md.ucast_egress_port = 156;
+
+                hdr.sample_4.setValid();
+                hdr.sample_4.sample_type = (bit<32>)5;
+                hdr.sample_4.sample_len = (bit<32>)20;
+
+                // 1. 讀取並解開 Ports (高 16位是 input, 低 16位是 output)
+                bit<32> packed_ports_4 = reg_sample_ports_4.read(meta.sample_idx);
+                hdr.sample_4.input_port  = (bit<16>)(packed_ports_4 >> 16);
+                hdr.sample_4.output_port = (bit<16>)(packed_ports_4 & 32w0xFFFF);
+
+                // 2. 讀取並解開 Frame Length & Protocol
+                bit<32> packed_flen_proto_4 = reg_frame_len_and_protocol_4.read(meta.sample_idx);
+                hdr.sample_4.frame_length = (bit<16>)(packed_flen_proto_4 >> 16);
+                hdr.sample_4.protocol     = (bit<16>)(packed_flen_proto_4 & 32w0xFFFF);
+
+                // 3. 讀取 IP (當初沒有打包，直接讀即可)
+                hdr.sample_4.src_ip = sample_source_ip_4.read(meta.sample_idx);
+                hdr.sample_4.dst_ip = sample_destination_ip_4.read(meta.sample_idx);
+
+                // 4. 讀取並解開 L4 Ports
+                bit<32> packed_l4_4 = reg_l4_ports_4.read(meta.sample_idx);
+                hdr.sample_4.src_port = (bit<16>)(packed_l4_4 >> 16);
+                hdr.sample_4.dst_port = (bit<16>)(packed_l4_4 & 32w0xFFFF);
                 ig_tm_md.ucast_egress_port = 156;
             }
         }
