@@ -1007,8 +1007,8 @@ control MyIngress(
                 hdr.sample_1.dst_port = (bit<16>)(packed_l4_1 & 32w0xFFFF);
 
                 bit<32> flags_offset_1 = reg_flag_1.read(meta.sample_idx);
-                hdr.sample_1.ip_flags_offset = (bit<16>)(flags_offset_1 >> 16);
-                hdr.sample_1.tcp_flag = (bit<16>)(flags_offset_1 & 32w0xFFFF);
+                // hdr.sample_1.ip_flags_offset = (bit<16>)(flags_offset_1 >> 16);
+                // hdr.sample_1.tcp_flag = (bit<16>)(flags_offset_1 & 32w0xFFFF);
             // ********** 2 ********** //
                 hdr.sample_2.setValid();
                 hdr.sample_2.sample_type = (bit<32>)5;
@@ -1030,8 +1030,8 @@ control MyIngress(
                 hdr.sample_2.dst_port = (bit<16>)(packed_l4_2 & 32w0xFFFF);
 
                 bit<32> flags_offset_2 = reg_flag_2.read(meta.sample_idx);
-                hdr.sample_2.ip_flags_offset = (bit<16>)(flags_offset_2 >> 16);
-                hdr.sample_2.tcp_flag = (bit<16>)(flags_offset_2 & 32w0xFFFF);
+                // hdr.sample_2.ip_flags_offset = (bit<16>)(flags_offset_2 >> 16);
+                // hdr.sample_2.tcp_flag = (bit<16>)(flags_offset_2 & 32w0xFFFF);
             // ********** 3 ********** //
                 hdr.sample_3.setValid();
                 hdr.sample_3.sample_type = (bit<32>)5;
@@ -1053,8 +1053,8 @@ control MyIngress(
                 hdr.sample_3.dst_port = (bit<16>)(packed_l4_3 & 32w0xFFFF);
 
                 bit<32> flags_offset_3 = reg_flag_3.read(meta.sample_idx);
-                hdr.sample_3.ip_flags_offset = (bit<16>)(flags_offset_3 >> 16);
-                hdr.sample_3.tcp_flag = (bit<16>)(flags_offset_3 & 32w0xFFFF);
+                // hdr.sample_3.ip_flags_offset = (bit<16>)(flags_offset_3 >> 16);
+                // hdr.sample_3.tcp_flag = (bit<16>)(flags_offset_3 & 32w0xFFFF);
                 
             // ********** 4 ********** //
                 hdr.sample_4.setValid();
@@ -1077,8 +1077,8 @@ control MyIngress(
                 hdr.sample_4.dst_port = (bit<16>)(packed_l4_4 & 32w0xFFFF);
 
                 bit<32> flags_offset_4 = reg_flag_4.read(meta.sample_idx);
-                hdr.sample_4.ip_flags_offset = (bit<16>)(flags_offset_4 >> 16);
-                hdr.sample_4.tcp_flag = (bit<16>)(flags_offset_4 & 32w0xFFFF);
+                // hdr.sample_4.ip_flags_offset = (bit<16>)(flags_offset_4 >> 16);
+                // hdr.sample_4.tcp_flag = (bit<16>)(flags_offset_4 & 32w0xFFFF);
                 
                 hdr.sample_5.setValid();
                 hdr.sample_5.sample_type = (bit<32>)5;
@@ -1089,9 +1089,11 @@ control MyIngress(
                 hdr.sample_5.frame_length = meta.frame_length;
                 hdr.sample_5.src_ip = meta.src_ip;
                 hdr.sample_5.dst_ip = meta.dst_ip;
+                hdr.sample_5.ip_flags_offset = meta.ip_flags_offset;
                 hdr.sample_5.protocol = meta.protocol;
                 hdr.sample_5.src_port = meta.src_port;
                 hdr.sample_5.dst_port = meta.dst_port;
+                hdr.sample_5.tcp_flag = meta.tcp_flag;
 
                 ig_tm_md.ucast_egress_port = 156;
             }
