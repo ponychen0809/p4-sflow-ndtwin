@@ -79,8 +79,8 @@ parser MyIngressParser(packet_in pkt,
         meta.header_length = 64;
         meta.record_length = 80;
         meta.sample_length = 120;
-        meta.ip_len = 184;
-        meta.udp_len = 164;
+        meta.ip_len = 180;
+        meta.udp_len = 160;
         // meta.raw_64_data = (bit<512>)hdr.raw_64.data;
         // 處理 64 bytes 的邏輯
         transition accept;
