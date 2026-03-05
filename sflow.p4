@@ -368,10 +368,8 @@ control MyIngress(
         // meta.fake_src =  (bit<48>)0x000000000002;
         // meta.fake_type=        (bit<32>)0x00000000;
         // set_frame_length();
-        if(!hdr.ipv4.isValid()){
-            meta.agent_status = 0;
-        }
-        else if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
+        
+        if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
             meta.sample_type = 1;
             hdr.tcp.setInvalid();
             hdr.sflow_counter.setInvalid();
@@ -483,7 +481,10 @@ control MyIngress(
             pkt_count = inc_pkt.execute(idx);
             
             set_pkt_count(idx);
-            if(pkt_count==0){   //送往recirc port
+            if(!hdr.ipv4.isValid()){
+                meta.agent_status = 0;
+            }
+            else if(pkt_count==0){   //送往recirc port
                 set_sampled_count(idx);
                 ig_dprsr_md.mirror_type = MIRROR_TYPE_t.I2E;
                 meta.mirror_session = (bit<10>)26;
