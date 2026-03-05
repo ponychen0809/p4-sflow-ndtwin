@@ -990,7 +990,7 @@ control MyIngress(
                 hdr.sample_1.setValid();
                 hdr.sample_1.sample_type = (bit<32>)5;
                 hdr.sample_1.sample_len = (bit<32>)20;
-                
+
                 hdr.sample_1.in_out_port = reg_sample_ports_1.read(meta.sample_idx);
 
                 // bit<32> packed_ports_1 = reg_sample_ports_1.read(meta.sample_idx);
@@ -1092,8 +1092,7 @@ control MyIngress(
                 hdr.sample_5.sample_type = (bit<32>)5;
                 hdr.sample_5.sample_len = (bit<32>)20;
 
-                hdr.sample_5.input_port = meta.input_port;
-                hdr.sample_5.output_port = meta.output_port;
+                hdr.sample_5.in_out_port = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
                 hdr.sample_5.frame_length = meta.frame_length;
                 hdr.sample_5.src_ip = meta.src_ip;
                 hdr.sample_5.dst_ip = meta.dst_ip;
