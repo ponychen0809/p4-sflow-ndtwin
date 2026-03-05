@@ -334,11 +334,11 @@ header sflow_sample_t {
     bit<32>  frame_length_protocol;
     bit<32>  src_ip;
     bit<32>  dst_ip;
-    bit<16>  ip_flags_offset;
+    bit<32>  ip_flag_offset_tcp_flag;
     // bit<16>  protocol;
     bit<32>  l4_port;
     
-    bit<16>   tcp_flag;
+    // bit<16>   tcp_flag;
 }
 
 
