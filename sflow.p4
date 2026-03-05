@@ -57,7 +57,7 @@ parser MyIngressParser(packet_in pkt,
         meta.input_port = (bit<16>)hdr.sample.input_port;
         meta.output_port = (bit<16>)hdr.sample.output_port;
         meta.frame_length = (bit<16>)hdr.sample.frame_length;
-        meta.ip_flags_offset = (bit<16>)hdr.ip_flags_offset;
+        meta.ip_flags_offset = (bit<16>)hdr.sample.ip_flags_offset;
         meta.src_ip = (bit<32>)hdr.sample.src_ip ;
         meta.dst_ip = (bit<32>)hdr.sample.dst_ip;
         meta.protocol = (bit<16>)hdr.sample.protocol;
