@@ -1071,7 +1071,7 @@ control MyIngress(
                 // hdr.sample_5.frame_length = meta.frame_length;
                 hdr.sample_5.src_ip = meta.src_ip;
                 hdr.sample_5.dst_ip = meta.dst_ip;
-                hdr.sample_5.ip_flags_offset = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
+                hdr.sample_5.ip_flag_offset_tcp_flag = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
                 // hdr.sample_5.protocol = meta.protocol;
                 hdr.sample_5.l4_port = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 // hdr.sample_5.src_port = meta.src_port;
