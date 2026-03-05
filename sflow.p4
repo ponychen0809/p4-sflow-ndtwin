@@ -118,8 +118,8 @@ parser MyIngressParser(packet_in pkt,
 
     state parse_ipv4 {
         pkt.extract(hdr.ipv4);
-        meta.ip_flags = hdr.ipv4.flags;
-        meta.frag_offset = hdr.ipv4.frag_offset;
+        // meta.ip_flags = hdr.ipv4.flags;
+        // meta.frag_offset = hdr.ipv4.frag_offset;
         transition select(hdr.ipv4.protocol) {
             IP_PROTOCOLS_TCP: parse_tcp;
             IP_PROTOCOLS_UDP: parse_udp;
