@@ -1094,8 +1094,9 @@ control MyIngress(
                 hdr.sample_5.dst_ip = meta.dst_ip;
                 hdr.sample_5.ip_flags_offset = meta.ip_flags_offset;
                 hdr.sample_5.protocol = meta.protocol;
-                hdr.sample_5.src_port = meta.src_port;
-                hdr.sample_5.dst_port = meta.dst_port;
+                hdr.sample_5.l4_port = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
+                // hdr.sample_5.src_port = meta.src_port;
+                // hdr.sample_5.dst_port = meta.dst_port;
                 hdr.sample_5.tcp_flag = meta.tcp_flag;
 
                 ig_tm_md.ucast_egress_port = 156;
