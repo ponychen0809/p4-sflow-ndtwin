@@ -368,7 +368,10 @@ control MyIngress(
         // meta.fake_src =  (bit<48>)0x000000000002;
         // meta.fake_type=        (bit<32>)0x00000000;
         // set_frame_length();
-        if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
+        if(!hdr.ipv4.isValid()){
+            meta.agent_status = 0;
+        }
+        else if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
             meta.sample_type = 1;
             hdr.tcp.setInvalid();
             hdr.sflow_counter.setInvalid();
