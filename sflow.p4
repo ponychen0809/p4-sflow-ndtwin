@@ -993,20 +993,11 @@ control MyIngress(
 
                 hdr.sample_1.in_out_port = reg_sample_ports_1.read(meta.sample_idx);
 
-                // bit<32> packed_ports_1 = reg_sample_ports_1.read(meta.sample_idx);
-                // hdr.sample_1.input_port  = (bit<16>)(packed_ports_1 >> 16);
-                // hdr.sample_1.output_port = (bit<16>)(packed_ports_1 & 32w0xFFFF);
-
-                bit<32> packed_flen_proto_1 = reg_frame_len_and_protocol_1.read(meta.sample_idx);
-                hdr.sample_1.frame_length = (bit<16>)(packed_flen_proto_1 >> 16);
-                hdr.sample_1.protocol     = (bit<16>)(packed_flen_proto_1 & 32w0xFFFF);
+                hdr.sample_1.frame_length_protocol = reg_frame_len_and_protocol_1.read(meta.sample_idx);
 
                 hdr.sample_1.src_ip = sample_source_ip_1.read(meta.sample_idx);
                 hdr.sample_1.dst_ip = sample_destination_ip_1.read(meta.sample_idx);
 
-                // bit<32> packed_l4_1 = reg_l4_ports_1.read(meta.sample_idx);
-                // hdr.sample_1.src_port = (bit<16>)(packed_l4_1 >> 16);
-                // hdr.sample_1.dst_port = (bit<16>)(packed_l4_1 & 32w0xFFFF);
                 hdr.sample_1.l4_port = reg_l4_ports_1.read(meta.sample_idx);
 
                 bit<32> flags_offset_1 = reg_flag_1.read(meta.sample_idx);
@@ -1018,21 +1009,12 @@ control MyIngress(
                 hdr.sample_2.sample_len = (bit<32>)20;
 
                 hdr.sample_2.in_out_port = reg_sample_ports_2.read(meta.sample_idx);
-
-                // bit<32> packed_ports_2 = reg_sample_ports_2.read(meta.sample_idx);
-                // hdr.sample_2.input_port  = (bit<16>)(packed_ports_2 >> 16);
-                // hdr.sample_2.output_port = (bit<16>)(packed_ports_2 & 32w0xFFFF);
-
-                bit<32> packed_flen_proto_2 = reg_frame_len_and_protocol_2.read(meta.sample_idx);
-                hdr.sample_2.frame_length = (bit<16>)(packed_flen_proto_2 >> 16);
-                hdr.sample_2.protocol     = (bit<16>)(packed_flen_proto_2 & 32w0xFFFF);
+                hdr.sample_2.frame_length_protocol = reg_frame_len_and_protocol_2.read(meta.sample_idx);
 
                 hdr.sample_2.src_ip = sample_source_ip_2.read(meta.sample_idx);
                 hdr.sample_2.dst_ip = sample_destination_ip_2.read(meta.sample_idx);
 
-                // bit<32> packed_l4_2 = reg_l4_ports_2.read(meta.sample_idx);
-                // hdr.sample_2.src_port = (bit<16>)(packed_l4_2 >> 16);
-                // hdr.sample_2.dst_port = (bit<16>)(packed_l4_2 & 32w0xFFFF);
+              
                 hdr.sample_2.l4_port = reg_l4_ports_2.read(meta.sample_idx);
 
                 bit<32> flags_offset_2 = reg_flag_2.read(meta.sample_idx);
@@ -1044,20 +1026,13 @@ control MyIngress(
                 hdr.sample_3.sample_len = (bit<32>)20;
 
                 hdr.sample_3.in_out_port = reg_sample_ports_3.read(meta.sample_idx);
-                // bit<32> packed_ports_3 = reg_sample_ports_3.read(meta.sample_idx);
-                // hdr.sample_3.input_port  = (bit<16>)(packed_ports_3 >> 16);
-                // hdr.sample_3.output_port = (bit<16>)(packed_ports_3 & 32w0xFFFF);
-
-                bit<32> packed_flen_proto_3 = reg_frame_len_and_protocol_3.read(meta.sample_idx);
-                hdr.sample_3.frame_length = (bit<16>)(packed_flen_proto_3 >> 16);
-                hdr.sample_3.protocol     = (bit<16>)(packed_flen_proto_3 & 32w0xFFFF);
+               
+                hdr.sample_3.frame_length_protocol = reg_frame_len_and_protocol_3.read(meta.sample_idx);
 
                 hdr.sample_3.src_ip = sample_source_ip_3.read(meta.sample_idx);
                 hdr.sample_3.dst_ip = sample_destination_ip_3.read(meta.sample_idx);
 
-                // bit<32> packed_l4_3 = reg_l4_ports_3.read(meta.sample_idx);
-                // hdr.sample_3.src_port = (bit<16>)(packed_l4_3 >> 16);
-                // hdr.sample_3.dst_port = (bit<16>)(packed_l4_3 & 32w0xFFFF);
+                
                 hdr.sample_3.l4_port = reg_l4_ports_3.read(meta.sample_idx);
 
                 bit<32> flags_offset_3 = reg_flag_3.read(meta.sample_idx);
@@ -1070,19 +1045,14 @@ control MyIngress(
                 hdr.sample_4.sample_len = (bit<32>)20;
 
                 hdr.sample_4.in_out_port = reg_sample_ports_4.read(meta.sample_idx);
-                // hdr.sample_4.input_port  = (bit<16>)(packed_ports_4 >> 16);
-                // hdr.sample_4.output_port = (bit<16>)(packed_ports_4 & 32w0xFFFF);
 
-                bit<32> packed_flen_proto_4 = reg_frame_len_and_protocol_4.read(meta.sample_idx);
-                hdr.sample_4.frame_length = (bit<16>)(packed_flen_proto_4 >> 16);
-                hdr.sample_4.protocol     = (bit<16>)(packed_flen_proto_4 & 32w0xFFFF);
+                hdr.sample_4.frame_length_protocol = reg_frame_len_and_protocol_4.read(meta.sample_idx);
 
                 hdr.sample_4.src_ip = sample_source_ip_4.read(meta.sample_idx);
                 hdr.sample_4.dst_ip = sample_destination_ip_4.read(meta.sample_idx);
 
                 hdr.sample_4.l4_port = reg_l4_ports_4.read(meta.sample_idx);
-                // hdr.sample_4.src_port = (bit<16>)(packed_l4_4 >> 16);
-                // hdr.sample_4.dst_port = (bit<16>)(packed_l4_4 & 32w0xFFFF);
+                
 
                 bit<32> flags_offset_4 = reg_flag_4.read(meta.sample_idx);
                 hdr.sample_4.ip_flags_offset = (bit<16>)(flags_offset_4 >> 16);
@@ -1093,11 +1063,13 @@ control MyIngress(
                 hdr.sample_5.sample_len = (bit<32>)20;
 
                 hdr.sample_5.in_out_port = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
-                hdr.sample_5.frame_length = meta.frame_length;
+                hdr.sample_5.frame_length_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
+
+                // hdr.sample_5.frame_length = meta.frame_length;
                 hdr.sample_5.src_ip = meta.src_ip;
                 hdr.sample_5.dst_ip = meta.dst_ip;
                 hdr.sample_5.ip_flags_offset = meta.ip_flags_offset;
-                hdr.sample_5.protocol = meta.protocol;
+                // hdr.sample_5.protocol = meta.protocol;
                 hdr.sample_5.l4_port = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 // hdr.sample_5.src_port = meta.src_port;
                 // hdr.sample_5.dst_port = meta.dst_port;
