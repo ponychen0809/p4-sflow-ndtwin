@@ -57,12 +57,13 @@ parser MyIngressParser(packet_in pkt,
         meta.input_port = (bit<16>)hdr.sample.input_port;
         meta.output_port = (bit<16>)hdr.sample.output_port;
         meta.frame_length = (bit<16>)hdr.sample.frame_length;
-
+        meta.ip_flags_offset = (bit<16>)hdr.ip_flags_offset;
         meta.src_ip = (bit<32>)hdr.sample.src_ip ;
         meta.dst_ip = (bit<32>)hdr.sample.dst_ip;
         meta.protocol = (bit<16>)hdr.sample.protocol;
         meta.src_port = (bit<16>)hdr.sample.src_port;
         meta.dst_port = (bit<16>)hdr.sample.dst_port;
+        meta.tcp_flag = (bit<16>)hdr.sample.tcp_flag;
 
 
         // meta.sampled_count = (bit<32>)hdr.sample.sampled_count;
@@ -132,7 +133,7 @@ parser MyIngressParser(packet_in pkt,
         pkt.extract(hdr.tcp);
         meta.src_port = (bit<16>)hdr.tcp.src_port;
         meta.dst_port = (bit<16>)hdr.tcp.dst_port;
-        meta.tcp_flag = hdr.tcp.flags;
+        meta.tcp_flag = (bit<16>)hdr.tcp.flags;
 
         transition accept;
     }
@@ -744,7 +745,87 @@ control MyIngress(
             size = 1;
             default_action =  do_update_frame_len_and_protocol_4; 
     }
-    
+// *********** flag ***********
+    Register<bit<32>, bit<16>>(512, 0) reg_flag_1;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_flag_1) set_flag_1 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.flags_offset; 
+            read_val = v;
+        }
+    };
+    action do_update_flag_1() {
+        set_flag_1.execute(meta.sample_idx);
+    }
+    table t_update_saved_flag_1 {
+            key = {       }
+            actions = {
+                do_update_flag_1;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_flag_1; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_flag_2;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_flag_2) set_flag_2 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.flags_offset; 
+            read_val = v;
+        }
+    };
+    action do_update_flag_2() {
+        set_flag_2.execute(meta.sample_idx);
+    }
+    table t_update_saved_flag_2 {
+            key = {       }
+            actions = {
+                do_update_flag_2;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_flag_2; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_flag_3;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_flag_3) set_flag_3 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.flags_offset; 
+            read_val = v;
+        }
+    };
+    action do_update_flag_3() {
+        set_flag_3.execute(meta.sample_idx);
+    }
+    table t_update_saved_flag_3 {
+            key = {       }
+            actions = {
+                do_update_flag_3;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_flag_3; 
+    }
+
+    Register<bit<32>, bit<16>>(512, 0) reg_flag_4;
+    RegisterAction<bit<32>, bit<16>, bit<32>>(reg_flag_4) set_flag_4 = {
+        void apply(inout bit<32> v, out bit<32> read_val) {
+            v = meta.flags_offset; 
+            read_val = v;
+        }
+    };
+    action do_update_flag_4() {
+        set_flag_4.execute(meta.sample_idx);
+    }
+    table t_update_saved_flag_4 {
+            key = {       }
+            actions = {
+                do_update_flag_4;
+                // NoAction;
+            }
+            size = 1;
+            default_action =  do_update_flag_4; 
+    }
+       
 // *********** l4_ports ***********
     Register<bit<32>, bit<16>>(512, 0) reg_l4_ports_1;
     RegisterAction<bit<32>, bit<16>, bit<32>>(reg_l4_ports_1) set_l4_ports_1 = {
@@ -844,9 +925,12 @@ control MyIngress(
 
                 t_update_saved_sample_source_ip_1.apply();
                 t_update_saved_sample_destination_ip_1.apply();
-                meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
+
+                meta.flags_offset = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 t_update_saved_l4_ports_1.apply();
 
+                meta.frame_len_and_protocol = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
+                t_update_saved_flag_1.apply();
                 drop();
             }else if(meta.offset == 2){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
@@ -860,6 +944,9 @@ control MyIngress(
 
                 meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 t_update_saved_l4_ports_2.apply();
+
+                meta.frame_len_and_protocol = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
+                t_update_saved_flag_2.apply();
                 drop();
             }
             else if(meta.offset == 3){
@@ -874,6 +961,9 @@ control MyIngress(
 
                 meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 t_update_saved_l4_ports_3.apply();
+
+                meta.frame_len_and_protocol = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
+                t_update_saved_flag_3.apply();
                 drop();
             }else if(meta.offset == 4){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
@@ -887,6 +977,8 @@ control MyIngress(
 
                 meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 t_update_saved_l4_ports_4.apply();
+                meta.frame_len_and_protocol = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
+                t_update_saved_flag_4.apply();
                 drop();
             }
             else{
@@ -1130,7 +1222,7 @@ control MyIngressDeparser(packet_out pkt,
                 (bit<16>)meta.protocol,
                 (bit<16>)meta.src_port,
                 (bit<16>)meta.dst_port,
-                (bit<8>)meta.tcp_flag
+                (bit<16>)meta.tcp_flag
             });
         }
         pkt.emit(hdr.ethernet);
