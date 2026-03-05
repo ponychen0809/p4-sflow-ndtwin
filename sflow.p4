@@ -146,7 +146,7 @@ parser MyIngressParser(packet_in pkt,
     }
     state parse_icmp {
         pkt.extract(hdr.icmp);
-        meta.src_port = (bit<16>)hdr.icmp.type;
+        meta.src_port = (bit<16>)hdr.icmp.type_;
         meta.dst_port = (bit<16>)hdr.icmp.code;
         meta.tcp_flag = 0;
         transition accept;
