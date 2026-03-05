@@ -317,7 +317,7 @@ header sample_t {
     bit<16>  frame_length;
     bit<32>  src_ip;
     bit<32>  dst_ip;
-    bit<16>  ip_flags_offset
+    bit<16>  ip_flags_offset;
     bit<16>  protocol;
     bit<16>  src_port;
     bit<16>  dst_port;
