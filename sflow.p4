@@ -1076,9 +1076,9 @@ control MyIngress(
                 hdr.sample_4.src_port = (bit<16>)(packed_l4_4 >> 16);
                 hdr.sample_4.dst_port = (bit<16>)(packed_l4_4 & 32w0xFFFF);
 
-                // bit<32> flags_offset_4 = reg_flag_4.read(meta.sample_idx);
-                // hdr.sample_4.ip_flags_offset = (bit<16>)(flags_offset_4 >> 16);
-                // hdr.sample_4.tcp_flag = (bit<16>)(flags_offset_4 & 32w0xFFFF);
+                bit<32> flags_offset_4 = reg_flag_4.read(meta.sample_idx);
+                hdr.sample_4.ip_flags_offset = (bit<16>)(flags_offset_4 >> 16);
+                hdr.sample_4.tcp_flag = (bit<16>)(flags_offset_4 & 32w0xFFFF);
                 
                 hdr.sample_5.setValid();
                 hdr.sample_5.sample_type = (bit<32>)5;
