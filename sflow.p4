@@ -59,6 +59,7 @@ parser MyIngressParser(packet_in pkt,
         
         transition select(hdr.sample.frame_length) {
             // 使用範圍或掩碼（具體取決於編譯器版本，Tofino 支援 range 匹配）
+            // 0 .. 63  : parse_raw_32;
             0 .. 127 : parse_raw_64;
             default  : parse_raw_128; 
         }
@@ -75,18 +76,18 @@ parser MyIngressParser(packet_in pkt,
         transition accept;
     }
     state parse_raw_64 {
-        pkt.extract(hdr.raw_64); // 假設您已定義好 hdr.raw_64
+        pkt.extract(hdr.raw_64); 
         meta.header_length = 64;
         meta.record_length = 80;
         meta.sample_length = 120;
-        meta.ip_len = 180;
-        meta.udp_len = 160;
+        meta.ip_len = 184;
+        meta.udp_len = 164;
         // meta.raw_64_data = (bit<512>)hdr.raw_64.data;
         // 處理 64 bytes 的邏輯
         transition accept;
     }
     state parse_raw_32 {
-        pkt.extract(hdr.raw_32); // 假設您已定義好 hdr.raw_32
+        pkt.extract(hdr.raw_32); 
         meta.header_length = 32;
         meta.record_length = 48;
         meta.sample_length = 88;
