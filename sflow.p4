@@ -914,8 +914,6 @@ control MyIngress(
         ingress_port_forward.apply();  //根據 ingress port 決定往哪個 egress port 送
         
         if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
-            
-            
             if(meta.offset == 1){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
                 t_update_saved_sample_ports_1.apply();
@@ -948,8 +946,7 @@ control MyIngress(
                 meta.frame_len_and_protocol = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
                 t_update_saved_flag_2.apply();
                 drop();
-            }
-            else if(meta.offset == 3){
+            }else if(meta.offset == 3){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
                 t_update_saved_sample_ports_3.apply();
                 
@@ -980,8 +977,7 @@ control MyIngress(
                 meta.frame_len_and_protocol = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
                 t_update_saved_flag_4.apply();
                 drop();
-            }
-            else{
+            }else{
                 hdr.tcp.setInvalid();
                 hdr.sflow_counter.setInvalid();
                 hdr.ethernet.setValid();
@@ -1009,6 +1005,10 @@ control MyIngress(
                 bit<32> packed_l4_1 = reg_l4_ports_1.read(meta.sample_idx);
                 hdr.sample_1.src_port = (bit<16>)(packed_l4_1 >> 16);
                 hdr.sample_1.dst_port = (bit<16>)(packed_l4_1 & 32w0xFFFF);
+
+                bit<32> flags_offset = reg_flag_1.read(meta.sample_idx);
+                hdr.sample_1.ip_flags_offset = (bit<16>)(flags_offset >> 16);
+                hdr.sample_1.tcp_flag = (bit<16>)(flags_offset & 32w0xFFFF);
             // ********** 2 ********** //
                 hdr.sample_2.setValid();
                 hdr.sample_2.sample_type = (bit<32>)5;
@@ -1028,6 +1028,10 @@ control MyIngress(
                 bit<32> packed_l4_2 = reg_l4_ports_2.read(meta.sample_idx);
                 hdr.sample_2.src_port = (bit<16>)(packed_l4_2 >> 16);
                 hdr.sample_2.dst_port = (bit<16>)(packed_l4_2 & 32w0xFFFF);
+
+                bit<32> flags_offset = reg_flag_1.read(meta.sample_idx);
+                hdr.sample_2.ip_flags_offset = (bit<16>)(flags_offset >> 16);
+                hdr.sample_2.tcp_flag = (bit<16>)(flags_offset & 32w0xFFFF);
             // ********** 3 ********** //
                 hdr.sample_3.setValid();
                 hdr.sample_3.sample_type = (bit<32>)5;
@@ -1047,7 +1051,11 @@ control MyIngress(
                 bit<32> packed_l4_3 = reg_l4_ports_3.read(meta.sample_idx);
                 hdr.sample_3.src_port = (bit<16>)(packed_l4_3 >> 16);
                 hdr.sample_3.dst_port = (bit<16>)(packed_l4_3 & 32w0xFFFF);
-                ig_tm_md.ucast_egress_port = 156;
+
+                bit<32> flags_offset = reg_flag_1.read(meta.sample_idx);
+                hdr.sample_3.ip_flags_offset = (bit<16>)(flags_offset >> 16);
+                hdr.sample_3.tcp_flag = (bit<16>)(flags_offset & 32w0xFFFF);
+                
             // ********** 4 ********** //
                 hdr.sample_4.setValid();
                 hdr.sample_4.sample_type = (bit<32>)5;
@@ -1068,6 +1076,10 @@ control MyIngress(
                 hdr.sample_4.src_port = (bit<16>)(packed_l4_4 >> 16);
                 hdr.sample_4.dst_port = (bit<16>)(packed_l4_4 & 32w0xFFFF);
 
+                bit<32> flags_offset = reg_flag_1.read(meta.sample_idx);
+                hdr.sample_4.ip_flags_offset = (bit<16>)(flags_offset >> 16);
+                hdr.sample_4.tcp_flag = (bit<16>)(flags_offset & 32w0xFFFF);
+                
                 hdr.sample_5.setValid();
                 hdr.sample_5.sample_type = (bit<32>)5;
                 hdr.sample_5.sample_len = (bit<32>)20;
