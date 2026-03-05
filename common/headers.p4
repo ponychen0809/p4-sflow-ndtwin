@@ -328,8 +328,8 @@ header sample_t {
 header sflow_sample_t {
     bit<32>  sample_type;
     bit<32>  sample_len;
-    bit<16>  input_port;
-    bit<16>  output_port;
+    bit<32>  in_out_port;
+    // bit<16>  output_port;
     bit<16>  frame_length;
     bit<32>  src_ip;
     bit<32>  dst_ip;
