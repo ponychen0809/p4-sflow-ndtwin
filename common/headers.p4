@@ -170,8 +170,10 @@ struct my_metadata_t {
     bit<32> dst_ip;
     bit<16> src_port;
     bit<16> dst_port;
-    bit<32> tcp_flag;
+    bit<8> tcp_flag;
     bit<32> tos;
+    bit<8> icmp_type;
+    bit<8> icmp_code;
     bit<32> ctrl_ts;
     MirrorId_t mirror_session;
     bit<16>  sample_ing_port;
@@ -212,8 +214,6 @@ struct my_metadata_t {
     bit<16> udp_len;
     bit<1> agent_status;
     bit<1>  recirc;
-
-    
 }
 
 
@@ -307,14 +307,7 @@ header raw_64_t {
 header raw_32_t {
     bit<256> data;   
 }
-// header sample_t {
-//     bit<16>  ingress_port;
-//     bit<16>  frame_length;
-//     bit<32>  sampling_rate;
-//     bit<32>  pkt_count;
-//     bit<32>  sampled_count;
-    
-// }
+
 
 header sample_t {
     bit<16>  sample_idx;
@@ -324,9 +317,11 @@ header sample_t {
     bit<16>  frame_length;
     bit<32>  src_ip;
     bit<32>  dst_ip;
+    bit<16>  ip_flags_offset
     bit<16>  protocol;
     bit<16>  src_port;
     bit<16>  dst_port;
+    bit<8>   tcp_flag;
 }
 
 header sflow_sample_t {
@@ -337,9 +332,11 @@ header sflow_sample_t {
     bit<16>  frame_length;
     bit<32>  src_ip;
     bit<32>  dst_ip;
+    bit<16>  ip_flags_offset
     bit<16>  protocol;
     bit<16>  src_port;
     bit<16>  dst_port;
+    bit<8>   tcp_flag;
 }
 
 
@@ -365,6 +362,7 @@ struct my_header_t {
     ipv4_h          ipv4;
     tcp_h           tcp;
     udp_h           udp;
+    icmp_h          icmp;
     sflow_t         sflow_hd;
     sflow_flow_t    sflow_flow;
     sflow_raw_record raw_record;

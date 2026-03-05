@@ -118,9 +118,12 @@ parser MyIngressParser(packet_in pkt,
 
     state parse_ipv4 {
         pkt.extract(hdr.ipv4);
+        meta.ip_flags = hdr.ipv4.flags;
+        meta.frag_offset = hdr.ipv4.frag_offset;
         transition select(hdr.ipv4.protocol) {
             IP_PROTOCOLS_TCP: parse_tcp;
             IP_PROTOCOLS_UDP: parse_udp;
+            IP_PROTOCOLS_ICMP: parse_icmp;
             default: accept;
         }
     }
@@ -129,7 +132,7 @@ parser MyIngressParser(packet_in pkt,
         pkt.extract(hdr.tcp);
         meta.src_port = (bit<16>)hdr.tcp.src_port;
         meta.dst_port = (bit<16>)hdr.tcp.dst_port;
-        meta.tcp_flag = 0;
+        meta.tcp_flag = hdr.tcp.flags;
 
         transition accept;
     }
@@ -138,6 +141,13 @@ parser MyIngressParser(packet_in pkt,
         pkt.extract(hdr.udp);
         meta.src_port = (bit<16>)hdr.udp.src_port;
         meta.dst_port = (bit<16>)hdr.udp.dst_port;
+        meta.tcp_flag = 0;
+        transition accept;
+    }
+    state parse_icmp {
+        pkt.extract(hdr.icmp);
+        meta.src_port = (bit<16>)hdr.icmp.type;
+        meta.dst_port = (bit<16>)hdr.icmp.code;
         meta.tcp_flag = 0;
         transition accept;
     }
@@ -1071,10 +1081,7 @@ control MyIngress(
                 meta.input_port = (bit<16>)ig_intr_md.ingress_port;
                 meta.frame_length = (bit<16>)hdr.ipv4.total_len;
             }
-
         }
-        
-        
     }
 }
 
@@ -1119,16 +1126,18 @@ control MyIngressDeparser(packet_out pkt,
                 (bit<16>)meta.frame_length,
                 (bit<32>)meta.src_ip,
                 (bit<32>)meta.dst_ip,
+                (bit<16>)meta.ip_flags_offset,
                 (bit<16>)meta.protocol,
                 (bit<16>)meta.src_port,
-                (bit<16>)meta.dst_port
+                (bit<16>)meta.dst_port,
+                (bit<8>)meta.tcp_flag
             });
         }
         pkt.emit(hdr.ethernet);
         pkt.emit(hdr.ipv4);
         pkt.emit(hdr.tcp);
         pkt.emit(hdr.udp);
-
+        pkt.emit(hdr.icmp);
         pkt.emit(hdr.sflow_hd);
         // pkt.emit(hdr.sflow_flow);
         // pkt.emit(hdr.raw_record);
