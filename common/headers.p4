@@ -325,6 +325,7 @@ header sample_t {
     bit<16>   tcp_flag;
 }
 
+//32 byte
 header sflow_sample_t {
     bit<32>  sample_type;
     bit<32>  sample_len;

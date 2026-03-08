@@ -304,7 +304,7 @@ control MyIngress(
         hdr.ipv4.version=4;
         hdr.ipv4.ihl=0x45;
         hdr.ipv4.diffserv     = 0;
-        hdr.ipv4.total_len = meta.ip_len;
+        hdr.ipv4.total_len = 256;
         hdr.ipv4.identification = 0; 
         hdr.ipv4.flags        = 2;
         hdr.ipv4.frag_offset  = 0; 
@@ -315,7 +315,7 @@ control MyIngress(
         
         hdr.udp.src_port = (bit<16>)8888;
         hdr.udp.dst_port = (bit<16>)6343;
-        hdr.udp.hdr_length = (bit<16>) meta.udp_len;
+        hdr.udp.hdr_length = (bit<16>) 236;
         hdr.udp.checksum = 16w0;
         
         hdr.sflow_hd.setValid();
