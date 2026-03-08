@@ -1000,7 +1000,7 @@ control MyIngress(
                 hdr.sample_1.sample_len = (bit<32>)20;
 
                 hdr.sample_1.in_out_port = reg_sample_ports_1.read(meta.sample_idx);
-                hdr.sample_1.ethernt_type = 1;
+                hdr.sample_1.ethernet_type = 1;
                 hdr.sample_1.frame_length_protocol = reg_frame_len_and_protocol_1.read(meta.sample_idx);
 
                 hdr.sample_1.src_ip = sample_source_ip_1.read(meta.sample_idx);
@@ -1018,7 +1018,7 @@ control MyIngress(
                 hdr.sample_2.sample_len = (bit<32>)20;
 
                 hdr.sample_2.in_out_port = reg_sample_ports_2.read(meta.sample_idx);
-                hdr.sample_2.ethernt_type = 1;
+                hdr.sample_2.ethernet_type = 1;
                 hdr.sample_2.frame_length_protocol = reg_frame_len_and_protocol_2.read(meta.sample_idx);
 
                 hdr.sample_2.src_ip = sample_source_ip_2.read(meta.sample_idx);
@@ -1037,7 +1037,7 @@ control MyIngress(
 
                 hdr.sample_3.in_out_port = reg_sample_ports_3.read(meta.sample_idx);
                 
-                hdr.sample_3.ethernt_type = 1;
+                hdr.sample_3.ethernet_type = 1;
                 hdr.sample_3.frame_length_protocol = reg_frame_len_and_protocol_3.read(meta.sample_idx);
 
                 hdr.sample_3.src_ip = sample_source_ip_3.read(meta.sample_idx);
@@ -1057,7 +1057,7 @@ control MyIngress(
                 hdr.sample_4.sample_len = (bit<32>)20;
 
                 hdr.sample_4.in_out_port = reg_sample_ports_4.read(meta.sample_idx);
-                hdr.sample_4.ethernt_type = 1;
+                hdr.sample_4.ethernet_type = 1;
                 hdr.sample_4.frame_length_protocol = reg_frame_len_and_protocol_4.read(meta.sample_idx);
 
                 hdr.sample_4.src_ip = sample_source_ip_4.read(meta.sample_idx);
@@ -1075,7 +1075,7 @@ control MyIngress(
                 hdr.sample_5.sample_len = (bit<32>)20;
 
                 hdr.sample_5.in_out_port = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
-                hdr.sample_5.ethernt_type = 1;
+                hdr.sample_5.ethernet_type = 1;
                 hdr.sample_5.frame_length_protocol = ((bit<32>)meta.frame_length << 16) | (bit<32>)meta.protocol;
 
                 // hdr.sample_5.frame_length = meta.frame_length;
