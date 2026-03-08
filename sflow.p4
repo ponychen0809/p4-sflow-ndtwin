@@ -1181,7 +1181,7 @@ control MyIngress(
                 set_sampled_count(idx);
                 ig_dprsr_md.mirror_type = MIRROR_TYPE_t.I2E;
                 meta.mirror_session = (bit<10>)26;
-                meta.sample_idx = (bit<32>)ig_intr_md.ingress_port;
+                meta.sample_idx = (bit<16>)ig_intr_md.ingress_port;
                 meta.input_port = (bit<16>)ig_intr_md.ingress_port;
                 meta.frame_length = (bit<16>)hdr.ipv4.total_len;
             }
