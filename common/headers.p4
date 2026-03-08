@@ -330,6 +330,8 @@ header sflow_sample_t {
     bit<32>  sample_type;
     bit<32>  sample_len;
     bit<32>  in_out_port;
+    bit<32>  sampling_rate;
+    bit<32>  ethernet_type;
     // bit<16>  output_port;
     // bit<16>  frame_length;
     bit<32>  frame_length_protocol;
