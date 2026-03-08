@@ -206,8 +206,8 @@ control MyIngress(
             }
     };
 
-    Register<bit<32>, bit<9>>(512, 0) r_port_sampling_rate;
-    RegisterAction<bit<32>, bit<9>,bit<32>>(r_port_sampling_rate) 
+    Register<bit<32>, bit<15>>(512, 0) r_port_sampling_rate;
+    RegisterAction<bit<32>, bit<16>,bit<32>>(r_port_sampling_rate) 
         sampling_rate_set = {
             void apply(inout bit<32> v, out bit<32> read_val) {
                 v       = meta.sampling_rate;
