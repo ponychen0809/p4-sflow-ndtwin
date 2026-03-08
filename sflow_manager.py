@@ -550,17 +550,20 @@ class SimpleSwitchTest(BfRuntimeTest):
             addr = _to_int(r["agent_addr"])
             agent_id = int(r["agent_id"])
             input_if = int(r["input_if"])
+            rate = int(r["rate"]) - 1
             port_map[in_p] = {
                 "addr" : addr,
                 "id" : agent_id,
-                "input_if" : input_if
+                "input_if" : input_if,
+                "rate" : rate
             }
             keys.append(self.port_agent_tbl.make_key([gc.KeyTuple("meta.input_port", in_p)]))
             datas.append(self.port_agent_tbl.make_data(
                 [
                     gc.DataTuple("agent_addr", addr),
                     gc.DataTuple("agent_id", agent_id),
-                    gc.DataTuple("input_if", input_if)
+                    gc.DataTuple("input_if", input_if),
+                    gc.DataTuple("rate", rate)
                 ],
                 "MyIngress.set_sample_hd"
             ))
