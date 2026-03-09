@@ -1247,11 +1247,11 @@ control MyIngressDeparser(packet_out pkt,
         pkt.emit(hdr.sflow_hd);
         // pkt.emit(hdr.sflow_flow);
         // pkt.emit(hdr.raw_record);
-        // pkt.emit(hdr.sample_1);
-        // pkt.emit(hdr.sample_2);
-        // pkt.emit(hdr.sample_3);
-        // pkt.emit(hdr.sample_4);
-        // pkt.emit(hdr.sample_5);
+        pkt.emit(hdr.sample_1);
+        pkt.emit(hdr.sample_2);
+        pkt.emit(hdr.sample_3);
+        pkt.emit(hdr.sample_4);
+        pkt.emit(hdr.sample_5);
 
         
         pkt.emit(hdr.sflow_counter);
