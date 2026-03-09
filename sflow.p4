@@ -926,10 +926,10 @@ control MyIngress(
                 t_update_saved_sample_source_ip_1.apply();
                 t_update_saved_sample_destination_ip_1.apply();
 
-                meta.flags_offset = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
+                meta.l4_ports = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 t_update_saved_l4_ports_1.apply();
 
-                meta.frame_len_and_protocol = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
+                meta.flags_offset = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
                 t_update_saved_flag_1.apply();
                 drop();
             }else if(meta.offset == 2){
@@ -942,10 +942,10 @@ control MyIngress(
                 t_update_saved_sample_source_ip_2.apply();
                 t_update_saved_sample_destination_ip_2.apply();
 
-                meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
+                meta.l4_ports = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 t_update_saved_l4_ports_2.apply();
 
-                meta.frame_len_and_protocol = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
+                meta.flags_offset = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
                 t_update_saved_flag_2.apply();
                 drop();
             }else if(meta.offset == 3){
@@ -958,10 +958,10 @@ control MyIngress(
                 t_update_saved_sample_source_ip_3.apply();
                 t_update_saved_sample_destination_ip_3.apply();
 
-                meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
+                meta.l4_ports = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 t_update_saved_l4_ports_3.apply();
 
-                meta.frame_len_and_protocol = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
+                meta.flags_offset = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
                 t_update_saved_flag_3.apply();
                 drop();
             }else if(meta.offset == 4){
@@ -974,9 +974,9 @@ control MyIngress(
                 t_update_saved_sample_source_ip_4.apply();
                 t_update_saved_sample_destination_ip_4.apply();
 
-                meta.frame_len_and_protocol = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
+                meta.l4_ports = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
                 t_update_saved_l4_ports_4.apply();
-                meta.frame_len_and_protocol = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
+                meta.flags_offset = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
                 t_update_saved_flag_4.apply();
                 drop();
             }else{
