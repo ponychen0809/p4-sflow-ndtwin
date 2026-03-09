@@ -2,65 +2,74 @@ import socket
 import struct
 import ipaddress
 
-def parse_sflow(data):
+def parse_sflow_payload(payload):
+    """ 解析 UDP 之後的 sFlow 內容 (即你提供的兩個表格結構) """
     try:
-        # --- Header (28 bytes) ---
-        header_data = data[:28]
-        if len(header_data) < 28: return
+        # 1. 解析 Header (28 bytes)
+        if len(payload) < 28: return
+        header = struct.unpack('!7I', payload[:28])
         
-        # !7I: 7個 4-byte unsigned int
-        s_ver, a_type, a_addr, sub_id, seq, uptime, count = struct.unpack('!7I', header_data)
-
         print(f"\n{'='*60}")
-        print(f"  [sFlow Header] Version: {s_ver} | Samples: {count} | Seq: {seq}")
-        print(f"  Agent: {ipaddress.IPv4Address(a_addr)} | Uptime: {uptime}ms")
+        print(f"  [sFlow Header] Ver: {header[0]} | Samples: {header[6]} | Seq: {header[4]}")
+        print(f"  Agent IP: {ipaddress.IPv4Address(header[2])}")
         print(f"{'-'*60}")
 
-        # --- Sample Data (從 28 byte 開始，長度 38 bytes) ---
-        sample_payload = data[28:66]
-        if len(sample_payload) < 38: return
+        # 2. 解析 Sample Data (從偏移量 28 開始，長度 38 bytes)
+        sample_data = payload[28:66]
+        if len(sample_data) < 38: return
 
-        # 依照你的表格定義格式解析
-        # !IIHHIIHHIIHHHH -> 4,4,2,2,4,4,2,2,4,4,2,2,2,2
-        (s_type, s_len, in_p, out_p, s_rate, eth_t, f_len, proto, 
-         src_ip, dst_ip, ip_mix, tcp_f, src_p, dst_p) = struct.unpack('!IIHHIIHHIIHHHH', sample_payload)
-
+        fields = struct.unpack('!IIHHIIHHIIHHHH', sample_data)
+        
         # 位元運算處理 IP Flag (3bit) 與 Offset (13bit)
+        ip_mix = fields[10]
         ip_flag = ip_mix >> 13
         ip_offset = ip_mix & 0x1FFF
 
-        # 格式化輸出
-        print(f"  Type: {s_type} | In/Out Port: {in_p}/{out_p} | Rate: {s_rate}")
-        print(f"  EthType: {hex(eth_t)} | Proto: {proto} | FrameLen: {f_len}")
-        print(f"  Source:      {ipaddress.IPv4Address(src_ip)} : {src_p}")
-        print(f"  Destination: {ipaddress.IPv4Address(dst_ip)} : {dst_p}")
-        print(f"  IP Flag: {bin(ip_flag)} | Offset: {ip_offset} | TCP Flag: {hex(tcp_f)}")
+        print(f"  In/Out Port: {fields[2]}/{fields[3]} | Rate: {fields[4]}")
+        print(f"  Source:      {ipaddress.IPv4Address(fields[8])}:{fields[12]}")
+        print(f"  Destination: {ipaddress.IPv4Address(fields[9])}:{fields[13]}")
+        print(f"  EthType: {hex(fields[5])} | Proto: {fields[7]}")
+        print(f"  IP Flag: {bin(ip_flag)} | Offset: {ip_offset} | TCP Flag: {hex(fields[11])}")
         print(f"{'='*60}")
-
     except Exception as e:
-        print(f"解析失敗: {e}")
+        print(f"解析內容出錯: {e}")
 
-def start_server(interface_name):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+def start_raw_sniffing(interface):
+    # 使用 AF_PACKET 建立原始通訊端，監聽所有乙太網路類型 (ETH_P_ALL)
+    # ETH_P_ALL = 0x0003
+    sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(0x0003))
+    sock.bind((interface, 0))
     
-    # 核心步驟：將 Socket 綁定到特定網卡
-    try:
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BINDTODEVICE, interface_name.encode())
-        print(f"成功綁定網卡: {interface_name}")
-    except PermissionError:
-        print("錯誤：綁定網卡需要 root 權限 (請使用 sudo)")
-        return
-    except OSError as e:
-        print(f"錯誤：無法綁定網卡 {interface_name}，請檢查名稱是否正確。({e})")
-        return
-
-    sock.bind(('0.0.0.0', 6343))
-    print(f"正在監聽 UDP Port 6343...")
+    print(f"正在以 Raw 模式監聽網卡: {interface} (過濾 UDP Port 6343)...")
 
     while True:
-        data, addr = sock.recvfrom(65535)
-        parse_sflow(data)
+        # 接收完整封包 (包含 Ethernet Header)
+        packet, addr = sock.recvfrom(65535)
+        
+        # 1. 拆解 Ethernet Header (前 14 bytes)
+        eth_header = packet[:14]
+        eth_type = struct.unpack('!H', eth_header[12:14])[0]
+        
+        if eth_type == 0x0800: # 確保是 IPv4 (0x0800)
+            # 2. 拆解 IP Header (通常是 20 bytes)
+            ip_header = packet[14:34]
+            ip_data = struct.unpack('!BBH HH BB H 4s 4s', ip_header)
+            protocol = ip_data[6] # 第 7 個欄位是 Protocol
+            
+            if protocol == 17: # 17 代表 UDP
+                # 3. 拆解 UDP Header (8 bytes)
+                # IP Header 長度可能不固定，但基本為 20 byte，所以 UDP 從 14 + 20 = 34 開始
+                udp_header = packet[34:42]
+                src_port, dst_port, udp_len, udp_chk = struct.unpack('!HHHH', udp_header)
+                
+                if dst_port == 6343:
+                    # 4. 提取 Payload (14 bytes Eth + 20 bytes IP + 8 bytes UDP = 42 bytes offset)
+                    sflow_payload = packet[42:]
+                    parse_sflow_payload(sflow_payload)
 
 if __name__ == "__main__":
-    # 在這裡指定你的網卡名稱
-    start_server("enp2s0")
+    # 執行時請確保使用 sudo python3 ...
+    try:
+        start_raw_sniffing("enp2s0")
+    except KeyboardInterrupt:
+        print("\n停止監聽。")
