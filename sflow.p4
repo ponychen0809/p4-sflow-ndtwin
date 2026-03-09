@@ -219,7 +219,7 @@ control MyIngress(
         inc_saved_count = {
             void apply(inout bit<8> v, out bit<8> read_val) {
                 
-                if(v == 4){
+                if(v == 5){
                     v = 1;
                 }else{
                     v = v + 1;
