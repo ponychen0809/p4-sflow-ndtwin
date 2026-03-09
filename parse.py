@@ -6,58 +6,44 @@ def parse_sflow_payload(payload):
     try:
         # 1. 解析 sFlow Header (28 bytes)
         if len(payload) < 28: return
-        
-        # !7I 代表 7 個 4-byte unsigned int
         header = struct.unpack('!7I', payload[:28])
-        version = header[0]
-        agent_ip = ipaddress.IPv4Address(header[2])
         samples_count = header[6]
 
         print(f"\n{'='*70}")
-        print(f" [sFlow v{version}] Agent: {agent_ip} | Samples Count: {samples_count}")
+        print(f" [sFlow v{header[0]}] Agent: {ipaddress.IPv4Address(header[2])} | Samples: {samples_count}")
         print(f"{'='*70}")
 
-        # 2. 迴圈解析每個 Sample (每個長度 38 bytes)
-        # 根據你的描述，Sample 直接跟在 Header (offset 28) 後面
+        # 2. 迴圈解析 Samples
         current_offset = 28
-        sample_size = 38 # 根據你的表格計算: 4+4+2+2+4+4+2+2+4+4+2+2+2 = 38 (含 flag/offset 混合位元)
+        # 根據報錯提示，每個 Sample 在記憶體中佔用 40 bytes (38數據 + 2填充)
+        sample_size = 40 
 
         for i in range(samples_count):
-            # 確保剩下的資料夠長
             if len(payload) < current_offset + sample_size:
                 break
             
             sample_data = payload[current_offset : current_offset + sample_size]
             
-            # 格式字串解釋:
-            # ! : Big-endian
-            # I I : sample_type (4), sample_length (4)
-            # H H : input_port (2), output_port (2)
-            # I I : sampling_rate (4), Ethernet_type (4)
-            # H H : frame_length (2), protocol (2)
-            # I I : source_ip (4), destination_ip (4)
-            # H   : ip_flag(3bit) + ip_offset(13bit) (共 2 bytes)
-            # H   : tcp_flag (2)
-            # H H : source_port (2), destination_port (2)
-            f = struct.unpack('!IIHHIIHHIIHHHH', sample_data)
+            # 格式修正：最後加上 2x 用來吸收掉補位的 2 bytes，總長度剛好 40
+            # 格式：I(4)I(4)H(2)H(2)I(4)I(4)H(2)H(2)I(4)I(4)H(2)H(2)H(2)H(2) + 2x = 40
+            f = struct.unpack('!IIHHIIHHIIHHHH2x', sample_data)
 
-            # 位元運算處理 IP Flag & Offset
+            # 解析 IP Flag (3bit) 與 Offset (13bit)
             ip_mix = f[10]
             ip_flag = ip_mix >> 13
             ip_offset = ip_mix & 0x1FFF
 
             print(f"  # Sample {i+1}")
-            print(f"    Ports: In[{f[2]}] Out[{f[3]}] | Proto: {f[7]} | EthType: {hex(f[5])}")
+            print(f"    Ports: In[{f[2]}] Out[{f[3]}] | Proto: {f[7]} | Eth: {hex(f[5])}")
             print(f"    Source:      {ipaddress.IPv4Address(f[8])}:{f[12]}")
             print(f"    Destination: {ipaddress.IPv4Address(f[9])}:{f[13]}")
-            print(f"    IP Flag: {bin(ip_flag)} | Offset: {ip_offset} | TCP Flag: {hex(f[11])}")
-            print(f"    {'-'*30}")
+            print(f"    Flag: {bin(ip_flag)} | Offset: {ip_offset} | TCP: {hex(f[11])}")
+            print(f"    {'-'*40}")
 
-            # 移動到下一個 Sample 的起點
             current_offset += sample_size
 
     except Exception as e:
-        print(f"解析出錯: {e}")
+        print(f"解析過程中斷: {e}")
 
 def start_sniffing(interface):
     # 使用 Raw Socket 監聽所有 IP 封包
