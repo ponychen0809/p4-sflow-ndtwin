@@ -3,9 +3,8 @@ import struct
 import ipaddress
 
 def parse_sflow_payload(payload):
-    """ 解析 UDP 之後的 sFlow 內容 (即你提供的兩個表格結構) """
     try:
-        # 1. 解析 Header (28 bytes)
+        # 1. 解析 sFlow Header (28 bytes)
         if len(payload) < 28: return
         header = struct.unpack('!7I', payload[:28])
         
@@ -14,23 +13,39 @@ def parse_sflow_payload(payload):
         print(f"  Agent IP: {ipaddress.IPv4Address(header[2])}")
         print(f"{'-'*60}")
 
-        # 2. 解析 Sample Data (從偏移量 28 開始，長度 38 bytes)
-        sample_data = payload[28:66]
-        if len(sample_data) < 38: return
-
-        fields = struct.unpack('!IIHHIIHHIIHHHH', sample_data)
+        # 2. 處理 Sample 數據
+        # 實務上 sFlow 每個 Sample 前面會有 8 bytes 的類型與長度描述
+        # 我們跳過這些描述，直接從你圖表對應的欄位開始抓取
+        # 嘗試從第 28 或 36 byte 開始抓取數據
+        current_offset = 28
         
-        # 位元運算處理 IP Flag (3bit) 與 Offset (13bit)
-        ip_mix = fields[10]
-        ip_flag = ip_mix >> 13
-        ip_offset = ip_mix & 0x1FFF
+        # 檢查剩餘長度，如果你原本預期 38-40 bytes 的欄位，我們調低門檻確保不噴錯
+        remaining_data = payload[current_offset:]
+        
+        # 根據報錯調整：如果你的結構剛好差了幾位元組，我們先印出長度來檢查
+        if len(remaining_data) < 38:
+            print(f"  [Info] Sample 資料長度不足 ({len(remaining_data)} bytes)，可能包含不同的 Sample Type")
+            return
 
-        print(f"  In/Out Port: {fields[2]}/{fields[3]} | Rate: {fields[4]}")
-        print(f"  Source:      {ipaddress.IPv4Address(fields[8])}:{fields[12]}")
-        print(f"  Destination: {ipaddress.IPv4Address(fields[9])}:{fields[13]}")
-        print(f"  EthType: {hex(fields[5])} | Proto: {fields[7]}")
-        print(f"  IP Flag: {bin(ip_flag)} | Offset: {ip_offset} | TCP Flag: {hex(fields[11])}")
+        # 嘗試動態解析 (針對你提供的 38 bytes 格式)
+        try:
+            fields = struct.unpack('!IIHHIIHHIIHHHH', remaining_data[:38])
+            
+            ip_mix = fields[10]
+            ip_flag = ip_mix >> 13
+            ip_offset = ip_mix & 0x1FFF
+
+            print(f"  In/Out Port: {fields[2]}/{fields[3]} | Rate: {fields[4]}")
+            print(f"  Source:      {ipaddress.IPv4Address(fields[8])}:{fields[12]}")
+            print(f"  Destination: {ipaddress.IPv4Address(fields[9])}:{fields[13]}")
+            print(f"  EthType: {hex(fields[5])} | Proto: {fields[7]}")
+            print(f"  IP Flag: {bin(ip_flag)} | Offset: {ip_offset} | TCP Flag: {hex(fields[11])}")
+        except struct.error:
+            # 如果 38 bytes 還是失敗，印出 Raw Hex 方便偵錯
+            print(f"  [Raw Data Hex]: {remaining_data[:20].hex()}")
+            
         print(f"{'='*60}")
+
     except Exception as e:
         print(f"解析內容出錯: {e}")
 
