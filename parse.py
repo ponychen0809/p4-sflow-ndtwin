@@ -47,12 +47,12 @@ def parse_sflow_payload(payload):
             dst_ip   = ipaddress.IPv4Address(fields[7])
             
             # l4_ports = (src_port << 16) | dst_port
-            src_port = fields[8] >> 16
-            dst_port = fields[8] & 0xFFFF
+            src_port = fields[9] >> 16
+            dst_port = fields[9] & 0xFFFF
             
             # ip_flag_offset_tcp_flag = (ip_flags_offset << 16) | tcp_flag
-            ip_flags_offset = fields[9] >> 16
-            tcp_flag        = fields[9] & 0xFFFF
+            ip_flags_offset = fields[8] >> 16
+            tcp_flag        = fields[8] & 0xFFFF
             
             # 再進一步將 ip_flags_offset 拆分為 flag (3 bit) 與 offset (13 bit)
             ip_flag = ip_flags_offset >> 13
