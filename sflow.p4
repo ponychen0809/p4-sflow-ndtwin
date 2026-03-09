@@ -209,13 +209,6 @@ control MyIngress(
             }
     };
 
-    // Register<bit<32>, bit<16>>(512, 0) r_port_sampling_rate;
-    // RegisterAction<bit<32>, bit<16>,bit<32>>(r_port_sampling_rate) 
-    //     sampling_rate_set = {
-    //         void apply(inout bit<32> v, out bit<32> read_val) {
-    //             v       = meta.sampling_rate;
-    //         }
-    // };
 
     Register<bit<8>, bit<16>>(512, 0) saved_count;
     RegisterAction<bit<8>, bit<16>,bit<8>>(saved_count) 
@@ -233,7 +226,6 @@ control MyIngress(
     
     
     
-    // Register<bit<512>, bit<9>>(512, 0) reg_pending_state;
     action drop() {
         ig_dprsr_md.drop_ctl = 0x1;
     }
@@ -338,7 +330,6 @@ control MyIngress(
         hdr.sflow_hd.uptime = (bit<32>)meta.ctrl_ts;
         hdr.sflow_hd.samples = (bit<32>)5; 
         meta.sampling_rate = rate;
-        // hdr.sflow_flow.input_if = (bit<32>)25; 
     }
 
 
@@ -403,7 +394,7 @@ control MyIngress(
         default_action = NoAction;
     }
     action do_update_count() {
-        meta.saved_count = inc_saved_count.execute((bit<16>)meta.sample_ing_port);
+        meta.saved_count = inc_saved_count.execute((bit<16>)ig_intr_md.ingress_port);
         // meta.sample_idx = meta.sample_idx + (bit<16>)meta.saved_count -1;
     }
   
