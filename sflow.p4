@@ -119,6 +119,9 @@ parser MyIngressParser(packet_in pkt,
 
     state parse_ipv4 {
         pkt.extract(hdr.ipv4);
+        meta.src_ip = (bit<32>)hdr.ipv4.src_addr;
+        meta.dst_ip = (bit<32>)hdr.ipv4.dst_addr;
+        meta.protocol = (bit<16>)hdr.ipv4.protocol;
         // meta.ip_flags = hdr.ipv4.flags;
         // meta.frag_offset = hdr.ipv4.frag_offset;
         transition select(hdr.ipv4.protocol) {
@@ -1056,7 +1059,7 @@ control MyIngress(
             // ********** 4 ********** //
                 hdr.sample_4.setValid();
                 hdr.sample_4.sample_type = (bit<32>)5;
-                hdr.sample_4.sample_len = (bit<32>)20;
+                hdr.sample_4.sample_len = (bit<32>)40;
 
                 hdr.sample_4.in_out_port = reg_sample_ports_4.read(meta.sample_idx);
                 hdr.sample_4.sampling_rate = meta.sampling_rate;
@@ -1075,7 +1078,7 @@ control MyIngress(
                 
                 hdr.sample_5.setValid();
                 hdr.sample_5.sample_type = (bit<32>)5;
-                hdr.sample_5.sample_len = (bit<32>)20;
+                hdr.sample_5.sample_len = (bit<32>)40;
 
                 hdr.sample_5.in_out_port = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
                 hdr.sample_5.sampling_rate = meta.sampling_rate;
