@@ -333,7 +333,7 @@ control MyIngress(
         hdr.sflow_hd.sub_agent_id = (bit<32>)agent_id;
         hdr.sflow_hd.sequence_number = (bit<32>)0;
         hdr.sflow_hd.uptime = (bit<32>)meta.ctrl_ts;
-        hdr.sflow_hd.samples = (bit<32>)4; 
+        hdr.sflow_hd.samples = (bit<32>)5; 
         meta.sampling_rate = rate;
         // hdr.sflow_flow.input_if = (bit<32>)25; 
     }
