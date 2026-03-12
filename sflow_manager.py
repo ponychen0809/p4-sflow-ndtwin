@@ -550,7 +550,7 @@ class SimpleSwitchTest(BfRuntimeTest):
             addr = _to_int(r["agent_addr"])
             agent_id = int(r["agent_id"])
             input_if = int(r["input_if"])
-            rate = int(r["rate"]) - 1
+            rate = int(r["rate"])
             port_map[in_p] = {
                 "addr" : addr,
                 "id" : agent_id,
