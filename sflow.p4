@@ -980,7 +980,7 @@ control MyIngress(
                 meta.flags_offset = ((bit<32>)meta.ip_flags_offset << 16) | (bit<32>)meta.tcp_flag;
                 t_update_saved_flag_4.apply();
                 drop();
-            }else{
+            }else if(meta.offset == 5){
                 hdr.tcp.setInvalid();
                 hdr.sflow_counter.setInvalid();
                 hdr.ethernet.setValid();
@@ -998,10 +998,8 @@ control MyIngress(
                 hdr.sample_1.sampling_rate = meta.sampling_rate;
                 hdr.sample_1.ethernet_type = 0x0800;
                 hdr.sample_1.frame_length_protocol = reg_frame_len_and_protocol_1.read(meta.sample_idx);
-
                 hdr.sample_1.src_ip = sample_source_ip_1.read(meta.sample_idx);
                 hdr.sample_1.dst_ip = sample_destination_ip_1.read(meta.sample_idx);
-
                 hdr.sample_1.l4_port = reg_l4_ports_1.read(meta.sample_idx);
                 hdr.sample_1.ip_flag_offset_tcp_flag = reg_flag_1.read(meta.sample_idx);
 
@@ -1015,10 +1013,8 @@ control MyIngress(
                 hdr.sample_2.sampling_rate = meta.sampling_rate;
                 hdr.sample_2.ethernet_type = 0x0800;
                 hdr.sample_2.frame_length_protocol = reg_frame_len_and_protocol_2.read(meta.sample_idx);
-
                 hdr.sample_2.src_ip = sample_source_ip_2.read(meta.sample_idx);
                 hdr.sample_2.dst_ip = sample_destination_ip_2.read(meta.sample_idx);
-
                 hdr.sample_2.l4_port = reg_l4_ports_2.read(meta.sample_idx);
                 hdr.sample_2.ip_flag_offset_tcp_flag = reg_flag_2.read(meta.sample_idx);
 
@@ -1032,37 +1028,28 @@ control MyIngress(
                 hdr.sample_3.sampling_rate = meta.sampling_rate;
                 hdr.sample_3.ethernet_type = 0x0800;
                 hdr.sample_3.frame_length_protocol = reg_frame_len_and_protocol_3.read(meta.sample_idx);
-
                 hdr.sample_3.src_ip = sample_source_ip_3.read(meta.sample_idx);
                 hdr.sample_3.dst_ip = sample_destination_ip_3.read(meta.sample_idx);
-
-                
                 hdr.sample_3.l4_port = reg_l4_ports_3.read(meta.sample_idx);
                 hdr.sample_3.ip_flag_offset_tcp_flag = reg_flag_3.read(meta.sample_idx);
 
-
-                
             // ********** 4 ********** //
                 hdr.sample_4.setValid();
                 hdr.sample_4.sample_type = (bit<32>)5;
                 hdr.sample_4.sample_len = (bit<32>)40;
-
                 hdr.sample_4.in_out_port = ((bit<32>)meta.input_if << 16) | (bit<32>)meta.output_port;
                 hdr.sample_4.sampling_rate = meta.sampling_rate;
                 hdr.sample_4.ethernet_type = 0x0800;
                 hdr.sample_4.frame_length_protocol = reg_frame_len_and_protocol_4.read(meta.sample_idx);
-
-                hdr.sample_4.src_ip = sample_source_ip_4.read(meta.sample_idx);
                 hdr.sample_4.dst_ip = sample_destination_ip_4.read(meta.sample_idx);
-
-                hdr.sample_4.l4_port = reg_l4_ports_4.read(meta.sample_idx);
+                hdr.sample_4.src_ip = sample_source_ip_4.read(meta.sample_idx);
                 
+                hdr.sample_4.l4_port = reg_l4_ports_4.read(meta.sample_idx);
                 hdr.sample_4.ip_flag_offset_tcp_flag = reg_flag_4.read(meta.sample_idx);
                 
                 hdr.sample_5.setValid();
                 hdr.sample_5.sample_type = (bit<32>)5;
                 hdr.sample_5.sample_len = (bit<32>)40;
-
                 hdr.sample_5.in_out_port = ((bit<32>)meta.input_if << 16) | (bit<32>)meta.output_port;
                 hdr.sample_5.sampling_rate = meta.sampling_rate;
                 hdr.sample_5.ethernet_type = 0x0800;
@@ -1152,7 +1139,6 @@ control MyIngress(
             
             set_pkt_count(idx);
             if(pkt_count==0){   //送往recirc port
-                
                 t_update_saved_count.apply();
                 meta.offset = (bit<16>)meta.saved_count;
                 if (hdr.ipv4.isValid()) {
