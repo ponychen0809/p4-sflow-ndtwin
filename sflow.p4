@@ -915,7 +915,9 @@ control MyIngress(
         meta.agent_status = 0;
         agent_status.apply();
         ingress_port_forward.apply();  //根據 ingress port 決定往哪個 egress port 送
-        
+        if(!hdr.ipv4.isValid()){
+            meta.agent_status = 0;
+        }
         if(ig_intr_md.ingress_port == 68){  //從recirc port進來，表示要做成flow sample packet
             if(meta.offset == 1){
                 meta.packed_ports = ((bit<32>)meta.input_port << 16) | (bit<32>)meta.output_port;
