@@ -10,7 +10,7 @@ import bfrt_grpc.client as gc
 from bfruntime_client_base_tests import BfRuntimeTest
 
 from ptf.testutils import send_packet
-from scapy.all import Ether, IP, UDP
+from scapy.all import Ether, IP, UDP, sendp, Raw
 
 
 # ------------------------------------------------------------
@@ -737,7 +737,8 @@ class SimpleSwitchTest(BfRuntimeTest):
                     raw_pkt = prefix + bytes(pkt)
 
                     print("{}, send_packet() to port 320 (idx={})".format(count, idx))
-                    send_packet(self, 320, raw_pkt)
+                    sendp(Raw(load=raw_pkt), iface="enp6s0", verbose=False)
+                    # send_packet(self, 320, raw_pkt)
 
                 except Exception as e:
                     print("[counter] read/send Error (idx={}): {}".format(idx, e))
