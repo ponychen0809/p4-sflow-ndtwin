@@ -65,8 +65,8 @@
     { "ingress_port": 162, "agent_id": 8, "status": 1, "egress_port": 167, "rate": 1000, "agent_addr": "0x0a0a0a17", "input_if" : 27},
     { "ingress_port": 167, "agent_id": 3, "status": 1, "egress_port": 162, "rate": 1000, "agent_addr": "0x0a0a0a12", "input_if" : 26},
     
-    { "ingress_port": 163, "agent_id": 8, "status": 1, "egress_port": 159, "rate": 1000, "agent_addr": "0x0a0a0a17", "input_if" : 28},
-    { "ingress_port": 159, "agent_id": 4, "status": 1, "egress_port": 163, "rate": 1000, "agent_addr": "0x0a0a0a13", "input_if" : 26}
+    { "ingress_port": 163, "agent_id": 8, "status": 1, "egress_port": 158, "rate": 1000, "agent_addr": "0x0a0a0a17", "input_if" : 28},
+    { "ingress_port": 158, "agent_id": 4, "status": 1, "egress_port": 163, "rate": 1000, "agent_addr": "0x0a0a0a13", "input_if" : 26}
   ],
 
 
