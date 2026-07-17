@@ -67,12 +67,12 @@ parser MyIngressParser(packet_in pkt,
 
 
         // meta.sampled_count = (bit<32>)hdr.sample.sampled_count;
-        
-        transition select(hdr.sample.frame_length) {
-            // 使用範圍或掩碼（具體取決於編譯器版本，Tofino 支援 range 匹配）
-            0 .. 127 : parse_raw_64;
-            default  : parse_raw_128; 
-        }
+        transition accept;
+        // transition select(hdr.sample.frame_length) {
+        //     // 使用範圍或掩碼（具體取決於編譯器版本，Tofino 支援 range 匹配）
+        //     0 .. 127 : parse_raw_64;
+        //     default  : parse_raw_128; 
+        // }
     }
 
     state parse_raw_128 {
