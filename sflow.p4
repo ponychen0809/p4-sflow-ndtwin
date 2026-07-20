@@ -228,7 +228,7 @@ control MyIngress(
     RegisterAction<bit<8>, bit<1>, bit<8>>(reg_sflow_out_port_toggle)
         toggle_sflow_out_port = {
             void apply(inout bit<8> v, out bit<8> read_val) {
-                if (v == 10) {
+                if (v == 2) {
                     v = 0;
                 } else {
                     v = v + 1;
@@ -1091,12 +1091,6 @@ control MyIngress(
                     ig_tm_md.ucast_egress_port = 149;
                 }else if (port_sel == 6) {
                     ig_tm_md.ucast_egress_port = 150;
-                }else if (port_sel == 7) {
-                    ig_tm_md.ucast_egress_port = 156;
-                }else if (port_sel == 8) {
-                    ig_tm_md.ucast_egress_port = 158;
-                }else if (port_sel == 9) {
-                    ig_tm_md.ucast_egress_port = 159;
                 }else {
                     ig_tm_md.ucast_egress_port = 151;
                 }
