@@ -228,7 +228,7 @@ control MyIngress(
     RegisterAction<bit<8>, bit<1>, bit<8>>(reg_sflow_out_port_toggle)
         toggle_sflow_out_port = {
             void apply(inout bit<8> v, out bit<8> read_val) {
-                if (v == 5) {
+                if (v == 7) {
                     v = 0;
                 } else {
                     v = v + 1;
@@ -345,11 +345,9 @@ control MyIngress(
         meta.input_if = input_if;
     }
 
-
     action set_agent_status(bit<1> status) {
         meta.agent_status = status;
     }
-
 
     table ingress_port_forward {
         key = {
@@ -1084,10 +1082,14 @@ control MyIngress(
                 } else if (port_sel == 1) {
                     ig_tm_md.ucast_egress_port = 145;
                 } else if (port_sel == 2) {
-                    ig_tm_md.ucast_egress_port = 148;
+                    ig_tm_md.ucast_egress_port = 146;
                 } else if (port_sel == 3) {
-                    ig_tm_md.ucast_egress_port = 149;
+                    ig_tm_md.ucast_egress_port = 147;
                 } else if (port_sel == 4) {
+                    ig_tm_md.ucast_egress_port = 148;
+                }else if (port_sel == 5) {
+                    ig_tm_md.ucast_egress_port = 149;
+                }else if (port_sel == 6) {
                     ig_tm_md.ucast_egress_port = 150;
                 }else {
                     ig_tm_md.ucast_egress_port = 151;
