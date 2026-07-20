@@ -228,7 +228,11 @@ control MyIngress(
     RegisterAction<bit<8>, bit<1>, bit<8>>(reg_sflow_out_port_toggle)
         toggle_sflow_out_port = {
             void apply(inout bit<8> v, out bit<8> read_val) {
-                v = v ^ 1;      // 每次呼叫就翻轉 0/1
+                if (v == 2) {
+                    v = 0;
+                } else {
+                    v = v + 1;
+                }
                 read_val = v;
             }
     };
@@ -1071,10 +1075,13 @@ control MyIngress(
                 hdr.sample_5.l4_port = ((bit<32>)meta.src_port << 16) | (bit<32>)meta.dst_port;
       
 
-                if (toggle_sflow_out_port.execute(0) == 0) {
+                bit<8> port_sel = toggle_sflow_out_port.execute(0);
+                if (port_sel == 0) {
                     ig_tm_md.ucast_egress_port = 156;
-                } else {
+                } else if (port_sel == 1) {
                     ig_tm_md.ucast_egress_port = 157;
+                } else {
+                    ig_tm_md.ucast_egress_port = 159;
                 }
             }
         }
