@@ -228,7 +228,7 @@ control MyIngress(
     RegisterAction<bit<8>, bit<1>, bit<8>>(reg_sflow_out_port_toggle)
         toggle_sflow_out_port = {
             void apply(inout bit<8> v, out bit<8> read_val) {
-                if (v == 2) {
+                if (v == 3) {
                     v = 0;
                 } else {
                     v = v + 1;
@@ -1083,9 +1083,12 @@ control MyIngress(
                     ig_tm_md.ucast_egress_port = 156;
                 } else if (port_sel == 1) {
                     ig_tm_md.ucast_egress_port = 157;
+                } else if (port_sel == 2) {
+                    ig_tm_md.ucast_egress_port = 158;
                 } else {
                     ig_tm_md.ucast_egress_port = 159;
                 }
+                
             }
         }
         else if(ig_intr_md.ingress_port == 320){ //從CPU port進來，表示要做成counter sample packet
