@@ -79,7 +79,7 @@
       "session_enable": true,
       "ucast_egress_port": 68,
       "ucast_egress_port_valid": true,
-      "max_pkt_len": 40
+      "max_pkt_len": 30
     }
   ],
 
