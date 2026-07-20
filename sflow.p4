@@ -1080,17 +1080,17 @@ control MyIngress(
 
                 bit<8> port_sel = toggle_sflow_out_port.execute(0);
                 if (port_sel == 0) {
-                    ig_tm_md.ucast_egress_port = 156;
-                } else if (port_sel == 1) {
-                    ig_tm_md.ucast_egress_port = 157;
-                } else if (port_sel == 2) {
-                    ig_tm_md.ucast_egress_port = 158;
-                } else if (port_sel == 3) {
                     ig_tm_md.ucast_egress_port = 144;
-                } else if (port_sel == 4) {
+                } else if (port_sel == 1) {
                     ig_tm_md.ucast_egress_port = 145;
+                } else if (port_sel == 2) {
+                    ig_tm_md.ucast_egress_port = 148;
+                } else if (port_sel == 3) {
+                    ig_tm_md.ucast_egress_port = 149;
+                } else if (port_sel == 4) {
+                    ig_tm_md.ucast_egress_port = 150;
                 }else {
-                    ig_tm_md.ucast_egress_port = 159;
+                    ig_tm_md.ucast_egress_port = 151;
                 }
                 
                 
