@@ -18,7 +18,7 @@
 
   "ports_config": [
     { "ingress_port": 157, "agent_id": 9, "status": 1, "egress_port": 188, "rate": 1, "agent_addr": "0x0a0a0a18", "input_if" : 25},
-    
+    { "ingress_port": 188, "agent_id": 5, "status": 1, "egress_port": 157, "rate": 1, "agent_addr": "0x0a0a0a14", "input_if" : 25},
 
     { "ingress_port": 184, "agent_id": 9, "status": 1, "egress_port": 189, "rate": 1, "agent_addr": "0x0a0a0a18", "input_if" : 25},
     { "ingress_port": 189, "agent_id": 5, "status": 1, "egress_port": 184, "rate": 1, "agent_addr": "0x0a0a0a14", "input_if" : 25},
